@@ -2,14 +2,26 @@ import "./Home.css";
 import Header from "../../common/Header/Header";
 import Footer from "../../common/Footer/Footer";
 import logo from "../../assets/images/Logo.png";
-import homeimage from "../../assets/images/pet_login.png";
-import presidentImage from "../../assets/images/pet_login.png";
+import homeImage from "../../assets/images/homeImage.jpg";
 import graduate from "../../assets/images/pet_login.png";
 import recess from "../../assets/images/pet_login.png";
 import chromebook from "../../assets/images/pet_login.png";
 import athletic from "../../assets/images/pet_login.png";
 import teams from "../../assets/images/pet_login.png";
 import financial from "../../assets/images/pet_login.png";
+import {
+    faLocationDot,
+    faPhone,
+    faEnvelope,
+    faCopyright,
+    faBusinessTime,
+    faHouseChimneyMedical,
+    faPaw,
+    faCloudSun,
+    faBoxOpen,
+    faShower,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Home = () => {
     return (
@@ -56,7 +68,7 @@ const Home = () => {
                                 <div className="row">
                                     <div className="col">
                                         <img
-                                            src={presidentImage}
+                                            src={homeImage}
                                             className="w-100 rounded shadow"
                                             alt="headmaster"
                                         />
@@ -70,79 +82,119 @@ const Home = () => {
                 <section id="team">
                     <div className="container">
                         <h3 className="section-title mb-5 text-center">
-                            Great Facility
+                            Services for every dog and cat
                         </h3>
                         <div className="row">
                             <div className="col-md-4 my-3">
                                 <div className="team-wrapper text-center">
-                                    <img
-                                        src={graduate}
-                                        className="w-round-image"
-                                        alt="graduation"
+                                    <FontAwesomeIcon
+                                        className="icon"
+                                        icon={faBusinessTime}
+                                        style={{
+                                            width: "120px",
+                                            height: "110px",
+                                        }}
                                     />
+                                    <h3 className="my-3">Boarding</h3>
                                     <h5 className="my-3">
-                                        30 Primary schools currently enroll our
-                                        graduates
+                                        Your pets stay overnight in your
+                                        sitter’s home. They’ll be treated like
+                                        part of the family in a comfortable
+                                        environment.
                                     </h5>
                                 </div>
                             </div>
                             <div className="col-md-4 my-3">
                                 <div className="team-wrapper text-center">
-                                    <img
-                                        src={recess}
-                                        className="w-round-image"
-                                        alt="recess"
+                                    <FontAwesomeIcon
+                                        className="icon"
+                                        icon={faHouseChimneyMedical}
+                                        style={{
+                                            width: "120px",
+                                            height: "110px",
+                                        }}
                                     />
+                                    <h3 className="my-3">House Sitting</h3>
                                     <h5 className="my-3">
-                                        100% of students have recess every day
+                                        Your sitter takes care of your pets and
+                                        your home. Your pets will get all the
+                                        attention they need without leaving
+                                        home.
                                     </h5>
                                 </div>
                             </div>
                             <div className="col-md-4 my-3">
                                 <div className="team-wrapper text-center">
-                                    <img
-                                        src={athletic}
-                                        className="w-round-image"
-                                        alt="athletic"
+                                    <FontAwesomeIcon
+                                        className="icon"
+                                        icon={faPaw}
+                                        style={{
+                                            width: "120px",
+                                            height: "110px",
+                                        }}
                                     />
+                                    <h3 className="my-3">Dog Walking</h3>
                                     <h5 className="my-3">
-                                        85% athletic participation grades 1-5
+                                        Your dog gets a walk around your
+                                        neighborhood. Perfect for busy days and
+                                        dogs with extra energy to burn.
                                     </h5>
                                 </div>
                             </div>
                             <div className="col-md-4 my-3">
                                 <div className="team-wrapper text-center">
-                                    <img
-                                        src={financial}
-                                        className="w-round-image"
-                                        alt="financial"
+                                    <FontAwesomeIcon
+                                        className="icon"
+                                        icon={faCloudSun}
+                                        style={{
+                                            width: "120px",
+                                            height: "110px",
+                                        }}
                                     />
+                                    <h3 className="my-3">Doggy Day Care</h3>
                                     <h5 className="my-3">
-                                        22% of families receive financial
-                                        assistance
+                                        Your dog spends the day at your sitter’s
+                                        home. Drop them off in the morning and
+                                        pick up a happy pup in the evening.
                                     </h5>
                                 </div>
                             </div>
                             <div className="col-md-4 my-3">
                                 <div className="team-wrapper text-center">
-                                    <img
-                                        src={chromebook}
-                                        className="w-round-image"
-                                        alt="chromebook"
+                                    <FontAwesomeIcon
+                                        className="icon"
+                                        icon={faBoxOpen}
+                                        style={{
+                                            width: "120px",
+                                            height: "110px",
+                                        }}
                                     />
+                                    <h3 className="my-3">Drop-In Visits</h3>
                                     <h5 className="my-3">
-                                        1 Chromebook for every Primary Schooler
+                                        Your sitter drops by your home to play
+                                        with your pets, offer food, and give
+                                        potty breaks or clean the litter box.
                                     </h5>
                                 </div>
                             </div>
                             <div className="col-md-4 my-3">
                                 <div className="team-wrapper text-center">
-                                    <img
-                                        src={teams}
-                                        className="w-round-image"
-                                        alt="teams"
+                                    <FontAwesomeIcon
+                                        className="icon"
+                                        icon={faShower}
+                                        style={{
+                                            width: "120px",
+                                            height: "110px",
+                                        }}
                                     />
-                                    <h5 className="my-3">19 athletic teams</h5>
+                                    <h3 className="my-3">Pet Gromming</h3>
+                                    <h5 className="my-3">
+                                        Our professional groomers provide a
+                                        range of services including bathing,
+                                        trimming, brushing, nail clipping, ear
+                                        and teeth cleaning, and addressing any
+                                        skin allergies or issues.
+                                    </h5>
                                 </div>
                             </div>
                         </div>
