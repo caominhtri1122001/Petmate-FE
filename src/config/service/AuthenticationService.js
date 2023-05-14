@@ -17,23 +17,15 @@ const isLogin = () => {
 };
 
 const isAdmin = () => {
-    return (
-        JSON.parse(localStorage.getItem("@Login")).AccountRole === "Principal"
-    );
+    return JSON.parse(localStorage.getItem("@Login")).role === "ADMIN";
 };
 
-const isParents = () => {
-    return JSON.parse(localStorage.getItem("@Login")).AccountRole === "Parents";
+const isCustomer = () => {
+    return JSON.parse(localStorage.getItem("@Login")).role === "CUSTOMER";
 };
 
-const isTeacher = () => {
-    return JSON.parse(localStorage.getItem("@Login")).AccountRole === "Teacher";
-};
-
-const isAffair = () => {
-    return JSON.parse(
-        localStorage.getItem("@Login").AccountRole === "Academic Affair"
-    );
+const isStaff = () => {
+    return JSON.parse(localStorage.getItem("@Login")).role === "EMPLOYEE";
 };
 
 const getData = () => {
@@ -50,9 +42,8 @@ const AuthenticationService = {
     clearDataLogin,
     isLogin,
     isAdmin,
-    isParents,
-    isTeacher,
-    isAffair,
+    isCustomer,
+    isStaff,
     getData,
     ChangePassword,
 };

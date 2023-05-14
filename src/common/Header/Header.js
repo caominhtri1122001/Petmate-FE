@@ -4,6 +4,7 @@ import Logo from "../../assets/images/Logo.png";
 import "./Header.css";
 import AuthenticationService from "../../config/service/AuthenticationService";
 import jwt_decode from "jwt-decode";
+import UserHeader from "./UserHeader/UserHeader";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -47,7 +48,7 @@ const Header = () => {
         />
     );
 
-    // const ViewUserHeader = <UserHeader />;
+    const ViewUserHeader = <UserHeader />;
 
     return (
         <header>
@@ -59,7 +60,7 @@ const Header = () => {
                             <h3>Pet Mate</h3>
                         </div>
                     </Link>
-                    {isLogin ? null : handleRenderButtonLogin}
+                    {isLogin ? ViewUserHeader : handleRenderButtonLogin}
                 </div>
             </nav>
             <div>{isShowLogin ? ViewLogin : null}</div>
