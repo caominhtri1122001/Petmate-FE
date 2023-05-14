@@ -9,6 +9,7 @@ import NotFound from "../page/NotFound/NotFound";
 //Admin
 import AdminRoute from "./AdminRoute/AdminRoute";
 import HomeAdmin from "../page/ComponentAdmin/HomeAdmin/HomeAdmin";
+import AccountAdmin from "../page/ComponentAdmin/AccountAdmin/AccountAdmin";
 
 const Routes = () => {
     return (
@@ -25,6 +26,12 @@ const Routes = () => {
                         component={HomeAdmin}
                         exact
                         path={ROUTES.ADMIN_PAGE.ADMIN_HOME}
+                    />
+
+                    <AdminRoute
+                        component={AccountAdmin}
+                        exact
+                        path={ROUTES.ADMIN_PAGE.ACCOUNT_ADMIN}
                     />
 
                     <PublicRoute

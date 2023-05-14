@@ -5,6 +5,7 @@ const ROUTES = {
 
     ADMIN_PAGE: {
         ADMIN_HOME: "/admin",
+        ACCOUNT_ADMIN: "/admin/account",
     },
 
     CUSTOM_PAGE: {

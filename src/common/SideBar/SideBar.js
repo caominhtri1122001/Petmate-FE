@@ -103,7 +103,7 @@ function SideBar() {
                             </Link>
                         </li>
 
-                        {/* <li>
+                        <li>
                             <Link
                                 key={1}
                                 className={
@@ -131,6 +131,7 @@ function SideBar() {
                                 />
                             </Link>
                         </li>
+                        {/*
                         <li>
                             <Link
                                 key={1}
