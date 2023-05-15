@@ -1,15 +1,15 @@
 import HandleApi from "../api/HandleAPI";
 
 const getAccountsById = async (id) => {
-    return await HandleApi.APIGetWithToken(`account/${id}`);
+    return await HandleApi.APIGetWithToken(`users/${id}`);
 };
 
 const updateAccountsById = async (id, params) => {
-    return await HandleApi.APIPutWithTokenIMG(`account/${id}`, params);
+    return await HandleApi.APIPutWithTokenIMG(`users/${id}`, params);
 };
 
 const resetPasswordById = async (id) => {
-    return await HandleApi.APIPost(`account/reset-password/${id}`);
+    return await HandleApi.APIPost(`users/reset-password/${id}`);
 };
 
 const AccountService = {

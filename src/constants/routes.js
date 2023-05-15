@@ -8,8 +8,9 @@ const ROUTES = {
         ACCOUNT_ADMIN: "/admin/account",
     },
 
-    CUSTOM_PAGE: {
-        CUSTOME_PAGE: "/custom",
+    CUSTOMER_PAGE: {
+        SERVICE_PAGE: "/customer/service",
+        CUSTOMER_PROFILE_PAGE : "/customer/profile"
     },
 
     NOT_FOUND_PAGE: {

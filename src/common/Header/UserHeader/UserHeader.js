@@ -44,6 +44,12 @@ function UserHeader() {
 
     const optionsCustomers = [
         { key: 1, label: "Home", link: ROUTES.HOME_PAGE.HOME_PATH },
+        { key: 2, label: "Services", link: ROUTES.CUSTOMER_PAGE.SERVICE_PAGE },
+        {
+            key: 3,
+            label: "Dashboard",
+            link: ROUTES.CUSTOMER_PAGE.CUSTOMER_PROFILE_PAGE,
+        },
     ];
 
     const optionsStaffs = [
@@ -105,7 +111,7 @@ function UserHeader() {
                 <h5>
                     {AuthenticationService.isAdmin()
                         ? AuthenticationService.getData().name.toString()
-                        : AuthenticationService.isParents()
+                        : AuthenticationService.isCustomer()
                         ? AuthenticationService.getData().name.toString()
                         : AuthenticationService.getData().name.toString()}
                 </h5>
