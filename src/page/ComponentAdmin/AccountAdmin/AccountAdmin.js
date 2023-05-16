@@ -1,4 +1,235 @@
-// import React, { useEffect, useState } from "react";
+import "./AccountAdmin.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState, useEffect } from "react";
+import {
+    faMagnifyingGlass,
+    faArrowLeftLong,
+    faArrowRightLong,
+    faPen,
+    faTrash,
+    faShield,
+} from "@fortawesome/free-solid-svg-icons";
+import AccountService from "../../../config/service/AccountService";
+import ModalInput from "../../../lib/ModalInput/ModalInput";
+import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
+import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
+// import AddAccount from "../../../lib/ModalInput/AddAccount/AddAccount";
+// import UpdateAccount from "../../../lib/ModalInput/UpdateAccount/UpdateAccount";
+import ReactPaginate from "react-paginate";
+import Loading from "../../../lib/Loading/Loading";
+
+
+function AccountAdmin() {
+    const [keyword, setKeyword] = useState("");
+    const [accounts, setAccounts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorServer, setErrorServer] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+        getAccounts();
+    }, []);
+
+
+
+    const getAccounts = () => {
+        setIsLoading(true);
+        AccountService.getAllAccount()
+            .then((response) => {
+
+                const dataSources = response.map(
+                    (item, index) => {
+                        var birthDate = item.dateOfBirth.split("T")[0];
+                        return {
+                            key: index + 1,
+                            id: item.id,
+                            firstName: item.firstName,
+                            lastName: item.lastName,
+                            role: item.role,
+                            dateOfBirth: birthDate,
+                            emailAddress: item.emailAddress,
+                        };
+                    }
+                );
+
+                const dataSourcesSorted = [...dataSources].sort((a, b) =>
+                    a.lastName > b.lastName ? 1 : -1
+                );
+
+                setAccounts(dataSourcesSorted);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    function PaginatedItems({ itemsPerPage, searchAccount }) {
+        const [itemOffset, setItemOffset] = useState(0);
+        const endOffset = itemOffset + itemsPerPage;
+        const currentItems = searchAccount.slice(itemOffset, endOffset);
+        const pageCount = Math.ceil(searchAccount.length / itemsPerPage);
+        const handlePageClick = (event) => {
+            const newOffset =
+                (event.selected * itemsPerPage) % searchAccount.length;
+            setItemOffset(newOffset);
+        };
+        return (
+            <>
+                <div className="table-content">
+                    <TableAccounts accounts={currentItems} />
+                </div>
+                <footer>
+                    <hr></hr>
+                    <ReactPaginate
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        breakLabel="..."
+                        breakClassName="page-item"
+                        breakLinkClassName="page-link"
+                        pageCount={pageCount}
+                        pageRangeDisplayed={4}
+                        marginPagesDisplayed={2}
+                        onPageChange={handlePageClick}
+                        containerClassName="pagination justify-content-center"
+                        pageClassName="page-item mr-2 ml-2"
+                        pageLinkClassName="page-link"
+                        previousClassName="previous-btn page-item"
+                        previousLinkClassName="page-link"
+                        nextClassName="next-btn page-item"
+                        nextLinkClassName="page-link"
+                        activeClassName="active"
+                        hrefAllControls
+                    />
+                </footer>
+            </>
+        );
+    };
+
+    //Handle Search
+    const searchAccount = (account) => {
+        return account.filter(
+            (account) =>
+                account.firstName
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                account.emailAddress.toLowerCase().includes(keyword.toLowerCase())
+                ||
+                account.lastName.toLowerCase().includes(keyword.toLowerCase())
+        );
+    };
+
+    const TableAccounts = ({ accounts }) => {
+        const accountItem = accounts.map((item) => (
+            <tr data-key={item.id} key={item.id} data-account={item.id}>
+                <td>{item.firstName}</td>
+                <td>{item.lastName}</td>
+                <td>{item.emailAddress}</td>
+                <td>{item.dateOfBirth}</td>
+                <td>{item.role.toUpperCase()}</td>
+                <td onClick={click}>
+                    <i className="fa-regular fa-pen-to-square btn-edit"><FontAwesomeIcon  className="icon" icon={faPen} /></i>
+                    <i className="fa-regular fa-trash-can btn-delete"><FontAwesomeIcon  className="icon" icon={faTrash} /></i>
+                    <i className="fa-regular fa-shield-halved btn-reset"><FontAwesomeIcon  className="icon" icon={faShield} /></i>
+                </td>
+            </tr>
+        ));
+
+        function click(e) {
+            // const id =
+            //     e.target.parentElement.parentElement.getAttribute("data-key");
+            // const accountId =
+            //     e.target.parentElement.parentElement.getAttribute(
+            //         "data-account"
+            //     );
+            // if (e.target.className.includes("btn-delete")) {
+            //     setIsDelete(true);
+            //     setId(id);
+            //     setName(
+            //         e.target.parentElement.parentElement.querySelectorAll(
+            //             "td"
+            //         )[1].textContent
+            //     );
+            // } else if (e.target.className.includes("btn-edit")) {
+            //     setUpdateState(true);
+            //     setId(id);
+            // } else if (e.target.className.includes("btn-reset")) {
+            //     setIsReset(true);
+            //     setId(accountId);
+            // }
+        }
+
+        let headerAccount;
+
+        headerAccount = (
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email Address</th>
+                <th>Date Of Birth</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        );
+
+        return (
+            <table id="table">
+                <thead>{headerAccount}</thead>
+                <tbody>{accountItem}</tbody>
+            </table>
+        );
+    };
+
+    const handleChangeSearch = (e) => {
+        setKeyword(e.target.value);
+    };
+
+    return (
+        <div className="main-container">
+            <header>
+                <div>
+                    <h3>Manage Account</h3>
+                </div>
+                <div className="right-header">
+                    <button className="btn-account">
+                        Add Account
+                    </button>
+                    <div className="search-box">
+                        <button className="btn-search">
+                            <FontAwesomeIcon
+                                className="icon-search"
+                                icon={faMagnifyingGlass}
+                            />
+                        </button>
+                        <input
+                            onChange={handleChangeSearch}
+                            className="input-search"
+                            type="text"
+                            placeholder="Search..."
+                            value={keyword}
+                        ></input>
+                    </div>
+                </div>
+            </header>
+            {/* <div className="table-content"> */}
+
+            <PaginatedItems
+                itemsPerPage={10}
+                searchAccount={searchAccount(accounts)}
+            />
+            {/* {isDelete ? ConfirmDelete : null}
+            {isReset ? ConfirmReset : null} */}
+            {/* {addState ? DivAddAccount : null}
+            {updateState ? DivUpdateAccount : null} */}
+            <Loading isLoading={isLoading} />
+        </div>
+    );
+}
+
+export default AccountAdmin;
+
+
+
 // import "./AccountAdmin.css";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import {

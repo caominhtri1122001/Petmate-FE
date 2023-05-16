@@ -12,10 +12,15 @@ const resetPasswordById = async (id) => {
     return await HandleApi.APIPost(`users/reset-password/${id}`);
 };
 
+const getAllAccount = async () => {
+    return await HandleApi.APIGetWithToken(`users/getAllUser`);
+};
+
 const AccountService = {
     getAccountsById,
     updateAccountsById,
     resetPasswordById,
+    getAllAccount,
 };
 
 export default AccountService;
