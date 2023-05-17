@@ -50,6 +50,11 @@ function UserHeader() {
             label: "Dashboard",
             link: ROUTES.CUSTOMER_PAGE.CUSTOMER_PROFILE_PAGE,
         },
+        {
+            key: 4,
+            label: "Sitter",
+            link: ROUTES.CUSTOMER_PAGE.CUSTOMER_BECOME_SITTER_PAGE,
+        },
     ];
 
     const optionsStaffs = [

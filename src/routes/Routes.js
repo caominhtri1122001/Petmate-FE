@@ -14,6 +14,8 @@ import AccountAdmin from "../page/ComponentAdmin/AccountAdmin/AccountAdmin";
 //Customer
 import CustomerRoute from "./CustomerRoute/CustomerRoute";
 import Customer from "../page/ComponentCustomer/Customer";
+import SitterCustomer from "../page/ComponentCustomer/SitterCustomer/SitterCustomer";
+import ServiceCustomer from "../page/ComponentCustomer/ServiceCustomer/ServiceCustomer";
 
 const Routes = () => {
     return (
@@ -42,6 +44,16 @@ const Routes = () => {
                         component={Customer}
                         exact
                         path={ROUTES.CUSTOMER_PAGE.CUSTOMER_PROFILE_PAGE}
+                    />
+                    <CustomerRoute
+                        component={ServiceCustomer}
+                        exact
+                        path={ROUTES.CUSTOMER_PAGE.SERVICE_PAGE}
+                    />
+                    <CustomerRoute
+                        component={SitterCustomer}
+                        exact
+                        path={ROUTES.CUSTOMER_PAGE.CUSTOMER_BECOME_SITTER_PAGE}
                     />
 
                     {/* Others - Must be the last */}

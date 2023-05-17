@@ -3,17 +3,7 @@ import Header from "../../common/Header/Header";
 import Footer from "../../common/Footer/Footer";
 import logo from "../../assets/images/Logo.png";
 import homeImage from "../../assets/images/homeImage.jpg";
-import graduate from "../../assets/images/pet_login.png";
-import recess from "../../assets/images/pet_login.png";
-import chromebook from "../../assets/images/pet_login.png";
-import athletic from "../../assets/images/pet_login.png";
-import teams from "../../assets/images/pet_login.png";
-import financial from "../../assets/images/pet_login.png";
 import {
-    faLocationDot,
-    faPhone,
-    faEnvelope,
-    faCopyright,
     faBusinessTime,
     faHouseChimneyMedical,
     faPaw,
