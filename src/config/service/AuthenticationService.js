@@ -4,6 +4,10 @@ const postLogin = async (params) => {
     return await HandleApi.APIPost("users/login", params);
 };
 
+const postRegister = async (params) => {
+    return await HandleApi.APIPost("users/register", params);
+};
+
 const saveDataLogin = (data) => {
     localStorage.setItem("@Login", JSON.stringify(data));
 };
@@ -38,6 +42,7 @@ const ChangePassword = async (id, params) => {
 
 const AuthenticationService = {
     postLogin,
+    postRegister,
     saveDataLogin,
     clearDataLogin,
     isLogin,

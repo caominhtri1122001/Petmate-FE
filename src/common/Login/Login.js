@@ -4,7 +4,6 @@ import loginPicture from "../../assets/images/petLoginSide.png";
 import Logo from "../../assets/images/Logo.png";
 import ModalCustom from "../../lib/ModalCustom/ModalCustom";
 import AuthenticationService from "../../config/service/AuthenticationService";
-import ROUTES from "../../constants/routes";
 import { useHistory } from "react-router-dom";
 
 const Login = (props) => {
