@@ -175,7 +175,6 @@ const Register = (props) => {
                                 <div className="right-content">
                                     <h1>Register</h1>
                                     <input
-                                        id="input-username"
                                         type="text"
                                         name="emailAddress"
                                         placeholder="Email"
@@ -193,7 +192,6 @@ const Register = (props) => {
                                         Invalid Email
                                     </label>
                                     <input
-                                        id="input-password"
                                         type="password"
                                         name="password"
                                         placeholder="Password"
@@ -211,7 +209,6 @@ const Register = (props) => {
                                         Password must be at least 6 chars long
                                     </label>
                                     <input
-                                        id="input-password"
                                         type="password"
                                         name="confirmPassword"
                                         placeholder="Re-type password"
@@ -231,7 +228,6 @@ const Register = (props) => {
                                     </label>
                                     <div className="name-wrapper">
                                         <input
-                                            id="input-password"
                                             type="text"
                                             name="firstName"
                                             placeholder="First name"
@@ -239,7 +235,6 @@ const Register = (props) => {
                                             onChange={handleChange}
                                         />
                                         <input
-                                            id="input-password"
                                             type="text"
                                             name="lastName"
                                             placeholder="Last name"
@@ -248,7 +243,6 @@ const Register = (props) => {
                                         />
                                     </div>
                                     <input
-                                        id="input-password"
                                         type="text"
                                         name="phone"
                                         placeholder="Phone number"
