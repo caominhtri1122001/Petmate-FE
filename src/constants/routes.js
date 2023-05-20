@@ -10,7 +10,8 @@ const ROUTES = {
 
     CUSTOMER_PAGE: {
         SERVICE_PAGE: "/customer/service",
-        CUSTOMER_PROFILE_PAGE : "/customer/profile"
+        CUSTOMER_PROFILE_PAGE: "/customer/profile",
+        CUSTOMER_BECOME_SITTER_PAGE: "/customer/sitter",
     },
 
     NOT_FOUND_PAGE: {

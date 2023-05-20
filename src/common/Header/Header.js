@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Login from "../Login/Login";
+import Register from "../Register/Register";
 import Logo from "../../assets/images/Logo.png";
 import "./Header.css";
 import AuthenticationService from "../../config/service/AuthenticationService";
@@ -9,6 +10,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
     const [isShowLogin, setIsShowLogin] = useState(false);
+    const [isShowRegister, setIsShowRegister] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
 
     useEffect(() => {
@@ -30,13 +32,30 @@ const Header = () => {
         setIsShowLogin(false);
     };
 
+    const HandleOpenRegister = () => {
+        setIsShowRegister(!isShowLogin);
+    };
+
+    const HandleCloseRegister = () => {
+        setIsShowRegister(false);
+    };
+
     const handleRenderButtonLogin = (
-        <button onClick={HandleOpenLogin} className="button-login">
-            Login
-        </button>
+        <div>
+            <button onClick={HandleOpenLogin} className="button-login">
+                Login
+            </button>
+            {/* <button onClick={HandleOpenRegister} className="button-register">
+                Register
+            </button> */}
+        </div>
     );
 
     const HandleLoginSuccess = () => {
+        setIsLogin(true);
+    };
+
+    const HandleRegisterSuccess = () => {
         setIsLogin(true);
     };
 
@@ -45,6 +64,14 @@ const Header = () => {
             show={isShowLogin}
             HandleCloseLogin={HandleCloseLogin}
             HandleLoginSuccess={HandleLoginSuccess}
+        />
+    );
+
+    const ViewRegister = (
+        <Register
+            show={isShowRegister}
+            HandleCloseRegister={HandleCloseRegister}
+            HandleRegisterSuccess={HandleRegisterSuccess}
         />
     );
 
@@ -64,6 +91,7 @@ const Header = () => {
                 </div>
             </nav>
             <div>{isShowLogin ? ViewLogin : null}</div>
+            {/* <div>{isShowRegister ? ViewRegister : null}</div> */}
         </header>
     );
 };

@@ -9,6 +9,8 @@ const Customer = () => {
         firstName: "",
         lastName: "",
         image: "",
+        gender: "",
+        phone: "",
         role: "",
         emailAddress: "",
         dateOfBirth: "",
@@ -34,6 +36,8 @@ const Customer = () => {
                 lastName: res.lastName,
                 image: customerImage,
                 role: res.role,
+                gender: res.gender,
+                phone: res.phone,
                 emailAddress: res.emailAddress,
                 dateOfBirth: res.dateOfBirth,
             });
@@ -46,7 +50,11 @@ const Customer = () => {
         <div className="student-item">
             <div className="left-student-content">
                 <img src={customerInfo.image} alt="customerImage" />
+                <div className="main-contact">
+                    <button className="contact-button">Contact</button>
+                </div>
             </div>
+
             <div className="between-student-content">
                 <div className="student-info-parents">
                     <div className="item-content">
@@ -67,7 +75,7 @@ const Customer = () => {
                         <i className="fa fa-phone"></i>
                         <div className="text">
                             <h4>Phone Number</h4>
-                            <p>{customerInfo.parent_phone}</p>
+                            <p>{customerInfo.phone}</p>
                         </div>
                     </div>
                     <div className="item-content">
@@ -103,9 +111,7 @@ const Customer = () => {
                         <i class="fa fa-solid fa-mars-and-venus"></i>
                         <div className="text">
                             <h4>Gender</h4>
-                            <p>
-                                {customerInfo.parent_gender ? "Male" : "Female"}
-                            </p>
+                            <p>{customerInfo.gender ? "Male" : "Female"}</p>
                         </div>
                     </div>
                     <div className="item-content">
@@ -128,8 +134,8 @@ const Customer = () => {
             <div className="detail-content">
                 <CustomerContent customerInfo={customerInfo} />
             </div>
-            <div className="main-contact">
-                <button className="contact-button">Contact</button>
+            <div className="header-title">
+                <h3>PET INFORMATION</h3>
             </div>
             <Loading isLoading={isLoading} />
         </div>
