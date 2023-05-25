@@ -15,6 +15,7 @@ import {
     faMoneyBillTrendUp,
     faCommentsDollar,
     faArrowTrendUp,
+    faHandshake,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useHistory } from "react-router-dom";
 import AuthenticationService from "../../config/service/AuthenticationService";
@@ -124,6 +125,35 @@ function SideBar() {
                                     className={
                                         window.location.pathname ===
                                         "/admin/account"
+                                            ? " show"
+                                            : " arrow"
+                                    }
+                                    icon={faAngleRight}
+                                />
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link
+                                key={1}
+                                className={
+                                    "item" +
+                                    (window.location.pathname ===
+                                    "/admin/sitter"
+                                        ? " active"
+                                        : "")
+                                }
+                                to={"/admin/sitter"}
+                            >
+                                <FontAwesomeIcon
+                                    className="icon"
+                                    icon={faHandshake}
+                                />
+                                <p>Sitter</p>
+                                <FontAwesomeIcon
+                                    className={
+                                        window.location.pathname ===
+                                        "/admin/sitter"
                                             ? " show"
                                             : " arrow"
                                     }
