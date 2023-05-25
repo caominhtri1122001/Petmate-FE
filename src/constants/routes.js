@@ -6,6 +6,7 @@ const ROUTES = {
     ADMIN_PAGE: {
         ADMIN_HOME: "/admin",
         ACCOUNT_ADMIN: "/admin/account",
+        SITTER_ADMIN: "/admin/sitter",
     },
 
     CUSTOMER_PAGE: {

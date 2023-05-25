@@ -10,6 +10,7 @@ import NotFound from "../page/NotFound/NotFound";
 import AdminRoute from "./AdminRoute/AdminRoute";
 import HomeAdmin from "../page/ComponentAdmin/HomeAdmin/HomeAdmin";
 import AccountAdmin from "../page/ComponentAdmin/AccountAdmin/AccountAdmin";
+import SitterAdmin from "../page/ComponentAdmin/SitterAdmin/SitterAdmin";
 
 //Customer
 import CustomerRoute from "./CustomerRoute/CustomerRoute";
@@ -38,6 +39,11 @@ const Routes = () => {
                         component={AccountAdmin}
                         exact
                         path={ROUTES.ADMIN_PAGE.ACCOUNT_ADMIN}
+                    />
+                    <AdminRoute
+                        component={SitterAdmin}
+                        exact
+                        path={ROUTES.ADMIN_PAGE.SITTER_ADMIN}
                     />
                     {/* Customer Route */}
                     <CustomerRoute

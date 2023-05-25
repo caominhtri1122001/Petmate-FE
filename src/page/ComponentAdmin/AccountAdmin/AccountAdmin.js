@@ -69,7 +69,6 @@ function AccountAdmin() {
     };
 
     const handleInputCustom = () => {
-        console.log(111111111);
         setAddState(false);
         setUpdateState(false);
         setErrorServer(false);
@@ -424,7 +423,7 @@ function AccountAdmin() {
             {/* <div className="table-content"> */}
 
             <PaginatedItems
-                itemsPerPage={10}
+                itemsPerPage={6}
                 searchAccount={searchAccount(accounts)}
             />
             {isDelete ? ConfirmDelete : null}
