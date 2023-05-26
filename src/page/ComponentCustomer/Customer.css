@@ -48,7 +48,6 @@
   border-radius: 10px;
   padding: 30px;
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
   align-items: center;
 }
@@ -68,7 +67,6 @@
   margin-bottom: 30px; 
   margin-right: 0; 
   object-fit: fill;
-  /* border: none; */
   border-radius: 6px;
   padding: 10px;
 }
@@ -173,6 +171,77 @@
   background-color: #3e8e41; /* màu nền xanh lá cây tối hơn */
 }
 
+.pet-detail {
+  width: 100vw;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: 30px 0;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pet-detail .pet-content {
+  width: 70%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pet-card {
+  width: 33%;
+  padding: 10px;
+  border: 2px solid #ccc;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.pet-card img {
+  width: 100%;
+  max-height: 300px;
+  clip-path: circle();
+  object-fit: cover;
+}
+
+.pet-card h2 {
+  margin-top: 10px;
+}
+
+.pet-card p {
+  margin-bottom: 5px;
+}
+
+.add-new-pet {
+  display: inline-block;
+  margin: 0px 0px 20px 0px;
+  background-color: var(--success-color);
+  color: white; 
+  font-size: 20px; 
+  font-weight: bold; 
+  padding: 10px 20px;
+  border: none; 
+  border-radius: 5px;
+}
+
+.button-view-detail {
+  border-radius: 5px;
+  background-color: var(--success-color);
+  margin-right: 10px;
+  margin-top: 10px;
+  color: white;
+}
+
+.button-remove {
+  border-radius: 5px;
+  background-color: var(--error-color);
+  color: white;
+}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {}

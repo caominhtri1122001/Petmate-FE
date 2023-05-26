@@ -70,10 +70,10 @@ const Home = () => {
                 </section>
 
                 <section id="team">
+                    <h3 className="section-title mb-5 text-center">
+                        Services for every dog and cat
+                    </h3>
                     <div className="container">
-                        <h3 className="section-title mb-5 text-center">
-                            Services for every dog and cat
-                        </h3>
                         <div className="row">
                             <div className="col-md-4 my-3">
                                 <div className="team-wrapper text-center">

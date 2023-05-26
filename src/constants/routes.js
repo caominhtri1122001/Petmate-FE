@@ -15,6 +15,10 @@ const ROUTES = {
         CUSTOMER_BECOME_SITTER_PAGE: "/customer/sitter",
     },
 
+    BLOG_PAGE: {
+        HOME_PATH: "/blog",
+    },
+
     NOT_FOUND_PAGE: {
         path: "*",
     },

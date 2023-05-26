@@ -18,6 +18,8 @@ import Customer from "../page/ComponentCustomer/Customer";
 import SitterCustomer from "../page/ComponentCustomer/SitterCustomer/SitterCustomer";
 import ServiceCustomer from "../page/ComponentCustomer/ServiceCustomer/ServiceCustomer";
 
+//Blog
+import Blog from "../page/Blog/Blog";
 const Routes = () => {
     return (
         <Router>
@@ -60,6 +62,12 @@ const Routes = () => {
                         component={SitterCustomer}
                         exact
                         path={ROUTES.CUSTOMER_PAGE.CUSTOMER_BECOME_SITTER_PAGE}
+                    />
+
+                    {/* Blog  */}
+                    <PublicRoute
+                        component={Blog}
+                        path={ROUTES.BLOG_PAGE.HOME_PATH}
                     />
 
                     {/* Others - Must be the last */}

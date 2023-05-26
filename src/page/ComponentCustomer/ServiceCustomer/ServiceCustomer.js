@@ -3,8 +3,10 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { Icon } from "leaflet";
 import "./ServiceCustomer.css";
 import "leaflet/dist/leaflet.css";
-import Image from "../../../assets/images/pet_login.png";
 import CustomerLocation from "../../../assets/images/customerLocation.png";
+import Loading from "../../../lib/Loading/Loading";
+import CustomerService from "../../../config/service/CustomerService";
+import Logo from "../../../assets/images/Logo.png";
 
 const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
@@ -16,41 +18,70 @@ const customerIcon = new Icon({
     iconSize: [38, 38],
 });
 
-// markers
-const markers = [
-    {
-        geocode: [16.071614294070255, 108.15087535197601],
-        popUp: "Hello, I am pop up 1",
-    },
-    {
-        geocode: [16.071614294070255, 108.15087535197601],
-        popUp: "Hello, I am pop up 2",
-    },
-    {
-        geocode: [16.071614294070255, 108.15087535197601],
-        popUp: "Hello, I am pop up 3",
-    },
-];
-
 const ServiceCustomer = () => {
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [sitters, setSitters] = useState([]);
+    const [marker, setMarker] = useState([]);
+    const [contact, setContact] = useState(false);
 
     useEffect(() => {
-        getLocation();
-    }, []);
-
-    const getLocation = () => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0,
+            };
+            navigator.geolocation.getCurrentPosition(
+                handleSuccess,
+                handleError,
+                options
+            );
         } else {
             console.log("Geolocation is not supported by this browser.");
         }
+        getInfoSitter();
+    }, []);
+
+    const getInfoSitter = () => {
+        setIsLoading(true);
+        CustomerService.getSitterAround().then((res) => {
+            const dataSources = res.map((item, index) => {
+                return {
+                    key: index + 1,
+                    userId: item.userId,
+                    firstname: item.firstname,
+                    lastName: item.lastName,
+                    userImage: item.userImage === null ? Logo : item.userImage,
+                    phone: item.phone,
+                    address: item.address,
+                    latitude: item.latitude,
+                    longitude: item.longitude,
+                    yearOfExperience: item.yearOfExperience,
+                    description: item.description,
+                };
+            });
+            setSitters(dataSources);
+            const sitterMarkers = res.map((item, index) => {
+                return {
+                    key: index + 1,
+                    geocode: [item.latitude, item.longitude],
+                    popUp: index,
+                };
+            });
+            setMarker(sitterMarkers);
+            setIsLoading(false);
+        });
     };
 
-    const showPosition = (position) => {
+    const handleSuccess = (position) => {
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
+    };
+
+    const handleError = (error) => {
+        console.log("Geolocation is not supported by this browser.");
     };
 
     const MapCenter = () => {
@@ -61,6 +92,14 @@ const ServiceCustomer = () => {
         return null;
     };
 
+    const handleContact = (e) => {
+        e.preventDefault();
+        console.log(
+            e.target.parentElement.parentElement.getAttribute("data-key")
+        );
+        setContact(true);
+    };
+
     return (
         <div className="outer-container">
             <div className="header-title">
@@ -68,42 +107,42 @@ const ServiceCustomer = () => {
             </div>
             <div className="container">
                 <div className="left-section">
-                    <div className="user-card">
-                        <div className="avatar-customer">
-                            <img src={Image} alt="Avatar" />
-                        </div>
-                        <div className="user-info">
-                            <h3>Cao Minh Trí</h3>
-                            <p>Số năm kinh nghiệm : 3</p>
-                            <p>54 Nguyễn Lương Bằng</p>
-                            <p>Khoảng cách : 10km</p>
-                            <button className="contact-button">Contact</button>
-                        </div>
-                    </div>
-                    <div className="user-card">
-                        <div className="avatar-customer">
-                            <img src={Image} alt="Avatar" />
-                        </div>
-                        <div className="user-info">
-                            <h3>Họ và tên</h3>
-                            <p>Số năm kinh nghiệm</p>
-                            <p>Địa chỉ</p>
-                            <p>Khoảng cách</p>
-                            <button className="contact-button">Contact</button>
-                        </div>
-                    </div>
-                    <div className="user-card">
-                        <div className="avatar-customer">
-                            <img src={Image} alt="Avatar" />
-                        </div>
-                        <div className="user-info">
-                            <h3>Họ và tên</h3>
-                            <p>Số năm kinh nghiệm</p>
-                            <p>Địa chỉ</p>
-                            <p>Khoảng cách</p>
-                            <button className="contact-button">Contact</button>
-                        </div>
-                    </div>
+                    {sitters.map((sitter) => {
+                        return (
+                            <div
+                                className="user-card"
+                                key={sitter.key}
+                                data-key={sitter.userId}
+                            >
+                                <div className="avatar-customer">
+                                    <img
+                                        src={sitter.userImage}
+                                        alt="sitter.userImage"
+                                    />
+                                </div>
+                                <div className="user-info">
+                                    <h3>
+                                        {sitter.key +
+                                            ". " +
+                                            sitter.firstname +
+                                            " " +
+                                            sitter.lastName}
+                                    </h3>
+                                    <p>
+                                        Số năm kinh nghiệm :{" "}
+                                        {sitter.yearOfExperience}
+                                    </p>
+                                    <p>{sitter.address}</p>
+                                    <button
+                                        onClick={handleContact}
+                                        className="contact-button"
+                                    >
+                                        Contact
+                                    </button>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
                 <div className="right-section">
                     <MapContainer center={[latitude, longitude]} zoom={10}>
@@ -113,9 +152,13 @@ const ServiceCustomer = () => {
                         />
                         <MapCenter />
 
-                        {markers.map((marker) => (
-                            <Marker position={marker.geocode} icon={customIcon}>
-                                <Popup>{marker.popUp}</Popup>
+                        {marker.map((item) => (
+                            <Marker
+                                position={item.geocode}
+                                icon={customIcon}
+                                key={item.key}
+                            >
+                                <Popup>{item.popUp}</Popup>
                             </Marker>
                         ))}
                         <Marker
@@ -127,6 +170,7 @@ const ServiceCustomer = () => {
                     </MapContainer>
                 </div>
             </div>
+            <Loading isLoading={isLoading} />
         </div>
     );
 };
