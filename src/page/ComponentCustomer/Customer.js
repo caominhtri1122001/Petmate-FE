@@ -7,6 +7,9 @@ import Loading from "../../lib/Loading/Loading";
 import PetPicture from "../../assets/images/pet_login.png";
 import ModalInput from "../../lib/ModalInput/ModalInput";
 import AddPet from "../../lib/ModalInput/AddPet/AddPet";
+import UpdatePet from "../../lib/ModalInput/UpdatePet/UpdatePet";
+import ModalCustom from "../../lib/ModalCustom/ModalCustom";
+import ConfirmAlert from "../../lib/ConfirmAlert/ConfirmAlert";
 
 const Customer = () => {
     const [pets, setPets] = useState([]);
@@ -23,6 +26,9 @@ const Customer = () => {
     const [state, setState] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isAddPet, setIsAddPet] = useState(false);
+    const [isUpdatePet, setIsUpdatePet] = useState(false);
+    const [idPet, setIdPet] = useState("");
+    const [isDelete, setIsDelete] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
 
@@ -161,12 +167,14 @@ const Customer = () => {
 
     const handleViewDetail = (e) => {
         e.preventDefault();
-        console.log(e.target.parentElement.getAttribute("data-key"));
+        setIdPet(e.target.parentElement.getAttribute("data-key"));
+        setIsUpdatePet(true);
     };
 
     const handleRemove = (e) => {
         e.preventDefault();
-        console.log(e.target.parentElement.getAttribute("data-key"));
+        setIdPet(e.target.parentElement.getAttribute("data-key"));
+        setIsDelete(true);
     };
 
     const PetContent = ({ pets }) => {
@@ -209,6 +217,7 @@ const Customer = () => {
 
     const handleInputCustom = () => {
         setIsAddPet(false);
+        setIsUpdatePet(false);
     };
 
     const handleConfirmAddPet = (allValue) => {
@@ -235,6 +244,33 @@ const Customer = () => {
         });
     };
 
+    const handleConfirmUpdatePet = (allValue, isChangeImage) => {
+        console.log(11111);
+        var formData = new FormData();
+        formData.append("name", allValue.name);
+        formData.append("species", allValue.species);
+        formData.append("breed", allValue.breed);
+        formData.append("age", allValue.age);
+        formData.append("gender", allValue.gender);
+        formData.append("weight", allValue.weight);
+        if (isChangeImage) {
+            formData.append("image", allValue.image);
+        }
+        formData.append("owner", allValue.owner);
+        PetService.updatePetById(idPet, formData).then((res) => {
+            if (res === true) {
+                setState(!state);
+                setIsUpdatePet(false);
+                setErrorMessage("");
+                setErrorServer(false);
+            } else {
+                setIsUpdatePet(true);
+                setErrorMessage(res.message);
+                setErrorServer(true);
+            }
+        });
+    };
+
     const DivAddPet = (
         <ModalInput
             show={isAddPet}
@@ -247,6 +283,50 @@ const Customer = () => {
                     errorMessage={errorMessage}
                 />
             }
+        />
+    );
+
+    const DivUpdatePet = (
+        <ModalInput
+            show={isUpdatePet}
+            handleInputCustom={handleInputCustom}
+            content={
+                <UpdatePet
+                    petId={idPet}
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmUpdatePet={handleConfirmUpdatePet}
+                    errorServer={errorServer}
+                    errorMessage={errorMessage}
+                />
+            }
+        />
+    );
+
+    const handleDelete = () => {
+        PetService.deletePetById(idPet).then((res) => {
+            if (res == true) {
+                setState(!state);
+            }
+        });
+
+        setIsDelete(false);
+    };
+
+    const handleCloseModalCustom = () => {
+        setIsDelete(false);
+    };
+
+    const ConfirmDelete = (
+        <ModalCustom
+            show={isDelete}
+            content={
+                <ConfirmAlert
+                    handleCloseModalCustom={handleCloseModalCustom}
+                    handleDelete={handleDelete}
+                    title={`Do you want to delete this pet?`}
+                />
+            }
+            handleCloseModalCustom={handleCloseModalCustom}
         />
     );
 
@@ -270,9 +350,11 @@ const Customer = () => {
             </div>
             <button className="add-new-pet" onClick={handleAddPet}>
                 {" "}
-                Add new pet.
+                Add new pet
             </button>
+            {isDelete ? ConfirmDelete : null}
             {isAddPet ? DivAddPet : null}
+            {isUpdatePet ? DivUpdatePet : null}
             <Loading isLoading={isLoading} />
         </div>
     );
