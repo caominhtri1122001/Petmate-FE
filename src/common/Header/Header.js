@@ -45,9 +45,9 @@ const Header = () => {
             <button onClick={HandleOpenLogin} className="button-login">
                 Login
             </button>
-            {/* <button onClick={HandleOpenRegister} className="button-register">
+            <button onClick={HandleOpenRegister} className="button-register">
                 Register
-            </button> */}
+            </button>
         </div>
     );
 
@@ -91,7 +91,7 @@ const Header = () => {
                 </div>
             </nav>
             <div>{isShowLogin ? ViewLogin : null}</div>
-            {/* <div>{isShowRegister ? ViewRegister : null}</div> */}
+            <div>{isShowRegister ? ViewRegister : null}</div>
         </header>
     );
 };

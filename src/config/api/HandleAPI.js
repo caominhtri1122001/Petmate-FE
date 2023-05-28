@@ -80,6 +80,18 @@ function APIPatchWithToken(url, params) {
     }).then((response) => response.json());
 }
 
+function APIPatchWithTokenIMG(url, params) {
+    url = REACT_APP_API_ENDPOINT + "api/v1/" + url;
+    return fetch(url, {
+        method: "PATCH",
+        headers: {
+            Authorization: getToken(),
+        },
+        body: params,
+        redirect: "follow",
+    }).then((response) => response.json());
+}
+
 function APIPostWithTokenIMG(url, params) {
     url = REACT_APP_API_ENDPOINT + "api/v1/" + url;
     return fetch(url, {
@@ -152,6 +164,7 @@ const HandleApi = {
     APIGetPublic,
     APIPostWithTokenFile,
     APIPatchWithToken,
+    APIPatchWithTokenIMG,
 };
 
 export default HandleApi;
