@@ -20,12 +20,17 @@ const deletePetById = async (id) => {
     return await HandleApi.APIDelete(`pets/${id}`);
 };
 
+const getAllPets = async () => {
+    return await HandleApi.APIGetWithToken(`pets`);
+};
+
 const PetService = {
     getPetsByUserId,
     createPet,
     getPetById,
     updatePetById,
     deletePetById,
+    getAllPets,
 };
 
 export default PetService;

@@ -20,6 +20,7 @@ import ServiceCustomer from "../page/ComponentCustomer/ServiceCustomer/ServiceCu
 
 //Blog
 import Blog from "../page/Blog/Blog";
+import PetAdmin from "../page/ComponentAdmin/PetAdmin/PetAdmin";
 const Routes = () => {
     return (
         <Router>
@@ -46,6 +47,11 @@ const Routes = () => {
                         component={SitterAdmin}
                         exact
                         path={ROUTES.ADMIN_PAGE.SITTER_ADMIN}
+                    />
+                    <AdminRoute
+                        component={PetAdmin}
+                        exact
+                        path={ROUTES.ADMIN_PAGE.PET_ADMIN}
                     />
                     {/* Customer Route */}
                     <CustomerRoute
