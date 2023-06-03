@@ -245,7 +245,6 @@ const Customer = () => {
     };
 
     const handleConfirmUpdatePet = (allValue, isChangeImage) => {
-        console.log(11111);
         var formData = new FormData();
         formData.append("name", allValue.name);
         formData.append("species", allValue.species);

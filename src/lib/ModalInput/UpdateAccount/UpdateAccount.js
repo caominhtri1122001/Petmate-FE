@@ -35,7 +35,7 @@ const UpdateAccount = (props) => {
         emailAddress: false,
         gender: false,
         phone: false,
-        image: null,
+        image: false,
         // address: false,
         // password: false,
         // confirmPassword: false,
@@ -43,6 +43,8 @@ const UpdateAccount = (props) => {
 
     // Set default Avatar
     const [avatar, setAvatar] = useState(Logo);
+
+    const [isChangeImage, setIsChangeImage] = useState(false);
 
     const validateEmail = (email) => {
         const re =
@@ -120,18 +122,22 @@ const UpdateAccount = (props) => {
 
         let dateNow = new Date().toLocaleDateString();
 
-        let dateConvert = `${dateNow.split("/")[2]}-${dateNow.split("/")[0] < 10
-            ? "0" + dateNow.split("/")[0]
-            : dateNow.split("/")[0]
-            }-${dateNow.split("/")[1] < 10
-                ? "0" + dateNow.split("/")[1]
-                : dateNow.split("/")[1]
+        let dateConvert = `${dateNow.split("/")[2]}-${dateNow.split("/")[1] < 10
+            ? "0" + dateNow.split("/")[1]
+            : dateNow.split("/")[1]
+            }-${dateNow.split("/")[0] < 10
+                ? "0" + dateNow.split("/")[0]
+                : dateNow.split("/")[0]
             }`;
 
         if (dateConvert < allValuesAccount.dateOfBirth) {
             dateOfBirth = true;
             check = true;
-        } else dateOfBirth = false;
+        } else {
+            dateOfBirth = false;
+            allValuesAccount.dateOfBirth =
+            allValuesAccount.dateOfBirth + "T00:00:00.000Z";
+        };
 
         if (!allValuesAccount.gender) {
             gender = true;
@@ -178,11 +184,12 @@ const UpdateAccount = (props) => {
             // confirmPassword: confirmPassword,
         });
         if (!check) {
-            props.handleConfirmUpdateAccount(allValuesAccount);
+            props.handleConfirmUpdateAccount(allValuesAccount, isChangeImage);
         }
     };
 
     const clickUpdate = (e) => {
+        console.log(33333);
         e.preventDefault();
         handleUpdateAccount();
     };
@@ -196,19 +203,21 @@ const UpdateAccount = (props) => {
 
     const changeHandlerAccountIMG = (e) => {
         setAllValuesAccount({
-            firstName: allValuesAccount.name,
-            lastName: allValuesAccount.username,
+            firstName: allValuesAccount.firstName,
+            lastName: allValuesAccount.lastName,
             dateOfBirth: allValuesAccount.dateOfBirth,
-            email: allValuesAccount.email,
+            emailAddress: allValuesAccount.emailAddress,
             gender: allValuesAccount.gender,
             phone: allValuesAccount.phone,
             image: e.target.files[0],
+            role: allValuesAccount.role,
             // address: allValuesAccount.address,
             // password: allValuesAccount.password,
             // confirmPassword: allValuesAccount.confirmPassword,
         });
         try {
             setAvatar(URL.createObjectURL(e.target.files[0]));
+            setIsChangeImage(true);
         } catch (err) {
             console.log(err);
         }

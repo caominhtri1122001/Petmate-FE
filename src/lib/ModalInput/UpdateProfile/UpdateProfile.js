@@ -7,8 +7,8 @@ const UpdateProfile = (props) => {
     let date = new Date().toLocaleDateString();
 
     const [allValues, setAllValues] = useState({
-        name: "",
-        username: "",
+        firstName: "",
+        lastName: "",
         dateOfBirth: `${date.split("/")[2]}-${
             date.split("/")[0] < 10
                 ? "0" + date.split("/")[0]
@@ -18,26 +18,25 @@ const UpdateProfile = (props) => {
                 ? "0" + date.split("/")[1]
                 : date.split("/")[1]
         }`,
-        email: "",
+        emailAddress: "",
         gender: null,
         phone: "",
-        img: null,
-        address: "",
+        image: null,
     });
 
     const [profileError, setProfileError] = useState({
-        name: false,
-        username: false,
+        firstName: false,
+        lastName: false,
         dateOfBirth: false,
-        email: false,
+        emailAddress: false,
         gender: false,
         phone: false,
-        img: null,
-        address: false,
+        image: null,
     });
 
     // Set default Avatar
     const [avatar, setAvatar] = useState(Logo);
+    const [isChangeImage, setIsChangeImage] = useState(false);
 
     const validateEmail = (email) => {
         const re =
@@ -47,104 +46,128 @@ const UpdateProfile = (props) => {
 
     useEffect(() => {
         AccountService.getAccountsById(
-            JSON.parse(localStorage.getItem("@Login")).AccountId
+            JSON.parse(localStorage.getItem("@Login")).userId
         ).then((res) => {
-            !!res.personInfor.person_image
-                ? setAvatar(res.personInfor.person_image)
+            !!res.image
+                ? setAvatar(res.image)
                 : setAvatar(Logo);
             setAllValues({
-                name: res.personInfor.person_fullname,
-                username: res.personInfor.account_id.account_username,
-                dateOfBirth: res.personInfor.person_dateofbirth.split("T")[0],
-                email: res.personInfor.person_email,
-                gender: `${res.personInfor.person_gender}`,
-                phone: res.personInfor.person_phonenumber,
-                address: res.personInfor.person_address,
+                firstName: res.firstName,
+                lastName: res.lastName,
+                dateOfBirth: res.dateOfBirth.split("T")[0],
+                emailAddress: res.emailAddress,
+                gender: `${res.gender}`,
+                phone: res.phone,
             });
         });
     }, []);
 
     const handleUpdateProfileAccount = () => {
-        let name = false;
-        let username = false;
+        let firstName = false;
+        let lastName = false;
         let dateOfBirth = false;
-        let email = false;
+        let emailAddress = false;
         let gender = false;
         let phone = false;
-        let img = null;
-        let address = false;
+        let image = null;
+        // let address = false;
+        // let password = false;
+        // let confirmPassword = false;
 
         let check = false;
-        if (allValues.name.length < 2) {
-            name = true;
+        if (allValues.firstName.length < 2) {
+            firstName = true;
             check = true;
-        } else name = false;
+        } else firstName = false;
 
-        if (validateEmail(allValues.email) === false) {
-            email = true;
+        if (allValues.lastName.length < 2) {
+            lastName = true;
             check = true;
-        } else email = false;
+        } else lastName = false;
+
+        if (validateEmail(allValues.emailAddress) === false) {
+            emailAddress = true;
+            check = true;
+        } else emailAddress = false;
+
+        // if (allValuesPrincipal.password.length < 6) {
+        //     password = true;
+        //     check = true;
+        // } else if (
+        //     allValuesPrincipal.confirmPassword !== allValuesPrincipal.password
+        // ) {
+        //     confirmPassword = true;
+        //     check = true;
+        // } else {
+        //     password = false;
+        //     confirmPassword = false;
+        // }
 
         let dateNow = new Date().toLocaleDateString();
 
-        let dateConvert = `${dateNow.split("/")[2]}-${
-            dateNow.split("/")[0] < 10
+        let dateConvert = `${dateNow.split("/")[2]}-${dateNow.split("/")[1] < 10
+            ? "0" + dateNow.split("/")[1]
+            : dateNow.split("/")[1]
+            }-${dateNow.split("/")[0] < 10
                 ? "0" + dateNow.split("/")[0]
                 : dateNow.split("/")[0]
-        }-${
-            dateNow.split("/")[1] < 10
-                ? "0" + dateNow.split("/")[1]
-                : dateNow.split("/")[1]
-        }`;
+            }`;
 
         if (dateConvert < allValues.dateOfBirth) {
             dateOfBirth = true;
             check = true;
-        } else dateOfBirth = false;
+        } else {
+            dateOfBirth = false;
+            allValues.dateOfBirth =
+            allValues.dateOfBirth + "T00:00:00.000Z";
+        };
 
         if (!allValues.gender) {
             gender = true;
             check = true;
         } else gender = false;
 
-        if (isNaN(parseInt(allValues.phone)) || allValues.phone.length !== 10) {
+        if (
+            isNaN(parseInt(allValues.phone)) ||
+            allValues.phone.length !== 10
+        ) {
             phone = true;
             check = true;
         } else phone = false;
 
-        if (allValues.address.length > 100 || allValues.address.length < 2) {
-            address = true;
-            check = true;
-        } else address = false;
+        // if (
+        //     allValues.address.length > 100 ||
+        //     allValues.address.length < 2
+        // ) {
+        //     address = true;
+        //     check = true;
+        // } else address = false;
 
-        if (!!allValues.img) {
-            let imgList = allValues.img.name.split(".");
+        if (!!allValues.image) {
+            let imgList = allValues.image.name.split(".");
             if (
                 imgList[imgList.length - 1] !== "png" &&
                 imgList[imgList.length - 1] !== "jpg"
             ) {
-                img = true;
+                image = true;
                 check = true;
-            } else img = false;
+            } else image = false;
         }
 
-        if (allValues.address.length > 150 || allValues.address.length < 2) {
-            address = true;
-            check = true;
-        } else address = false;
-
         setProfileError({
-            name: name,
-            username: username,
+            firstName: firstName,
+            lastName: lastName,
             dateOfBirth: dateOfBirth,
-            email: email,
+            emailAddress: emailAddress,
             gender: gender,
             phone: phone,
-            img: img,
-            address: address,
+            image: image,
+            // address: address,
+            // password: password,
+            // confirmPassword: confirmPassword,
         });
         if (!check) {
-            props.handleConfirmUpdateAccount(allValues);
+            props.handleConfirmUpdateAccount(allValues, isChangeImage);
         }
     };
 
@@ -153,26 +176,29 @@ const UpdateProfile = (props) => {
         handleUpdateProfileAccount();
     };
 
-    const changeHandlerPrincipal = (e) => {
+    const changeHandlerProfile = (e) => {
         setAllValues({
             ...allValues,
             [e.target.name]: e.target.value,
         });
     };
 
-    const changeHandlerPrincipalIMG = (e) => {
+    const changeHandlerProfileIMG = (e) => {
         setAllValues({
-            name: allValues.name,
-            username: allValues.username,
+            firstName: allValues.firstName,
+            lastName: allValues.lastName,
             dateOfBirth: allValues.dateOfBirth,
-            email: allValues.email,
+            emailAddress: allValues.emailAddress,
             gender: allValues.gender,
             phone: allValues.phone,
-            img: e.target.files[0],
-            address: allValues.address,
+            image: e.target.files[0],
+            // address: allValues.address,
+            // password: allValues.password,
+            // confirmPassword: allValues.confirmPassword,
         });
         try {
             setAvatar(URL.createObjectURL(e.target.files[0]));
+            setIsChangeImage(true);
         } catch (err) {
             console.log(err);
         }
@@ -200,12 +226,12 @@ const UpdateProfile = (props) => {
                             id="upload-photo"
                             type="file"
                             name="img"
-                            onChange={changeHandlerPrincipalIMG}
+                            onChange={changeHandlerProfileIMG}
                         />
                         <label
                             className={
                                 "error" +
-                                (profileError.img
+                                (profileError.image
                                     ? " error-show"
                                     : " error-hidden")
                             }
@@ -214,14 +240,14 @@ const UpdateProfile = (props) => {
                         </label>
                     </div>
                     <div className="type-input">
-                        <h4>Name</h4>
+                        <h4>First Name</h4>
                         <input
                             className="input-content"
                             type="text"
-                            name="name"
-                            placeholder="Enter name"
-                            value={allValues.name}
-                            onChange={changeHandlerPrincipal}
+                            name="firstName"
+                            placeholder="Enter first name"
+                            value={allValues.firstName}
+                            onChange={changeHandlerProfile}
                         />
                         <label
                             className={
@@ -231,29 +257,29 @@ const UpdateProfile = (props) => {
                                     : " error-hidden")
                             }
                         >
-                            Name must be greater than 2 chars
+                            First Name must be greater than 2 chars
                         </label>
                     </div>
                     <div className="type-input">
-                        <h4>Username</h4>
+                        <h4>Last Name</h4>
                         <input
                             className="input-content"
                             type="text"
-                            name="username"
-                            placeholder="Enter username"
-                            value={allValues.username}
-                            onChange={changeHandlerPrincipal}
+                            name="lastName"
+                            placeholder="Enter last name"
+                            value={allValues.lastName}
+                            onChange={changeHandlerProfile}
                             readOnly
                         />
                         <label
                             className={
                                 "error" +
-                                (profileError.username
+                                (profileError.lastName
                                     ? " error-show"
                                     : " error-hidden")
                             }
                         >
-                            This username is not avaiable.
+                            Last Name must be greater than 2 chars
                         </label>
                     </div>
                     <div className="type-input">
@@ -264,7 +290,7 @@ const UpdateProfile = (props) => {
                             name="dateOfBirth"
                             placeholder="Enter Date Of Birth"
                             value={allValues.dateOfBirth}
-                            onChange={changeHandlerPrincipal}
+                            onChange={changeHandlerProfile}
                         />
                         <label
                             className={
@@ -285,7 +311,7 @@ const UpdateProfile = (props) => {
                                     type="radio"
                                     value={true}
                                     name="gender"
-                                    onChange={changeHandlerPrincipal}
+                                    onChange={changeHandlerProfile}
                                     checked={allValues.gender === "true"}
                                 />
                                 Male
@@ -293,7 +319,7 @@ const UpdateProfile = (props) => {
                                     type="radio"
                                     value={false}
                                     name="gender"
-                                    onChange={changeHandlerPrincipal}
+                                    onChange={changeHandlerProfile}
                                     checked={allValues.gender === "false"}
                                 />
                                 Female
@@ -320,7 +346,7 @@ const UpdateProfile = (props) => {
                             name="phone"
                             placeholder="Enter phone"
                             value={allValues.phone}
-                            onChange={changeHandlerPrincipal}
+                            onChange={changeHandlerProfile}
                         />
                         <label
                             className={
@@ -338,10 +364,10 @@ const UpdateProfile = (props) => {
                         <input
                             className="input-content"
                             type="email"
-                            name="email"
+                            name="emailAddress"
                             placeholder="Enter email"
-                            value={allValues.email}
-                            onChange={changeHandlerPrincipal}
+                            value={allValues.emailAddress}
+                            onChange={changeHandlerProfile}
                         />
                         <label
                             className={
@@ -354,7 +380,7 @@ const UpdateProfile = (props) => {
                             Invalid Email
                         </label>
                     </div>
-                    <div className="type-input">
+                    {/* <div className="type-input">
                         <h4>Address</h4>
                         <input
                             className="input-content"
@@ -362,7 +388,7 @@ const UpdateProfile = (props) => {
                             name="address"
                             placeholder="Enter home address"
                             value={allValues.address}
-                            onChange={changeHandlerPrincipal}
+                            onChange={changeHandlerProfile}
                         />
                         <label
                             className={
@@ -374,7 +400,7 @@ const UpdateProfile = (props) => {
                         >
                             Address is required.
                         </label>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
