@@ -37,7 +37,7 @@ const getData = () => {
 };
 
 const ChangePassword = async (id, params) => {
-    return await HandleApi.APIPutWithToken(`authentication/${id}`, params);
+    return await HandleApi.APIPostWithToken(`users/changePassword/${id}`, params);
 };
 
 const AuthenticationService = {

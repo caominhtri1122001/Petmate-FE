@@ -4,8 +4,12 @@ const getAccountsById = async (id) => {
     return await HandleApi.APIGetWithToken(`users/${id}`);
 };
 
-const updateAccountsById = async (id, params) => {
-    return await HandleApi.APIPutWithTokenIMG(`users/${id}`, params);
+const updateProfileUser = async (id, params) => {
+    return await HandleApi.APIPatchWithTokenIMG(`users/${id}`, params);
+};
+
+const changePasswordUser = async (id, params) => {
+    return await HandleApi.APIPostWithToken(`users/changePassword/${id}`, params);
 };
 
 const resetPasswordById = async (id) => {
@@ -17,15 +21,15 @@ const getAllAccount = async () => {
 };
 
 const updateAccountsCustomerById = async (id, params) => {
-    return await HandleApi.APIPatchWithToken(`admins/customer/${id}`, params);
+    return await HandleApi.APIPatchWithTokenIMG(`admins/customer/${id}`, params);
 };
 
 const updateAccountsEmployeeById = async (id, params) => {
-    return await HandleApi.APIPatchWithToken(`admins/employee/${id}`, params);
+    return await HandleApi.APIPatchWithTokenIMG(`admins/employee/${id}`, params);
 };
 
 const updateAccountsAdminById = async (id, params) => {
-    return await HandleApi.APIPatchWithToken(`admins/${id}`, params);
+    return await HandleApi.APIPatchWithTokenIMG(`admins/${id}`, params);
 };
 
 const deleteAccountCustomersById = async (id) => {
@@ -50,7 +54,8 @@ const addAdminAccount = async (params) => {
 
 const AccountService = {
     getAccountsById,
-    updateAccountsById,
+    updateProfileUser,
+    changePasswordUser,
     resetPasswordById,
     getAllAccount,
     updateAccountsCustomerById,

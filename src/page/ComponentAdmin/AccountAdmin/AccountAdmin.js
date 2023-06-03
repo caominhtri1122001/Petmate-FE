@@ -75,26 +75,22 @@ function AccountAdmin() {
         setErrorMessage("");
     };
 
-    const handleConfirmUpdateAccount = (allValue) => {
-        var formData = {
-            firstName: allValue.firstName,
-            lastName: allValue.lastName,
-            emailAddress: allValue.emailAddress,
-            dateOfBirth: allValue.dateOfBirth + "T00:00:00.000Z",
-            gender: allValue.gender,
-            phone: allValue.phone,
-        };
-        // if (!!allValue.image)
-        //     formData.append(
-        //         "image",
-        //         allValue.image,
-        //         allValue.image.name
-        //     );
+    const handleConfirmUpdateAccount = (allValue, isChangeImage) => {
+        var formData = new FormData();
+        formData.append("firstName", allValue.firstName);
+        formData.append("lastName", allValue.lastName);
+        formData.append("emailAddress", allValue.emailAddress);
+        formData.append("dateOfBirth", allValue.dateOfBirth);
+        formData.append("gender", allValue.gender);
+        formData.append("phone", allValue.phone);
+        if (isChangeImage) {
+            formData.append("image", allValue.image);
+        }
+
         if (allValue.role === "EMPLOYEE") {
             AccountService.updateAccountsEmployeeById(id, formData)
                 .then((res) => {
-                    console.log(res);
-                    if (res) {
+                    if (res == true) {
                         setState(!state);
                         setErrorServer(false);
                         setErrorMessage("");
@@ -109,8 +105,7 @@ function AccountAdmin() {
         } else if (allValue.role === "CUSTOMER") {
             AccountService.updateAccountsCustomerById(id, formData)
                 .then((res) => {
-                    console.log(res);
-                    if (res) {
+                    if (res == true) {
                         setState(!state);
                         setErrorServer(false);
                         setErrorMessage("");
@@ -124,8 +119,7 @@ function AccountAdmin() {
         } else if (allValue.role === "ADMIN") {
             AccountService.updateAccountsAdminById(id, formData)
                 .then((res) => {
-                    console.log(res);
-                    if (res) {
+                    if (res == true) {
                         setState(!state);
                         setErrorServer(false);
                         setErrorMessage("");

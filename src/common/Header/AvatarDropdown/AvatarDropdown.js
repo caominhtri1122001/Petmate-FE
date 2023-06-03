@@ -20,12 +20,13 @@ const AvatarDropdown = (props) => {
 
     const handleConfirmChangePassword = (allValue) => {
         AuthenticationService.ChangePassword(
-            JSON.parse(localStorage.getItem("@Login")).AccountId,
+            JSON.parse(localStorage.getItem("@Login")).userId,
             {
-                account_password: allValue.newP,
+                oldPassword: allValue.old,
+                password: allValue.newP
             }
         ).then((res) => {
-            if (res.success) {
+            if (res == true) {
                 setChangePassword(false);
                 setErrorMessage("");
                 setErrorServer(false);
@@ -52,22 +53,22 @@ const AvatarDropdown = (props) => {
         />
     );
 
-    const handleConfirmUpdateAccount = (allValues) => {
-        console.log(allValues);
+    const handleConfirmUpdateAccount = (allValue, isChangeImage) => {
         var formData = new FormData();
-        formData.append("person_fullname", allValues.name);
-        formData.append("person_dateofbirth", allValues.dateOfBirth);
-        formData.append("person_email", allValues.email);
-        formData.append("person_gender", allValues.gender);
-        formData.append("person_phonenumber", allValues.phone);
-        formData.append("person_address", allValues.address);
-        if (!!allValues.img)
-            formData.append("person_image", allValues.img, allValues.img.name);
-        AccountService.updateAccountsById(
-            JSON.parse(localStorage.getItem("@Login")).AccountId,
+        formData.append("firstName", allValue.firstName);
+        formData.append("lastName", allValue.lastName);
+        formData.append("emailAddress", allValue.emailAddress);
+        formData.append("dateOfBirth", allValue.dateOfBirth);
+        formData.append("gender", allValue.gender);
+        formData.append("phone", allValue.phone);
+        if (isChangeImage) {
+            formData.append("image", allValue.image);
+        }
+        AccountService.updateProfileUser(
+            JSON.parse(localStorage.getItem("@Login")).userId,
             formData
         ).then((res) => {
-            if (res.success) {
+            if (res == true) {
                 setChangeProfile(false);
                 setErrorMessage("");
                 setErrorServer(false);
