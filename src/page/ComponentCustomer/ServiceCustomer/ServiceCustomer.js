@@ -7,6 +7,9 @@ import CustomerLocation from "../../../assets/images/customerLocation.png";
 import Loading from "../../../lib/Loading/Loading";
 import CustomerService from "../../../config/service/CustomerService";
 import Logo from "../../../assets/images/Logo.png";
+import ModalInput from "../../../lib/ModalInput/ModalInput";
+import DetailSitter from "../../../lib/ModalInput/DetailSitter/DetailSitter";
+import ContactSitter from "../../../lib/ModalInput/ContactSitter/ContactSitter";
 
 const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
@@ -25,6 +28,11 @@ const ServiceCustomer = () => {
     const [sitters, setSitters] = useState([]);
     const [marker, setMarker] = useState([]);
     const [contact, setContact] = useState(false);
+    const [isShowDetail, setIsShowDetail] = useState(false);
+    const [errorServer, setErrorServer] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [id, setId] = useState("");
+    const [sitterName, setSitterName] = useState("");
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -51,6 +59,7 @@ const ServiceCustomer = () => {
                 return {
                     key: index + 1,
                     userId: item.userId,
+                    sitterId: item.sitterId,
                     firstname: item.firstname,
                     lastName: item.lastName,
                     userImage: item.userImage === null ? Logo : item.userImage,
@@ -67,7 +76,8 @@ const ServiceCustomer = () => {
                 return {
                     key: index + 1,
                     geocode: [item.latitude, item.longitude],
-                    popUp: index,
+                    popUp: index + 1,
+                    sitterId: item.sitterId,
                 };
             });
             setMarker(sitterMarkers);
@@ -94,11 +104,74 @@ const ServiceCustomer = () => {
 
     const handleContact = (e) => {
         e.preventDefault();
-        console.log(
-            e.target.parentElement.parentElement.getAttribute("data-key")
+        setId(e.target.parentElement.parentElement.getAttribute("data-key"));
+        setSitterName(
+            e.target.parentElement.querySelector("h3").textContent.slice(3)
         );
         setContact(true);
     };
+
+    const handleInputCustom = () => {
+        setIsShowDetail(false);
+        setContact(false);
+    };
+
+    const handleConfirmContactSitter = (allValue) => {
+        CustomerService.contactSitter({
+            userId: allValue.userId,
+            sitterId: allValue.sitterId,
+            petId: allValue.petId,
+            serviceId: allValue.serviceId,
+            startDate: allValue.startDate,
+            endDate: allValue.endDate,
+            startTime: allValue.startTime,
+            endTime: allValue.endTime,
+            message: allValue.message,
+            address: allValue.address,
+        }).then((res) => {
+            if (res) {
+                setErrorServer(false);
+                setErrorMessage("");
+                setContact(false);
+            } else {
+                setErrorServer(true);
+                setErrorMessage(res.message);
+                setContact(true);
+            }
+        });
+    };
+
+    const DivShowDetailSitter = (
+        <ModalInput
+            show={isShowDetail}
+            handleInputCustom={handleInputCustom}
+            content={
+                <DetailSitter
+                    sitterId={id}
+                    handleInputCustom={handleInputCustom}
+                    errorServer={errorServer}
+                    errorMessage={errorMessage}
+                />
+            }
+        />
+    );
+
+    const DivShowContact = (
+        <ModalInput
+            show={contact}
+            handleInputCustom={handleInputCustom}
+            content={
+                <ContactSitter
+                    id={id}
+                    sitterName={sitterName}
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmContactSitter={handleConfirmContactSitter}
+                    errorServer={errorServer}
+                    errorMessage={errorMessage}
+                />
+            }
+        />
+    );
 
     return (
         <div className="outer-container">
@@ -112,7 +185,7 @@ const ServiceCustomer = () => {
                             <div
                                 className="user-card"
                                 key={sitter.key}
-                                data-key={sitter.userId}
+                                data-key={sitter.sitterId}
                             >
                                 <div className="avatar-customer">
                                     <img
@@ -157,6 +230,13 @@ const ServiceCustomer = () => {
                                 position={item.geocode}
                                 icon={customIcon}
                                 key={item.key}
+                                eventHandlers={{
+                                    click: (e) => {
+                                        console.log(item.sitterId);
+                                        setId(item.sitterId);
+                                        setIsShowDetail(true);
+                                    },
+                                }}
                             >
                                 <Popup>{item.popUp}</Popup>
                             </Marker>
@@ -171,6 +251,8 @@ const ServiceCustomer = () => {
                 </div>
             </div>
             <Loading isLoading={isLoading} />
+            {isShowDetail ? DivShowDetailSitter : null}
+            {contact ? DivShowContact : null}
         </div>
     );
 };

@@ -17,6 +17,7 @@ import CustomerRoute from "./CustomerRoute/CustomerRoute";
 import Customer from "../page/ComponentCustomer/Customer";
 import SitterCustomer from "../page/ComponentCustomer/SitterCustomer/SitterCustomer";
 import ServiceCustomer from "../page/ComponentCustomer/ServiceCustomer/ServiceCustomer";
+import RequestCustomer from "../page/ComponentCustomer/RequestCustomer/RequestCustomer";
 
 //Blog
 import Blog from "../page/Blog/Blog";
@@ -68,6 +69,11 @@ const Routes = () => {
                         component={SitterCustomer}
                         exact
                         path={ROUTES.CUSTOMER_PAGE.CUSTOMER_BECOME_SITTER_PAGE}
+                    />
+                    <CustomerRoute
+                        component={RequestCustomer}
+                        exact
+                        path={ROUTES.CUSTOMER_PAGE.CUSTOMER_REQUEST}
                     />
 
                     {/* Blog  */}

@@ -14,6 +14,7 @@ const ROUTES = {
         SERVICE_PAGE: "/customer/service",
         CUSTOMER_PROFILE_PAGE: "/customer/profile",
         CUSTOMER_BECOME_SITTER_PAGE: "/customer/sitter",
+        CUSTOMER_REQUEST: "/customer/request",
     },
 
     BLOG_PAGE: {

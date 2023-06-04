@@ -36,9 +36,9 @@ const SitterCustomer = () => {
                 setErrorMessage("");
                 setBecomeSitter(false);
             } else {
-                setErrorServer(false);
+                setErrorServer(true);
                 setErrorMessage(res.message);
-                setBecomeSitter(false);
+                setBecomeSitter(true);
             }
         });
     };
