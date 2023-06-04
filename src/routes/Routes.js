@@ -19,6 +19,12 @@ import SitterCustomer from "../page/ComponentCustomer/SitterCustomer/SitterCusto
 import ServiceCustomer from "../page/ComponentCustomer/ServiceCustomer/ServiceCustomer";
 import RequestCustomer from "../page/ComponentCustomer/RequestCustomer/RequestCustomer";
 
+//Sitter
+import StaffRoute from "./StaffRoute/StaffRoute";
+import Sitter from "../page/ComponentStaff/Sitter";
+import ServiceSitter from "../page/ComponentStaff/ServiceSitter/ServiceSitter";
+import RequestSitter from "../page/ComponentStaff/RequestSitter/RequestSitter";
+
 //Blog
 import Blog from "../page/Blog/Blog";
 import PetAdmin from "../page/ComponentAdmin/PetAdmin/PetAdmin";
@@ -74,6 +80,26 @@ const Routes = () => {
                         component={RequestCustomer}
                         exact
                         path={ROUTES.CUSTOMER_PAGE.CUSTOMER_REQUEST}
+                    />
+
+                    {/* Sitter */}
+
+                    <StaffRoute
+                        component={Sitter}
+                        exact
+                        path={ROUTES.SITTER_PAGE.SITTER_PROFILE_PAGE}
+                    />
+
+                    <StaffRoute
+                        component={ServiceSitter}
+                        exact
+                        path={ROUTES.SITTER_PAGE.SITTER_SERVICE_PAGE}
+                    />
+
+                    <StaffRoute
+                        component={RequestSitter}
+                        exact
+                        path={ROUTES.SITTER_PAGE.SITTER_REQUEST}
                     />
 
                     {/* Blog  */}

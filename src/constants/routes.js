@@ -17,6 +17,12 @@ const ROUTES = {
         CUSTOMER_REQUEST: "/customer/request",
     },
 
+    SITTER_PAGE: {
+        SITTER_SERVICE_PAGE: "/sitter/service",
+        SITTER_PROFILE_PAGE: "/sitter/profile",
+        SITTER_REQUEST: "/sitter/request,",
+    },
+
     BLOG_PAGE: {
         HOME_PATH: "/blog",
     },

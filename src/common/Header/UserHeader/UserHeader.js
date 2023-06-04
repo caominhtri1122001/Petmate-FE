@@ -44,12 +44,12 @@ function UserHeader() {
 
     const optionsCustomers = [
         { key: 1, label: "Home", link: ROUTES.HOME_PAGE.HOME_PATH },
-        { key: 2, label: "Services", link: ROUTES.CUSTOMER_PAGE.SERVICE_PAGE },
         {
-            key: 3,
+            key: 2,
             label: "Dashboard",
             link: ROUTES.CUSTOMER_PAGE.CUSTOMER_PROFILE_PAGE,
         },
+        { key: 3, label: "Services", link: ROUTES.CUSTOMER_PAGE.SERVICE_PAGE },
         {
             key: 4,
             label: "Sitter",
@@ -64,6 +64,21 @@ function UserHeader() {
 
     const optionsStaffs = [
         { key: 1, label: "Home", link: ROUTES.HOME_PAGE.HOME_PATH },
+        {
+            key: 2,
+            label: "Dashboard",
+            link: ROUTES.SITTER_PAGE.SITTER_PROFILE_PAGE,
+        },
+        {
+            key: 3,
+            label: "Service",
+            link: ROUTES.SITTER_PAGE.SITTER_SERVICE_PAGE,
+        },
+        {
+            key: 4,
+            label: "Request",
+            link: ROUTES.SITTER_PAGE.SITTER_REQUEST,
+        }
     ];
 
     const optionsAdmin = [
