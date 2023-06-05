@@ -341,7 +341,7 @@ const Customer = () => {
                 <h3>PET INFORMATION</h3>
             </div>
             <div className="pet-detail">
-                {pets !== [] ? (
+                {pets[0] ? (
                     <PetContent pets={pets} />
                 ) : (
                     <h4>There's no pet.</h4>

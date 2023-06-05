@@ -32,7 +32,6 @@ const RequestCustomer = () => {
                     status: item.status,
                 };
             });
-            console.log(dataSources);
             setRequests(dataSources);
         });
     }, []);
