@@ -23,10 +23,16 @@ const ServiceSitter = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
+        SitterService.getSitterIdByUserId(
+            JSON.parse(localStorage.getItem("@Login")).userId
+        ).then((res) => {
+            if (res.sitterId) {
+                setSitterId(res.sitterId);
+            }
+        });
         SitterService.getServiceFromSitter(
             JSON.parse(localStorage.getItem("@Login")).userId
         ).then((res) => {
-            setSitterId(res[0].sitterId);
             const dataSources = res.map((item, index) => {
                 return {
                     key: index + 1,
@@ -115,13 +121,11 @@ const ServiceSitter = () => {
     };
 
     const handleConfirmAddService = (allValue) => {
-        console.log(allValue);
         SitterService.createService({
             name: allValue.name,
             price: allValue.price,
             sitterId: allValue.sitterId,
         }).then((res) => {
-            console.log(res);
             if (res === true) {
                 setState(!state);
                 setErrorServer(false);

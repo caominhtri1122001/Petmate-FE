@@ -78,7 +78,12 @@ function UserHeader() {
             key: 4,
             label: "Request",
             link: ROUTES.SITTER_PAGE.SITTER_REQUEST,
-        }
+        },
+        {
+            key: 5,
+            label: "Schedules",
+            link: ROUTES.SITTER_PAGE.SITTER_SCHEDULES,
+        },
     ];
 
     const optionsAdmin = [

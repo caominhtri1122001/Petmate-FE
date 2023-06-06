@@ -38,7 +38,7 @@ const RequestCustomer = () => {
 
     const TableRequests = ({ requests }) => {
         const requestItem = requests.map((item) => (
-            <tr data-key={item.id} key={item.id}>
+            <tr data-key={item.id} key={item.key}>
                 <td>
                     <img
                         className="sitter-avatar"

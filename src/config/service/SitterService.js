@@ -12,10 +12,20 @@ const createService = async (params) => {
     return await HandleApi.APIPostWithToken(`provider`, params);
 };
 
+const getSitterIdByUserId = async (id) => {
+    return await HandleApi.APIGetWithToken(`sitter/user/${id}`);
+};
+
+const getAllRequestBySitter = async (id) => {
+    return await HandleApi.APIGetWithToken(`requests/sitter/${id}`);
+};
+
 const SitterService = {
     getServiceFromSitter,
     getAllServices,
     createService,
+    getSitterIdByUserId,
+    getAllRequestBySitter,
 };
 
 export default SitterService;

@@ -24,6 +24,7 @@ import StaffRoute from "./StaffRoute/StaffRoute";
 import Sitter from "../page/ComponentStaff/Sitter";
 import ServiceSitter from "../page/ComponentStaff/ServiceSitter/ServiceSitter";
 import RequestSitter from "../page/ComponentStaff/RequestSitter/RequestSitter";
+import ScheduleSitter from "../page/ComponentStaff/ScheduleSitter/ScheduleSitter";
 
 //Blog
 import Blog from "../page/Blog/Blog";
@@ -100,6 +101,12 @@ const Routes = () => {
                         component={RequestSitter}
                         exact
                         path={ROUTES.SITTER_PAGE.SITTER_REQUEST}
+                    />
+
+                    <StaffRoute
+                        component={ScheduleSitter}
+                        exact
+                        path={ROUTES.SITTER_PAGE.SITTER_SCHEDULES}
                     />
 
                     {/* Blog  */}
