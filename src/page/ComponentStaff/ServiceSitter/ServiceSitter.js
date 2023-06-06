@@ -3,12 +3,18 @@ import "./ServiceSitter.css";
 import SitterService from "../../../config/service/SitterService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+    faArrowsRotate,
+    faEye,
+    faEyeSlash,
     faMagnifyingGlass,
     faPenToSquare,
     faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddServiceSitter from "../../../lib/ModalInput/AddServiceSitter/AddServiceSitter";
+import UpdateServiceSitter from "../../../lib/ModalInput/UpdateServiceSitter/UpdateServiceSitter";
+import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
+import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 
 const ServiceSitter = () => {
     const [services, setServices] = useState([]);
@@ -18,6 +24,7 @@ const ServiceSitter = () => {
     const [sitterId, setSitterId] = useState("");
     const [updateState, setUpdateState] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
+    const [isEnable, setIsEnable] = useState(false);
     const [addState, setAddState] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -39,6 +46,7 @@ const ServiceSitter = () => {
                     id: item.id,
                     name: item.name,
                     price: item.price,
+                    disable: item.disable
                 };
             });
             setServices(dataSources);
@@ -52,14 +60,23 @@ const ServiceSitter = () => {
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td onClick={click}>
+
                     <FontAwesomeIcon
                         className="icon fa-regular fa-pen-to-square btn-edit"
                         icon={faPenToSquare}
                     />
-                    <FontAwesomeIcon
-                        className="icon fa-regular fa-trash-can btn-delete"
-                        icon={faTrash}
-                    />
+                    {item.disable ?
+                        <FontAwesomeIcon
+                            className="icon fa-regular fa-trash-can btn-arrow-rotate"
+                            icon={faArrowsRotate}
+                        />
+                        :
+                        <FontAwesomeIcon
+                            className="icon fa-regular fa-trash-can btn-delete"
+                            icon={faTrash}
+                        />
+                    }
+
                 </td>
             </tr>
         ));
@@ -77,12 +94,22 @@ const ServiceSitter = () => {
                 ) {
                     setIsDelete(true);
                     setId(id);
+                    
+
                 } else if (
                     e.target.parentElement.className.baseVal.includes(
                         "btn-edit"
                     )
                 ) {
                     setUpdateState(true);
+                    setId(id);
+                }
+                else if (
+                    e.target.parentElement.className.baseVal.includes(
+                        "btn-arrow-rotate"
+                    )
+                ) {
+                    setIsEnable(true);
                     setId(id);
                 }
             }
@@ -139,6 +166,21 @@ const ServiceSitter = () => {
         });
     };
 
+    const handleConfirmUpdateService = (allValue) => {
+        SitterService.updateService(id, allValue.price).then((res) => {
+            if (res === true) {
+                setState(!state);
+                setErrorServer(false);
+                setErrorMessage("");
+                setUpdateState(false);
+            } else {
+                setErrorServer(true);
+                setErrorMessage(res.message);
+                setUpdateState(true);
+            }
+        });
+    };
+
     const DivAddServiceSitter = (
         <ModalInput
             show={addState}
@@ -154,6 +196,80 @@ const ServiceSitter = () => {
             }
         />
     );
+
+    const DivUpdateServiceSitter = (
+        <ModalInput
+            show={updateState}
+            handleInputCustom={handleInputCustom}
+            content={
+                <UpdateServiceSitter
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmUpdateService={handleConfirmUpdateService}
+                    errorServer={errorServer}
+                    errorMessage={errorMessage}
+                />
+            }
+        />
+    );
+
+    const handleCloseModalCustom = () => {
+        setIsEnable(false);
+        setIsDelete(false);
+    };
+
+    const handleDelete = () => {
+        SitterService.deleteService(id).then((res) => {
+            if (res === true) {
+                setState(!state);
+            } else {
+                setErrorMessage(res.message);
+                setIsDelete(true);
+            }
+        });
+        setIsDelete(false);
+    };
+
+    const handleEnable = () => {
+        SitterService.enableService(id).then((res) => {
+            if (res === true) {
+                setState(!state);
+            } else {
+                setErrorMessage(res.message);
+                setIsEnable(true);
+            }
+        });
+        setIsEnable(false);
+    };
+
+    const ConfirmDelete = (
+        <ModalCustom
+            show={isDelete}
+            content={
+                <ConfirmAlert
+                    handleCloseModalCustom={handleCloseModalCustom}
+                    handleDelete={handleDelete}
+                    title={`Do you want to disable this service?`}
+                />
+            }
+            handleCloseModalCustom={handleCloseModalCustom}
+        />
+    );
+
+    const ConfirmEnable = (
+        <ModalCustom
+            show={isEnable}
+            content={
+                <ConfirmAlert
+                    handleCloseModalCustom={handleCloseModalCustom}
+                    handleDelete={handleEnable}
+                    title={`Do you want to enable this service?`}
+                />
+            }
+            handleCloseModalCustom={handleCloseModalCustom}
+        />
+    );
+
+
 
     return (
         <div>
@@ -193,6 +309,9 @@ const ServiceSitter = () => {
                     <footer></footer>
                 </div>
             </div>
+            {isDelete ? ConfirmDelete : null}
+            {isEnable ? ConfirmEnable : null}
+            {updateState ? DivUpdateServiceSitter : null}
             {addState ? DivAddServiceSitter : null}
         </div>
     );
