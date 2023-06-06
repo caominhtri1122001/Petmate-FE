@@ -318,6 +318,11 @@ const AddPet = (props) => {
             } else image = false;
         }
 
+        if (!allValuesPet.image) {
+            image = true;
+            check = true;
+        } else image = false;
+
         if (allValuesPet.weight === 0) {
             weight = true;
             check = true;

@@ -12,6 +12,18 @@ const createService = async (params) => {
     return await HandleApi.APIPostWithToken(`provider`, params);
 };
 
+const updateService = async (id, price) => {
+    return await HandleApi.APIPatchWithToken(`provider/${id}?price=${price}`);
+};
+
+const deleteService = async (id) => {
+    return await HandleApi.APIDelete(`provider/${id}`);
+};
+
+const enableService = async (id) => {
+    return await HandleApi.APIGetWithToken(`provider/enable/${id}`);
+};
+
 const getSitterIdByUserId = async (id) => {
     return await HandleApi.APIGetWithToken(`sitter/user/${id}`);
 };
@@ -24,6 +36,9 @@ const SitterService = {
     getServiceFromSitter,
     getAllServices,
     createService,
+    updateService,
+    deleteService,
+    enableService,
     getSitterIdByUserId,
     getAllRequestBySitter,
 };
