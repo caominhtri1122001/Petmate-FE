@@ -2,7 +2,7 @@ import AuthenticationService from "../service/AuthenticationService";
 
 // const { REACT_APP_API_ENDPOINT } = process.env;
 
-const REACT_APP_API_ENDPOINT = "http://localhost:8080/";
+const REACT_APP_API_ENDPOINT = "https://petmate-be.onrender.com/";
 
 const header = {
     Accept: "application/json",
