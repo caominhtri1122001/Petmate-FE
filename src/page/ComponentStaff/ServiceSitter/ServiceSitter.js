@@ -4,11 +4,11 @@ import SitterService from "../../../config/service/SitterService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faArrowsRotate,
-    faEye,
-    faEyeSlash,
     faMagnifyingGlass,
     faPenToSquare,
     faTrash,
+    faCircleXmark,
+    faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddServiceSitter from "../../../lib/ModalInput/AddServiceSitter/AddServiceSitter";
@@ -46,7 +46,7 @@ const ServiceSitter = () => {
                     id: item.id,
                     name: item.name,
                     price: item.price,
-                    disable: item.disable
+                    disable: item.disable,
                 };
             });
             setServices(dataSources);
@@ -59,24 +59,37 @@ const ServiceSitter = () => {
                 <td>{item.key}</td>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
+                <td>
+                    {item.disable ? (
+                        <FontAwesomeIcon
+                            className="fa-solid fa-x"
+                            style={{ color: "#e70808" }}
+                            icon={faCircleXmark}
+                        />
+                    ) : (
+                        <FontAwesomeIcon
+                            className="fa-solid fa-circle-check"
+                            style={{ color: "#76df30" }}
+                            icon={faCircleCheck}
+                        />
+                    )}
+                </td>
                 <td onClick={click}>
-
                     <FontAwesomeIcon
                         className="icon fa-regular fa-pen-to-square btn-edit"
                         icon={faPenToSquare}
                     />
-                    {item.disable ?
+                    {item.disable ? (
                         <FontAwesomeIcon
                             className="icon fa-regular fa-trash-can btn-arrow-rotate"
                             icon={faArrowsRotate}
                         />
-                        :
+                    ) : (
                         <FontAwesomeIcon
                             className="icon fa-regular fa-trash-can btn-delete"
                             icon={faTrash}
                         />
-                    }
-
+                    )}
                 </td>
             </tr>
         ));
@@ -94,8 +107,6 @@ const ServiceSitter = () => {
                 ) {
                     setIsDelete(true);
                     setId(id);
-                    
-
                 } else if (
                     e.target.parentElement.className.baseVal.includes(
                         "btn-edit"
@@ -103,8 +114,7 @@ const ServiceSitter = () => {
                 ) {
                     setUpdateState(true);
                     setId(id);
-                }
-                else if (
+                } else if (
                     e.target.parentElement.className.baseVal.includes(
                         "btn-arrow-rotate"
                     )
@@ -122,6 +132,7 @@ const ServiceSitter = () => {
                 <th>Index</th>
                 <th>Name</th>
                 <th>Price ($)</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
         );
@@ -268,8 +279,6 @@ const ServiceSitter = () => {
             handleCloseModalCustom={handleCloseModalCustom}
         />
     );
-
-
 
     return (
         <div>

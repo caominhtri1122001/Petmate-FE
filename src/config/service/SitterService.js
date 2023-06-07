@@ -32,6 +32,10 @@ const getAllRequestBySitter = async (id) => {
     return await HandleApi.APIGetWithToken(`requests/sitter/${id}`);
 };
 
+const viewDetailRequest = async (id) => {
+    return await HandleApi.APIGetWithToken(`requests/detail/${id}`);
+};
+
 const SitterService = {
     getServiceFromSitter,
     getAllServices,
@@ -41,6 +45,7 @@ const SitterService = {
     enableService,
     getSitterIdByUserId,
     getAllRequestBySitter,
+    viewDetailRequest,
 };
 
 export default SitterService;

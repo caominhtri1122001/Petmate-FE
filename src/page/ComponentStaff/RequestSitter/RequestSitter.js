@@ -2,10 +2,20 @@ import React, { useEffect, useState } from "react";
 import "./RequestSitter.css";
 import SitterService from "../../../config/service/SitterService";
 import Logo from "../../../assets/images/Logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleInfo, faPaw, faBan } from "@fortawesome/free-solid-svg-icons";
+import ModalInput from "../../../lib/ModalInput/ModalInput";
+import ViewPet from "../../../lib/ModalInput/ViewPet/ViewPet";
+import ViewDetailRequest from "../../../lib/ModalInput/ViewDetailRequest/ViewDetailRequest";
 
 const RequestSitter = () => {
     const [requests, setRequests] = useState([]);
     const [sitterId, setSitterId] = useState("");
+    const [id, setId] = useState("");
+    const [petId, setPetId] = useState("");
+    const [viewDetail, setViewDetail] = useState(false);
+    const [viewPet, setViewPet] = useState(false);
+    const [isCancel, setIsCancel] = useState(false);
 
     useEffect(() => {
         SitterService.getSitterIdByUserId(
@@ -48,7 +58,7 @@ const RequestSitter = () => {
 
     const TableRequests = ({ requests }) => {
         const requestItem = requests.map((item) => (
-            <tr data-key={item.id} key={item.key}>
+            <tr data-key={item.requestId} key={item.key} data-pet={item.petId}>
                 <td>
                     <img
                         className="sitter-avatar"
@@ -62,11 +72,60 @@ const RequestSitter = () => {
                 <td>{item.servicePrice}</td>
                 <td>{item.startDate}</td>
                 <td>{item.endDate}</td>
-                <td>{item.startTime}</td>
-                <td>{item.endTime}</td>
-                <td>{item.status ? "Accept" : "Pending"}</td>
+                <td>{item.status}</td>
+                <td onClick={click}>
+                    <FontAwesomeIcon
+                        className="fa-solid fa-circle-info btn-detail"
+                        style={{ color: "#4404f6", cursor: "pointer" }}
+                        icon={faCircleInfo}
+                    />
+                    <FontAwesomeIcon
+                        className="fa-solid fa-paw btn-pet"
+                        style={{ color: "#000000", cursor: "pointer" }}
+                        icon={faPaw}
+                    />
+                    <FontAwesomeIcon
+                        className="fa-solid fa-ban btn-cancel-request"
+                        style={{ color: "#ff0000", cursor: "pointer" }}
+                        icon={faBan}
+                    />
+                </td>
             </tr>
         ));
+
+        function click(e) {
+            if (e.target.tagName === "path") {
+                const id =
+                    e.target.parentElement.parentElement.parentElement.getAttribute(
+                        "data-key"
+                    );
+                const petId =
+                    e.target.parentElement.parentElement.parentElement.getAttribute(
+                        "data-pet"
+                    );
+                if (
+                    e.target.parentElement.className.baseVal.includes(
+                        "btn-detail"
+                    )
+                ) {
+                    setViewDetail(true);
+                    setId(id);
+                } else if (
+                    e.target.parentElement.className.baseVal.includes("btn-pet")
+                ) {
+                    setViewPet(true);
+                    setPetId(petId);
+                } else if (
+                    e.target.parentElement.className.baseVal.includes(
+                        "btn-cancel-request"
+                    )
+                ) {
+                    setIsCancel(true);
+                    setId(id);
+                }
+            }
+        }
+
         let headerRequest;
 
         headerRequest = (
@@ -75,11 +134,9 @@ const RequestSitter = () => {
                 <th>Name</th>
                 <th>Pet's name</th>
                 <th>Service's name</th>
-                <th>Price</th>
+                <th>Price ($)</th>
                 <th>Start Date</th>
                 <th>End Date</th>
-                <th>Start Time</th>
-                <th>End Time</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -92,6 +149,35 @@ const RequestSitter = () => {
             </table>
         );
     };
+
+    const handleInputCustom = () => {
+        setViewPet(false);
+        setViewDetail(false);
+    };
+
+    const DivViewPet = (
+        <ModalInput
+            show={viewPet}
+            handleInputCustom={handleInputCustom}
+            content={
+                <ViewPet petId={petId} handleInputCustom={handleInputCustom} />
+            }
+        />
+    );
+
+    const DivViewRequest = (
+        <ModalInput
+            show={viewDetail}
+            handleInputCustom={handleInputCustom}
+            content={
+                <ViewDetailRequest
+                    viewDetail={viewDetail}
+                    id={id}
+                    handleInputCustom={handleInputCustom}
+                />
+            }
+        />
+    );
 
     return (
         <div>
@@ -110,6 +196,8 @@ const RequestSitter = () => {
                     <footer></footer>
                 </div>
             </div>
+            {viewPet ? DivViewPet : null}
+            {viewDetail ? DivViewRequest : null}
         </div>
     );
 };

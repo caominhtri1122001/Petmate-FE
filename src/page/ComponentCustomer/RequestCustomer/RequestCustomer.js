@@ -54,7 +54,10 @@ const RequestCustomer = () => {
                 <td>{item.endDate}</td>
                 <td>{item.startTime}</td>
                 <td>{item.endTime}</td>
-                <td>{item.status ? "Accept" : "Pending"}</td>
+                <td>{item.status}</td>
+                <td>
+                    <button>Cancel</button>
+                </td>
             </tr>
         ));
         let headerRequest;
