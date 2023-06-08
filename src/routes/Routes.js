@@ -12,6 +12,7 @@ import HomeAdmin from "../page/ComponentAdmin/HomeAdmin/HomeAdmin";
 import AccountAdmin from "../page/ComponentAdmin/AccountAdmin/AccountAdmin";
 import SitterAdmin from "../page/ComponentAdmin/SitterAdmin/SitterAdmin";
 import PetAdmin from "../page/ComponentAdmin/PetAdmin/PetAdmin";
+import ServiceAdmin from "../page/ComponentAdmin/ServiceAdmin/ServiceAdmin";
 import BlogAdmin from "../page/ComponentAdmin/BlogAdmin/BlogAdmin";
 
 //Customer
@@ -62,6 +63,11 @@ const Routes = () => {
                         component={PetAdmin}
                         exact
                         path={ROUTES.ADMIN_PAGE.PET_ADMIN}
+                    />
+                    <AdminRoute
+                        component={ServiceAdmin}
+                        exact
+                        path={ROUTES.ADMIN_PAGE.SERVICE_ADMIN}
                     />
                     <BlogRoute
                         component={BlogAdmin}
