@@ -11,6 +11,8 @@ import AdminRoute from "./AdminRoute/AdminRoute";
 import HomeAdmin from "../page/ComponentAdmin/HomeAdmin/HomeAdmin";
 import AccountAdmin from "../page/ComponentAdmin/AccountAdmin/AccountAdmin";
 import SitterAdmin from "../page/ComponentAdmin/SitterAdmin/SitterAdmin";
+import PetAdmin from "../page/ComponentAdmin/PetAdmin/PetAdmin";
+import BlogAdmin from "../page/ComponentAdmin/BlogAdmin/BlogAdmin";
 
 //Customer
 import CustomerRoute from "./CustomerRoute/CustomerRoute";
@@ -28,7 +30,7 @@ import ScheduleSitter from "../page/ComponentStaff/ScheduleSitter/ScheduleSitter
 
 //Blog
 import Blog from "../page/Blog/Blog";
-import PetAdmin from "../page/ComponentAdmin/PetAdmin/PetAdmin";
+import BlogRoute from "./BlogRoute/BlogRoute";
 const Routes = () => {
     return (
         <Router>
@@ -60,6 +62,11 @@ const Routes = () => {
                         component={PetAdmin}
                         exact
                         path={ROUTES.ADMIN_PAGE.PET_ADMIN}
+                    />
+                    <BlogRoute
+                        component={BlogAdmin}
+                        exact
+                        path={ROUTES.ADMIN_PAGE.BLOG_ADMIN}
                     />
                     {/* Customer Route */}
                     <CustomerRoute

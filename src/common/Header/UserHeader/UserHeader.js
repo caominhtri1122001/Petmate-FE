@@ -87,6 +87,7 @@ function UserHeader() {
     ];
 
     const optionsAdmin = [
+        { key: 1, label: "Home", link: ROUTES.HOME_PAGE.HOME_PATH },
         {
             key: 2,
             label: "Admin",
@@ -94,8 +95,8 @@ function UserHeader() {
         },
         {
             key: 3,
-            label: "Accounts",
-            link: ROUTES.ADMIN_PAGE.ACCOUNT_ADMIN,
+            label: "Blog",
+            link: ROUTES.ADMIN_PAGE.BLOG_ADMIN,
         },
     ];
 

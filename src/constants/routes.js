@@ -5,6 +5,7 @@ const ROUTES = {
 
     ADMIN_PAGE: {
         ADMIN_HOME: "/admin",
+        BLOG_ADMIN: "/admin/blog",
         ACCOUNT_ADMIN: "/admin/account",
         SITTER_ADMIN: "/admin/sitter",
         PET_ADMIN: "/admin/pet",
