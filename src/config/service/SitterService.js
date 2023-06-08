@@ -36,6 +36,22 @@ const viewDetailRequest = async (id) => {
     return await HandleApi.APIGetWithToken(`requests/detail/${id}`);
 };
 
+const acceptRequest = async (id) => {
+    return await HandleApi.APIGetWithToken(`requests/accept/${id}`);
+};
+
+const declineRequest = async (id) => {
+    return await HandleApi.APIGetWithToken(`requests/decline/${id}`);
+};
+
+const doneRequest = async (id) => {
+    return await HandleApi.APIGetWithToken(`requests/done/${id}`);
+};
+
+const getSchedules = async (id) => {
+    return await HandleApi.APIGetWithToken(`requests/schedules/${id}`);
+};
+
 const SitterService = {
     getServiceFromSitter,
     getAllServices,
@@ -46,6 +62,10 @@ const SitterService = {
     getSitterIdByUserId,
     getAllRequestBySitter,
     viewDetailRequest,
+    acceptRequest,
+    declineRequest,
+    doneRequest,
+    getSchedules,
 };
 
 export default SitterService;
