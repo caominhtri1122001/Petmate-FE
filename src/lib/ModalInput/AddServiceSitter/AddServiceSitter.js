@@ -46,7 +46,7 @@ const AddServiceSitter = (props) => {
     };
 
     const FormService = (
-        <div className="form-admin-content">
+        <div className="form-add-service-sitter">
             <h1>Adding new service.</h1>
             <label
                 className={

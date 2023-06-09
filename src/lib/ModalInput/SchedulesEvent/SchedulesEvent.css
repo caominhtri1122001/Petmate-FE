@@ -1,7 +1,7 @@
 @import "../../../assets/css/variables.css";
 @import "../../../assets/css/custom.css";
 
-.add-account-form {
+.schedules-form {
   background: #fff;
   border-radius: 8px;
   padding: 30px;
@@ -198,19 +198,4 @@
 
 .avatar-teacher label.choose-file:hover {
   background-color: var(--primary-hover-color);
-}
-
-.type-input-container .input-content-description {
-    height: 200px;
-    width: 83%;
-}
-
-.type-input-container  {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 20px;
-}
-
-.type-input .input-content-msg {
-  height: 120px;
 }

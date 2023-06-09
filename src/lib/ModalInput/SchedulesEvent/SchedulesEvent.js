@@ -46,7 +46,7 @@ const SchedulesEvent = (props) => {
         </div>
     );
 
-    return <div className="add-account-form">{FormDetail}</div>;
+    return <div className="schedules-form">{FormDetail}</div>;
 };
 
 export default SchedulesEvent;
