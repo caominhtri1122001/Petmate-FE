@@ -1,25 +1,25 @@
 .write {
     padding-top: 50px;
 }
-  
+
 .writeImg {
     width: 70vw;
     height: 250px;
     border-radius: 10px;
     object-fit: cover;
 }
-  
+
 .writeForm {
     position: relative;
 }
-  
+
 .writeFormGroup {
     display: flex;
     align-items: center;
     justify-content: center;
     justify-items: center;
 }
-  
+
 .writeIcon {
     width: 50px;
     height: 50px;
@@ -32,32 +32,50 @@
     justify-content: center;
     cursor: pointer;
 }
-  
+
 .writeInput {
     margin-top: 20px;
-    font-size: 40px;
+    font-size: 30px;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    padding: 20px;
+    width: 66vw;
+    margin-bottom: 10px;
+}
+
+.writeTag {
+    margin-top: 20px;
+    font-size: 20px;
     border: 2px solid #000000;
     border-radius: 10px;
     padding: 20px;
     width: 70vw;
+    margin-bottom: 10px;
+    text-align: left;
 }
-  
+
 .writeInput::placeholder {
     color: rgb(189, 185, 185);
     font-weight: 400;
 }
-  
+
 .writeInput:focus {
     outline-style: none;
 }
-  
+
 .writeText {
     width: 80vw;
     height: 80vh;
     font-family: inherit;
     font-size: 20px;
 }
-  
+
+.ck {
+    font-size: 40px;
+    width: 70vw;
+    height: 70vh;
+}
+
 .writeSubmit {
     position: absolute;
     top: 20px;
@@ -83,4 +101,39 @@
     font-size: 30px;
     cursor: pointer;
     align-items: center;
+}
+
+.tag-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* align-items: center; */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 8px;
+}
+
+.tag {
+    display: flex;
+    /* align-items: center; */
+    margin-right: 10px;
+    margin-bottom: 8px;
+    padding: 4px 8px;
+    background-color: #ddd;
+    border-radius: 16px;
+    font-size: 20px;
+}
+
+.remove-tag {
+    margin-left: 8px;
+    border: none;
+    background-color: transparent;
+    color: #333;
+    font-size: 12px;
+    cursor: pointer;
 }

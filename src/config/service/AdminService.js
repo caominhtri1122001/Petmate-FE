@@ -28,6 +28,14 @@ const updateServiceById = async (id, params) => {
     return await HandleApi.APIPatchWithTokenIMG(`services/${id}`, params);
 };
 
+const createBlog = async (params) => {
+    return await HandleApi.APIPostWithTokenIMG(`posts`, params);
+};
+
+const uploadImg = async (params) => {
+    return await HandleApi.APIPostWithTokenIMG(`firebase`, params);
+};
+
 const AdminService = {
     getSitterRequests,
     acceptSitterRequest,
@@ -36,6 +44,8 @@ const AdminService = {
     createService,
     getServiceById,
     updateServiceById,
+    createBlog,
+    uploadImg,
 };
 
 export default AdminService;
