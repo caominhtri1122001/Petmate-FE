@@ -137,3 +137,12 @@
     font-size: 12px;
     cursor: pointer;
 }
+
+.jodit-react-container {
+    width: 70vw;
+    height: 85vh;
+}
+
+.jodit-react-container .jodit-workplace {
+    min-height: 70vh !important;
+}
