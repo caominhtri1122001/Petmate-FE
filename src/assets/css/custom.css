@@ -93,6 +93,10 @@ input::placeholder {
   text-align: center;
 }
 
+.replyBtn {
+  display: none;
+}
+
 .hidden {
   display: none;
 }
