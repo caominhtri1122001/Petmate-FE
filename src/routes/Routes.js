@@ -14,6 +14,7 @@ import SitterAdmin from "../page/ComponentAdmin/SitterAdmin/SitterAdmin";
 import PetAdmin from "../page/ComponentAdmin/PetAdmin/PetAdmin";
 import ServiceAdmin from "../page/ComponentAdmin/ServiceAdmin/ServiceAdmin";
 import BlogAdmin from "../page/ComponentAdmin/BlogAdmin/BlogAdmin";
+import UpdateBlogAdmin from "../page/ComponentAdmin/UpdateBlogAdmin/UpdateBlogAdmin";
 
 //Customer
 import CustomerRoute from "./CustomerRoute/CustomerRoute";
@@ -32,6 +33,7 @@ import ScheduleSitter from "../page/ComponentStaff/ScheduleSitter/ScheduleSitter
 //Blog
 import Blog from "../page/Blog/Blog";
 import BlogRoute from "./BlogRoute/BlogRoute";
+import ManageBlogAdmin from "../page/ComponentAdmin/ManageBlogAdmin/ManageBlogAdmin";
 const Routes = () => {
     return (
         <Router>
@@ -69,10 +71,20 @@ const Routes = () => {
                         exact
                         path={ROUTES.ADMIN_PAGE.SERVICE_ADMIN}
                     />
+                    <AdminRoute
+                        component={ManageBlogAdmin}
+                        exact
+                        path={ROUTES.ADMIN_PAGE.MANAGE_BLOG_ADMIN}
+                    />
                     <BlogRoute
                         component={BlogAdmin}
                         exact
                         path={ROUTES.ADMIN_PAGE.BLOG_ADMIN}
+                    />
+                    <BlogRoute
+                        component={UpdateBlogAdmin}
+                        exact
+                        path={ROUTES.ADMIN_PAGE.BLOG_UPDATE_ADMIN}
                     />
                     {/* Customer Route */}
                     <CustomerRoute
@@ -132,6 +144,10 @@ const Routes = () => {
                     <PublicRoute
                         component={NotFound}
                         path={ROUTES.NOT_FOUND_PAGE.path}
+                    />
+                    <PublicRoute
+                        component={NotFound}
+                        path={ROUTES.NOT_FOUND_PAGE.NOT_FOUND}
                     />
                 </Switch>
             </MainLayout>

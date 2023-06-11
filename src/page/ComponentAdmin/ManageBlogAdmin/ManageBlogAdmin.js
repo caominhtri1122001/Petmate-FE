@@ -1,4 +1,4 @@
-import "./ServiceAdmin.css";
+import "./ManageBlogAdmin.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect, useRef } from "react";
 import {
@@ -22,43 +22,43 @@ import AddService from "../../../lib/ModalInput/AddService/AddService";
 import UpdateService from "../../../lib/ModalInput/UpdateService/UpdateService";
 
 
-function ServiceAdmin() {
+function ManageBlogAdmin(props) {
     const [keyword, setKeyword] = useState("");
-    const [services, setServices] = useState([]);
+    const [blogs, setBlogs] = useState([]);
     const [state, setState] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [id, setId] = useState("");
-    const [role, setRole] = useState("");
-    const [updateState, setUpdateState] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
-    const [isReset, setIsReset] = useState(false);
-    const [addState, setAddState] = useState(false);
 
     useEffect(() => {
-        getServices();
+        getBlogs();
     }, [state]);
 
-    const getServices = () => {
+    const getBlogs = () => {
         setIsLoading(true);
-        AdminService.getAllService()
+        AdminService.getAllBlog()
             .then((response) => {
                 const dataSources = response.map(
                     (item, index) => {
                         return {
                             key: index + 1,
-                            id: item.id,
-                            name: item.name,
+                            id: item.postId,
+                            title: item.title,
+                            authorId: item.userId,
+                            authorFullName: item.name,
+                            authorEmail: item.email,
+                            authorPhone: item.phone,
                         };
                     }
                 );
 
                 const dataSourcesSorted = [...dataSources].sort((a, b) =>
-                    a.key > b.key ? 1 : -1
+                    a.title > b.title ? 1 : -1
                 );
 
-                setServices(dataSourcesSorted);
+                setBlogs(dataSourcesSorted);
                 setIsLoading(false);
             })
             .catch((error) => {
@@ -66,66 +66,20 @@ function ServiceAdmin() {
             });
     };
 
-    const handleInputCustom = () => {
-        setAddState(false);
-        setUpdateState(false);
-        setErrorServer(false);
-        setErrorMessage("");
-    };
-
-    const handleConfirmUpdateService = (allValue) => {
-        var formData = new FormData();
-        formData.append("name", allValue.name);
-
-        AdminService.updateServiceById(id, formData)
-            .then((res) => {
-                if (res == true) {
-                    setState(!state);
-                    setErrorServer(false);
-                    setErrorMessage("");
-                    setUpdateState(false);
-                } else {
-                    setErrorServer(true);
-                    setErrorMessage(res.message);
-                    setUpdateState(true);
-                }
-            })
-            .catch((error) => console.log("error", error));
-
-    };
-
-    //Componet Update Account
-    const DivUpdateService = (
-        <ModalInput
-            show={updateState}
-            handleInputCustom={handleInputCustom}
-            content={
-                <UpdateService
-                    id={id}
-                    handleInputCustom={handleInputCustom}
-                    handleConfirmUpdateService={handleConfirmUpdateService}
-                    errorServer={errorServer}
-                    // dropValue={dropValue}
-                    errorMessage={errorMessage}
-                />
-            }
-        />
-    );
-
-    function PaginatedItems({ itemsPerPage, searchService }) {
+    function PaginatedItems({ itemsPerPage, searchBlog }) {
         const [itemOffset, setItemOffset] = useState(0);
         const endOffset = itemOffset + itemsPerPage;
-        const currentItems = searchService.slice(itemOffset, endOffset);
-        const pageCount = Math.ceil(searchService.length / itemsPerPage);
+        const currentItems = searchBlog.slice(itemOffset, endOffset);
+        const pageCount = Math.ceil(searchBlog.length / itemsPerPage);
         const handlePageClick = (event) => {
             const newOffset =
-                (event.selected * itemsPerPage) % searchService.length;
+                (event.selected * itemsPerPage) % searchBlog.length;
             setItemOffset(newOffset);
         };
         return (
             <>
                 <div className="table-content">
-                    <TableServices services={currentItems} />
+                    <TableBlogs blogs={currentItems} />
                 </div>
                 <footer>
                     <hr></hr>
@@ -153,24 +107,36 @@ function ServiceAdmin() {
             </>
         );
     };
-    
+
     //Handle Search
-    const searchService = (services) => {
-        return services.filter(
-            (service) =>
-                service.name
+    const searchBlog = (blogs) => {
+        return blogs.filter(
+            (blog) =>
+                blog.title
                     .toLowerCase()
-                    .includes(keyword.toLowerCase())
+                    .includes(keyword.toLowerCase()) ||
+                blog.authorFullName
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                blog.authorEmail
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                blog.authorPhone
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase())   
         );
     };
 
-    const TableServices = ({ services }) => {
-        const serviceItem = services.map((item) => (
-            <tr data-key={item.id} key={item.id} >
-                <td>{item.key}</td>
-                <td>{item.name}</td>
+    const TableBlogs = ({ blogs }) => {
+        const blogItem = blogs.map((item) => (
+            <tr data-key={item.id} key={item.key} >
+                <td>{item.title}</td>
+                <td>{item.authorFullName}</td>
+                <td>{item.authorEmail}</td>
+                <td>{item.authorPhone}</td>
                 <td onClick={click}>
                     <FontAwesomeIcon className="icon fa-regular fa-pen-to-square btn-edit" icon={faPen} />
+                    <FontAwesomeIcon className="icon fa-regular fa-trash-can btn-delete" icon={faTrash} />
                 </td>
             </tr>
         ));
@@ -178,25 +144,31 @@ function ServiceAdmin() {
         function click(e) {
             if (e.target.tagName === 'path') {
                 const id = e.target.parentElement.parentElement.parentElement.getAttribute("data-key");
-                setUpdateState(true);
-                setId(id);
+                if (e.target.parentElement.className.baseVal.includes("btn-delete")) {
+                    setIsDelete(true);
+                    setId(id);
+                } else if (e.target.parentElement.className.baseVal.includes("btn-edit")) {
+                    props.history.push("/admin/blog/" + id);
+                }
             }
         }
 
-        let headerService;
+        let headerBlog;
 
-        headerService = (
+        headerBlog = (
             <tr>
-                <th>Index</th>
-                <th>Name</th>
+                <th>Title</th>
+                <th>Author Name</th>
+                <th>Author Email</th>
+                <th>Author Phone</th>
                 <th>Action</th>
             </tr>
         );
 
         return (
             <table id="table">
-                <thead>{headerService}</thead>
-                <tbody>{serviceItem}</tbody>
+                <thead>{headerBlog}</thead>
+                <tbody>{blogItem}</tbody>
             </table>
         );
     };
@@ -205,57 +177,46 @@ function ServiceAdmin() {
         setKeyword(e.target.value);
     };
 
-    const handleConfirmAddService = (allValue) => {
-        var formData = {
-            name: allValue.name,
-        };
-        AdminService.createService(formData)
-            .then((res) => {
-                if (res.id) {
-                    setState(!state);
-                    setErrorServer(false);
-                    setErrorMessage("");
-                    setAddState(false);
-                } else {
-                    setErrorServer(true);
-                    setErrorMessage(res.message);
-                    setUpdateState(true);
-                }
-            })
-            .catch((error) => console.log("error", error));
+    const handleAddBlog = (e) => {
+        props.history.push("/admin/blog");
     };
 
-    // Component Add Service (Form)
-    const DivAddServiceAccount = (
-        <ModalInput
-            show={addState}
-            handleInputCustom={handleInputCustom}
+    const handleCloseModalCustom = () => {
+        setIsDelete(false);
+    };
+
+    const handleDelete = () => {
+        AdminService.deleteBlog(id).then((res) => {
+            if (res == true) {
+                setState(!state);
+                setIsDelete(false);
+            }
+        });
+    };
+
+    const ConfirmDelete = (
+        <ModalCustom
+            show={isDelete}
             content={
-                <AddService
-                    handleInputCustom={handleInputCustom}
-                    handleConfirmAddService={handleConfirmAddService}
-                    errorServer={errorServer}
-                    errorMessage={errorMessage}
+                <ConfirmAlert
+                    handleCloseModalCustom={handleCloseModalCustom}
+                    handleDelete={handleDelete}
+                    title={`Do you want to delete account`}
                 />
             }
+            handleCloseModalCustom={handleCloseModalCustom}
         />
     );
-
-    const handleAddService = () => {
-        setAddState(true);
-        setErrorServer(false);
-        setErrorMessage("");
-    };
 
     return (
         <div className="main-container">
             <header>
                 <div>
-                    <h3>Manage Service</h3>
+                    <h3>Manage Blog</h3>
                 </div>
                 <div className="right-header">
-                    <button className="btn-account" onClick={handleAddService}>
-                        Add Service Account
+                    <button className="btn-account" onClick={handleAddBlog}>
+                        Add Blog Account
                     </button>
                     <div className="search-box">
                         <button className="btn-search">
@@ -274,19 +235,15 @@ function ServiceAdmin() {
                     </div>
                 </div>
             </header>
-            {/* <div className="table-content"> */}
 
             <PaginatedItems
                 itemsPerPage={6}
-                searchService={searchService(services)}
+                searchBlog={searchBlog(blogs)}
             />
-            {/* {isDelete ? ConfirmDelete : null} */}
-            {/* {isReset ? ConfirmReset : null} */}
-            {addState ? DivAddServiceAccount : null}
-            {updateState ? DivUpdateService : null}
+            {isDelete ? ConfirmDelete : null}
             <Loading isLoading={isLoading} />
         </div>
     );
 }
 
-export default ServiceAdmin;
+export default ManageBlogAdmin;

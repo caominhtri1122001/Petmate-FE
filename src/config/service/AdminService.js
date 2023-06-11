@@ -32,6 +32,26 @@ const createBlog = async (params) => {
     return await HandleApi.APIPostWithTokenIMG(`posts`, params);
 };
 
+const updateBlog = async (id, params) => {
+    return await HandleApi.APIPatchWithTokenIMG(`posts/${id}`, params);
+};
+
+const getAllBlog = async () => {
+    return await HandleApi.APIGetWithToken(`posts`);
+};
+
+const getBlogById = async (id) => {
+    return await HandleApi.APIGetWithToken(`posts/${id}`);
+};
+
+const getAllTagsOfBlog = async (id) => {
+    return await HandleApi.APIGetWithToken(`categories/getAllTagsOfPost?postId=${id}`);
+};
+
+const deleteBlog = async (id) => {
+    return await HandleApi.APIDelete(`posts/${id}`);
+};
+
 const uploadImg = async (params) => {
     return await HandleApi.APIPostWithTokenIMG(`firebase`, params);
 };
@@ -45,6 +65,11 @@ const AdminService = {
     getServiceById,
     updateServiceById,
     createBlog,
+    updateBlog,
+    getAllBlog,
+    getBlogById,
+    getAllTagsOfBlog,
+    deleteBlog,
     uploadImg,
 };
 
