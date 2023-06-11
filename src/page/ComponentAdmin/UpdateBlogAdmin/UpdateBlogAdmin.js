@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
-import "./BlogAdmin.css";
+import React, { useState, useRef, useEffect } from "react";
+import "./UpdateBlogAdmin.css";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import AdminService from "../../../config/service/AdminService";
 import JoditEditor from "jodit-react";
 
-const BlogAdmin = (props) => {
+const UpdateBlogAdmin = (props) => {
     const coverImageUrl = "http://myfbcovers.com/uploads/covers/2011/11/08/9d070f30ec42012e1d507f93b3e77c75/watermarked_cover.png";
     const [content, setContent] = useState("");
     const [coverImage, setCoverImage] = useState(coverImageUrl);
@@ -14,6 +14,7 @@ const BlogAdmin = (props) => {
     const [tags, setTags] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [title, setTitle] = useState('');
+    const [id, setId] = useState('');
     const editor = useRef(null);
     const [errorServer, setErrorServer] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -25,6 +26,24 @@ const BlogAdmin = (props) => {
         content: "",
         fileImage: "",
     });
+
+    //fetch data
+    useEffect(() => {
+        const id = props.match.params.id;
+        setId(id);
+        AdminService.getBlogById(id).then(
+            (res) => {
+                if (res.postId) {
+                    setTitle(res.title);
+                    setContent(res.content);
+                    setCoverImage(res.image);
+                    setTags(res.tags)
+                } else {
+                    props.history.push("/not-found");
+                }
+            }
+        );
+    }, []);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter' && inputValue) {
@@ -57,8 +76,9 @@ const BlogAdmin = (props) => {
         let fileImageError = false;
         let check = false;
 
-        if (!title || title.length > 70) {
+        if (!title) {
             titleError = true;
+            check = true;
         }
 
         const parser = new DOMParser();
@@ -79,10 +99,12 @@ const BlogAdmin = (props) => {
 
         if (!containsImage && !containsContent) {
             contentError = true;
+            check = true;
         }
 
         if (tags.length == 0 || tags.length > 5) {
             tagsError = true;
+            check = true;
         }
 
         if (!!fileImage) {
@@ -102,7 +124,6 @@ const BlogAdmin = (props) => {
             fileImage: fileImageError,
             content: contentError,
         })
-        console.log(blogError);
 
         if (!check) {
             var formData = new FormData();
@@ -113,16 +134,10 @@ const BlogAdmin = (props) => {
             if (fileImage !== '') {
                 formData.append("image", fileImage);
             }
-            AdminService.createBlog(formData)
+            AdminService.updateBlog(id ,formData)
                 .then((res) => {
-                    if (res.title) {
-                        setCoverImage(coverImageUrl);
-                        setTitle('');
-                        setContent('');
-                        setTags([]);
-                        setFileImage('');
-                        setErrorServer(false);
-                        setErrorMessage("");
+                    if (res == true) {
+                        props.history.push("/admin/manage-blog");
                     } else {
                         setErrorServer(true);
                         setErrorMessage(res.message);
@@ -144,7 +159,7 @@ const BlogAdmin = (props) => {
     return (
         <div className="write">
             {/* <div dangerouslySetInnerHTML={{ __html: contentted }} /> */}
-            <h1>Create new blog</h1>
+            <h1>Update blog</h1>
             <button onClick={() => props.history.push("/admin/manage-blog")}>
                 Return to manage blogs
             </button>
@@ -174,7 +189,7 @@ const BlogAdmin = (props) => {
                         : " error-hidden")
                 }
             >
-                Please input title and max character is 70
+                Please input title
             </label>
             <label
                 className={
@@ -261,10 +276,10 @@ const BlogAdmin = (props) => {
 
             </div>
             <button onClick={handleSubmit} type="submit" className="submit-button">
-                Publish
+                Update Blog
             </button>
         </div>
     );
 };
 
-export default BlogAdmin;
+export default UpdateBlogAdmin;

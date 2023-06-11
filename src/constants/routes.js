@@ -6,6 +6,8 @@ const ROUTES = {
     ADMIN_PAGE: {
         ADMIN_HOME: "/admin",
         BLOG_ADMIN: "/admin/blog",
+        BLOG_UPDATE_ADMIN: "/admin/blog/:id",
+        MANAGE_BLOG_ADMIN: "/admin/manage-blog",
         ACCOUNT_ADMIN: "/admin/account",
         SITTER_ADMIN: "/admin/sitter",
         PET_ADMIN: "/admin/pet",
@@ -32,6 +34,7 @@ const ROUTES = {
 
     NOT_FOUND_PAGE: {
         path: "*",
+        NOT_FOUND: '/not-found'
     },
 };
 
