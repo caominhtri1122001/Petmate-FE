@@ -30,6 +30,7 @@ const ROUTES = {
 
     BLOG_PAGE: {
         HOME_PATH: "/blog",
+        DETAIL_BLOG: "/detail/:id",
     },
 
     NOT_FOUND_PAGE: {

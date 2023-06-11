@@ -15,6 +15,7 @@ import PetAdmin from "../page/ComponentAdmin/PetAdmin/PetAdmin";
 import ServiceAdmin from "../page/ComponentAdmin/ServiceAdmin/ServiceAdmin";
 import BlogAdmin from "../page/ComponentAdmin/BlogAdmin/BlogAdmin";
 import UpdateBlogAdmin from "../page/ComponentAdmin/UpdateBlogAdmin/UpdateBlogAdmin";
+import ManageBlogAdmin from "../page/ComponentAdmin/ManageBlogAdmin/ManageBlogAdmin";
 
 //Customer
 import CustomerRoute from "./CustomerRoute/CustomerRoute";
@@ -33,7 +34,8 @@ import ScheduleSitter from "../page/ComponentStaff/ScheduleSitter/ScheduleSitter
 //Blog
 import Blog from "../page/Blog/Blog";
 import BlogRoute from "./BlogRoute/BlogRoute";
-import ManageBlogAdmin from "../page/ComponentAdmin/ManageBlogAdmin/ManageBlogAdmin";
+import DetailBlog from "../page/Blog/DetailBlog/DetailBlog";
+
 const Routes = () => {
     return (
         <Router>
@@ -137,7 +139,12 @@ const Routes = () => {
                     {/* Blog  */}
                     <PublicRoute
                         component={Blog}
+                        exact
                         path={ROUTES.BLOG_PAGE.HOME_PATH}
+                    />
+                    <PublicRoute
+                        component={DetailBlog}
+                        path={ROUTES.BLOG_PAGE.DETAIL_BLOG}
                     />
 
                     {/* Others - Must be the last */}
