@@ -11,9 +11,12 @@ import {
 import "./DetailBlog.css";
 import BlogService from "../../../config/service/BlogService";
 import Logo from "../../../assets/images/Logo.png";
+import AuthenticationService from "../../../config/service/AuthenticationService";
+import Login from "../../../common/Login/Login";
 
 const DetailBlog = (props) => {
     const { id } = props.match.params;
+    const [state, setState] = useState(false);
     const [blogInfo, setBlogInfo] = useState({
         postId: "",
         title: "",
@@ -32,11 +35,15 @@ const DetailBlog = (props) => {
         phone: "",
     });
     const [tags, setTags] = useState([]);
+    const [text, setText] = useState("");
+    const [parentCommentId, setParentCommentId] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [isLogin, setIsLogin] = useState(AuthenticationService.isLogin);
+    const [isShowLogin, setIsShowLogin] = useState(false);
 
     useEffect(() => {
         BlogService.getBlogById(id).then((res) => {
             if (res.postId) {
-                console.log(res);
                 setBlogInfo({
                     postId: res.postId,
                     title: res.title,
@@ -57,7 +64,66 @@ const DetailBlog = (props) => {
                 setTags(res.tags);
             }
         });
-    }, []);
+        BlogService.getAllComment(id).then((res) => {
+            const dataSources = res.map((item, index) => {
+                return {
+                    key: index + 1,
+                    commentId: item.commentId,
+                    postId: item.postId,
+                    userId: item.userId,
+                    name: item.name,
+                    avatar: item.avatar === null ? Logo : item.avatar,
+                    content: item.content,
+                    parentCommentId: item.commentId,
+                    createdAt: item.createdAt.split("T")[0],
+                };
+            });
+            console.log(dataSources);
+            setComments(dataSources);
+        });
+    }, [state]);
+
+    const HandleCloseLogin = () => {
+        setIsShowLogin(false);
+    };
+
+    const HandleLoginSuccess = () => {
+        setIsLogin(true);
+    };
+
+    const ViewLogin = (
+        <Login
+            show={isShowLogin}
+            HandleCloseLogin={HandleCloseLogin}
+            HandleLoginSuccess={HandleLoginSuccess}
+        />
+    );
+
+    const handleComment = (e) => {
+        e.preventDefault();
+        if (!isLogin) {
+            setIsShowLogin(true);
+        } else {
+            setIsShowLogin(false);
+            console.log(
+                JSON.parse(localStorage.getItem("@Login")).userId +
+                    id +
+                    text +
+                    parentCommentId
+            );
+            BlogService.createComment({
+                userId: JSON.parse(localStorage.getItem("@Login")).userId,
+                postId: id,
+                content: text,
+                commentId: parentCommentId,
+            }).then((res) => {
+                console.log(res);
+                if (res) {
+                    setState(!state);
+                }
+            });
+        }
+    };
 
     return (
         <div>
@@ -69,7 +135,9 @@ const DetailBlog = (props) => {
                 <div className="row">
                     <div className="leftcolumn">
                         <div className="card">
-                            <h1>{blogInfo.title}</h1>
+                            <h1 style={{ fontWeight: "bold" }}>
+                                {blogInfo.title}
+                            </h1>
                             <div className="blog-info">
                                 <h4>Posted at: {blogInfo.createdAt}</h4>
                                 <div className="blog-view">
@@ -94,6 +162,7 @@ const DetailBlog = (props) => {
                                 style={{
                                     height: 400,
                                     width: "100%",
+                                    borderRadius: 20,
                                 }}
                             />
                             <div
@@ -144,7 +213,57 @@ const DetailBlog = (props) => {
                     </div>
                 </div>
             </div>
+            <div className="comments">
+                <h3 className="comments-title">Comments</h3>
+                <div className="comment-form-title">Write comment</div>
+                <form onSubmit={handleComment}>
+                    <textarea
+                        className="comment-form-textarea"
+                        placeholder="Tell me what you think"
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                    />
+                    <button
+                        style={{
+                            display: "flex",
+                            padding: "10px 30px",
+                            marginLeft: 200,
+                        }}
+                        className="comment-form-button"
+                    >
+                        Send
+                    </button>
+                </form>
+                <div className="comments-container">
+                    {comments.map((item) => {
+                        return (
+                            <div className="comment">
+                                <div className="comment-image-container">
+                                    <img src={item.avatar} alt="avatar" />
+                                </div>
+                                <div className="comment-right-part">
+                                    <div className="comment-content">
+                                        <div className="comment-author">
+                                            {item.name}
+                                        </div>
+                                        <span>{item.createdAt}</span>
+                                    </div>
+                                    <div className="comment-text">
+                                        {item.content}
+                                    </div>
+                                    <div className="comment-actions">
+                                        <div className="comment-action">
+                                            Reply
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
             <Footer />
+            <div>{isShowLogin ? ViewLogin : null}</div>
         </div>
     );
 };

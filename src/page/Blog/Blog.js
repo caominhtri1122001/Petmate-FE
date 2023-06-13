@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const Blog = () => {
     const [tags, setTags] = useState([]);
     const [blogs, setBlogs] = useState([]);
+    const [selectedTag, setSelectedTag] = useState("All");
     const history = useHistory();
 
     useEffect(() => {
@@ -18,7 +19,8 @@ const Blog = () => {
                 return {
                     key: index + 1,
                     tagId: item.tagId,
-                    name: item.name,
+                    name:
+                        item.name.charAt(0).toUpperCase() + item.name.slice(1),
                 };
             });
             setTags(dataSources);
@@ -39,7 +41,7 @@ const Blog = () => {
                     likes: item.likes,
                     userId: item.userId,
                     mail: item.mail,
-                    phone: item.phơne,
+                    phone: item.phone,
                 };
             });
             setBlogs(dataSources);
@@ -65,6 +67,16 @@ const Blog = () => {
         history.push(`/detail/${id}`);
     };
 
+    const handleClickTag = (e) => {
+        console.log(e.target.textContent);
+        setSelectedTag(e.target.textContent);
+    };
+
+    const filteredBlogs =
+        selectedTag === "All"
+            ? blogs
+            : blogs.filter((blog) => blog.tags.includes(selectedTag));
+
     return (
         <div className="tm-page-wrap mx-auto">
             <div className="position-relative">
@@ -88,26 +100,59 @@ const Blog = () => {
                         <div className="row">
                             <div className="col-12">
                                 <h2 className="tm-page-title mb-4">
-                                    Our Video Catalog
+                                    Our Blog Catalog
                                 </h2>
                                 <div className="tm-categories-container mb-5">
                                     <h3 className="tm-text-primary tm-categories-text">
-                                        Categories:
+                                        List tags:
                                     </h3>
                                     <ul className="nav tm-category-list">
+                                        <h2>List tags : </h2>
+                                        <div
+                                            className="nav-item tm-category-item"
+                                            key={0}
+                                        >
+                                            <span
+                                                style={{
+                                                    padding: "5px 10px",
+                                                    borderRadius: 20,
+                                                    backgroundColor: "#12a1ed",
+                                                    color: "#333",
+                                                    marginRight: 10,
+                                                    fontSize: 20,
+                                                    cursor: "pointer",
+                                                }}
+                                                href="#"
+                                                className="nav-link tm-category-link"
+                                                onClick={handleClickTag}
+                                            >
+                                                All
+                                            </span>
+                                        </div>
                                         {tags.map((item) => {
                                             return (
-                                                <li
+                                                <div
                                                     className="nav-item tm-category-item"
-                                                    key={item.key}
+                                                    key={item.key + 1}
                                                 >
-                                                    <a
+                                                    <span
+                                                        style={{
+                                                            padding: "5px 10px",
+                                                            borderRadius: 20,
+                                                            backgroundColor:
+                                                                "#12a1ed",
+                                                            color: "#333",
+                                                            marginRight: 10,
+                                                            fontSize: 20,
+                                                            cursor: "pointer",
+                                                        }}
                                                         href="#"
-                                                        className="nav-link tm-category-link active"
+                                                        className="nav-link tm-category-link"
+                                                        onClick={handleClickTag}
                                                     >
                                                         {item.name}
-                                                    </a>
-                                                </li>
+                                                    </span>
+                                                </div>
                                             );
                                         })}
                                     </ul>
@@ -116,7 +161,7 @@ const Blog = () => {
                         </div>
 
                         <div className="row tm-catalog-item-list">
-                            {blogs.map((item) => {
+                            {filteredBlogs.map((item) => {
                                 return (
                                     <div
                                         className="col-lg-4 col-md-6 col-sm-12 tm-catalog-item"
@@ -129,6 +174,9 @@ const Blog = () => {
                                                 style={{
                                                     width: 610,
                                                     height: 380,
+                                                    cursor: "pointer",
+                                                    borderRadius: 20,
+                                                    border: "8px solid var(--primary-color)",
                                                 }}
                                                 alt="pet"
                                                 className="img-fluid tm-catalog-item-img"
@@ -137,16 +185,20 @@ const Blog = () => {
                                         </div>
                                         <div className="p-4 tm-bg-gray tm-catalog-item-description">
                                             <h3
-                                                className="tm-text-primary mb-3 tm-catalog-item-title"
+                                                className="tm-text-primary mb-3 tm-catalog-item-title blog-title"
                                                 onClick={handleClickTitle}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    color: "var(--primary-color)",
+                                                }}
                                             >
                                                 {item.title}
                                             </h3>
-                                            <div
+                                            {/* <div
                                                 dangerouslySetInnerHTML={{
                                                     __html: item.content,
                                                 }}
-                                            ></div>
+                                            ></div> */}
                                         </div>
                                     </div>
                                 );
