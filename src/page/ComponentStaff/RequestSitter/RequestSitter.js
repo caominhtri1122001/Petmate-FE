@@ -11,14 +11,17 @@ import {
     faClipboardCheck,
     faBan,
     faHeart,
+    faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import ViewPet from "../../../lib/ModalInput/ViewPet/ViewPet";
 import ViewDetailRequest from "../../../lib/ModalInput/ViewDetailRequest/ViewDetailRequest";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
+import ReactPaginate from "react-paginate";
 
 const RequestSitter = () => {
+    const [keyword, setKeyword] = useState("");
     const [state, setState] = useState(false);
     const [requests, setRequests] = useState([]);
     const [sitterId, setSitterId] = useState("");
@@ -315,19 +318,108 @@ const RequestSitter = () => {
         />
     );
 
+    function PaginatedItems({ itemsPerPage, searchRequest }) {
+        const [itemOffset, setItemOffset] = useState(0);
+        const endOffset = itemOffset + itemsPerPage;
+        const currentItems = searchRequest.slice(itemOffset, endOffset);
+        const pageCount = Math.ceil(searchRequest.length / itemsPerPage);
+        const handlePageClick = (event) => {
+            const newOffset =
+                (event.selected * itemsPerPage) % searchRequest.length;
+            setItemOffset(newOffset);
+        };
+        return (
+            <>
+                <div className="table-content">
+                    <TableRequests requests={currentItems} />
+                </div>
+                <footer>
+                    <hr></hr>
+                    <ReactPaginate
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        breakLabel="..."
+                        breakClassName="page-item"
+                        breakLinkClassName="page-link"
+                        pageCount={pageCount}
+                        pageRangeDisplayed={4}
+                        marginPagesDisplayed={2}
+                        onPageChange={handlePageClick}
+                        containerClassName="pagination justify-content-center"
+                        pageClassName="page-item mr-2 ml-2"
+                        pageLinkClassName="page-link"
+                        previousClassName="previous-btn page-item"
+                        previousLinkClassName="page-link"
+                        nextClassName="next-btn page-item"
+                        nextLinkClassName="page-link"
+                        activeClassName="active"
+                        hrefAllControls
+                    />
+                </footer>
+            </>
+        );
+    };
+
+    const searchRequest = (requests) => {
+        return requests.filter(
+            (request) =>
+                request.petName
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                request.serviceName.toLowerCase().includes(keyword.toLowerCase())
+                ||
+                request.servicePrice.toString().toLowerCase().includes(keyword.toLowerCase())
+                ||
+                request.status.toLowerCase().includes(keyword.toLowerCase())
+                ||
+                request.startDate.toLowerCase().includes(keyword.toLowerCase())
+                ||
+                request.endDate.toLowerCase().includes(keyword.toLowerCase())
+                ||
+                request.startTime.toLowerCase().includes(keyword.toLowerCase())
+                ||
+                request.endTime.toLowerCase().includes(keyword.toLowerCase())
+                ||
+                request.customerName.toLowerCase().includes(keyword.toLowerCase())
+        );
+    };
+
+    const handleChangeSearch = (e) => {
+        setKeyword(e.target.value);
+    };
+
     return (
         <div>
-            <div className="div-container">
-                <div className="main-content">
-                    <div className="main-container">
+            <div className="div-container" style={{ height: "auto" }}>
+                <div className="main-content" style={{ height: "auto" }}>
+                    <div className="main-container" style={{ height: "auto" }}>
                         <header>
                             <div>
                                 <h3>Manage Requests</h3>
                             </div>
+                            <div className="search-box">
+                                <button className="btn-search">
+                                    <FontAwesomeIcon
+                                        className="icon-search"
+                                        icon={faMagnifyingGlass}
+                                    />
+                                </button>
+                                <input
+                                    onChange={handleChangeSearch}
+                                    className="input-search"
+                                    type="text"
+                                    placeholder="Search..."
+                                    value={keyword}
+                                ></input>
+                            </div>
                         </header>
-                        <div className="table-content">
+                        {/* <div className="table-content">
                             <TableRequests requests={requests} />
-                        </div>
+                        </div> */}
+                        <PaginatedItems
+                            itemsPerPage={6}
+                            searchRequest={searchRequest(requests)}
+                        />
                     </div>
                     <footer></footer>
                 </div>
