@@ -24,7 +24,7 @@ const ROUTES = {
     SITTER_PAGE: {
         SITTER_SERVICE_PAGE: "/sitter/service",
         SITTER_PROFILE_PAGE: "/sitter/profile",
-        SITTER_REQUEST: "/sitter/request,",
+        SITTER_REQUEST: "/sitter/request",
         SITTER_SCHEDULES: "/sitter/schedules",
     },
 

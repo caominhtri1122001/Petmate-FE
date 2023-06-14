@@ -251,11 +251,11 @@ const DetailBlog = (props) => {
                                     <div className="comment-text">
                                         {item.content}
                                     </div>
-                                    <div className="comment-actions">
+                                    {/* <div className="comment-actions">
                                         <div className="comment-action">
                                             Reply
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         );

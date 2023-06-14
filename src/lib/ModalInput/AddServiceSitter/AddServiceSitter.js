@@ -7,11 +7,13 @@ const AddServiceSitter = (props) => {
     const [allValuesService, setAllValuesService] = useState({
         name: "",
         price: "",
+        type: "",
         sitterId: props.sitterId,
     });
     const [serviceError, setServiceError] = useState({
         name: false,
         price: false,
+        type: "",
         sitterId: false,
     });
     const [services, setServices] = useState([]);
@@ -24,6 +26,7 @@ const AddServiceSitter = (props) => {
                     key: index + 1,
                     value: item.id,
                     label: item.name,
+                    type: item.serviceType,
                 };
             });
             setServices(dataSources);
@@ -42,6 +45,7 @@ const AddServiceSitter = (props) => {
         setAllValuesService({
             ...allValuesService,
             name: event.label,
+            type: event.type,
         });
     };
 
@@ -81,6 +85,15 @@ const AddServiceSitter = (props) => {
                         >
                             Invalid Service
                         </label>
+                    </div>
+                    <div className="type-input">
+                        <h4>Service Type</h4>
+                        <input
+                            className="input-content"
+                            type="text"
+                            value={allValuesService.type}
+                            readOnly
+                        />
                     </div>
                     <div className="type-input">
                         <h4>Price</h4>

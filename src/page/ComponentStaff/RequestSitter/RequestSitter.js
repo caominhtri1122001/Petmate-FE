@@ -250,6 +250,10 @@ const RequestSitter = () => {
         SitterService.acceptRequest(id).then((res) => {
             if (res) {
                 setState(!state);
+            } else {
+                alert(
+                    "The requested time conflicts with an existing requests."
+                );
             }
         });
         setIsAccept(false);
