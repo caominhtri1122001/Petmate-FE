@@ -6,6 +6,7 @@ import Footer from "../../common/Footer/Footer";
 import video from "../../assets/videos/petvideo.mp4";
 import BlogService from "../../config/service/BlogService";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import "./Blog.css";
 
 const Blog = () => {
     const [tags, setTags] = useState([]);
@@ -108,9 +109,9 @@ const Blog = () => {
                                         List tags:
                                     </h3>
                                     <ul className="nav tm-category-list">
-                                        <h2>List tags : </h2>
+                                        {/* <h2>List tags : </h2> */}
                                         <div
-                                            className="nav-item tm-category-item"
+                                            className="nav-item tm-category-item "
                                             key={0}
                                         >
                                             <span
@@ -185,7 +186,16 @@ const Blog = () => {
                                             />
                                         </div>
                                         <div className="p-4 tm-bg-gray tm-catalog-item-description">
-                                            <h3
+                                            <h3 className="tm-text-primary mb-3 tm-catalog-item-title"
+                                                onClick={handleClickTitle}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    color: "var(--primary-color)",
+                                                }}>
+                                                {item.title}
+
+                                            </h3>
+                                            {/* <h3
                                                 className="tm-text-primary mb-3 tm-catalog-item-title blog-title"
                                                 onClick={handleClickTitle}
                                                 style={{
@@ -194,7 +204,7 @@ const Blog = () => {
                                                 }}
                                             >
                                                 {item.title}
-                                            </h3>
+                                            </h3> */}
                                             {/* <div
                                                 dangerouslySetInnerHTML={{
                                                     __html: item.content,
