@@ -45,6 +45,7 @@ const ServiceSitter = () => {
                     key: index + 1,
                     id: item.id,
                     name: item.name,
+                    type: item.serviceType,
                     price: item.price,
                     disable: item.disable,
                 };
@@ -59,6 +60,7 @@ const ServiceSitter = () => {
                 <td>{item.key}</td>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
+                <td>{item.type}</td>
                 <td>
                     {item.disable ? (
                         <FontAwesomeIcon
@@ -132,6 +134,7 @@ const ServiceSitter = () => {
                 <th>Index</th>
                 <th>Name</th>
                 <th>Price ($)</th>
+                <th>Type</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -162,6 +165,7 @@ const ServiceSitter = () => {
         SitterService.createService({
             name: allValue.name,
             price: allValue.price,
+            serviceType: allValue.type,
             sitterId: allValue.sitterId,
         }).then((res) => {
             if (res === true) {

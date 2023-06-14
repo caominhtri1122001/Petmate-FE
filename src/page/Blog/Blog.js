@@ -69,14 +69,15 @@ const Blog = () => {
     };
 
     const handleClickTag = (e) => {
-        console.log(e.target.textContent);
         setSelectedTag(e.target.textContent);
     };
 
     const filteredBlogs =
-        selectedTag === "All"
+        selectedTag.toLowerCase() === "all"
             ? blogs
-            : blogs.filter((blog) => blog.tags.includes(selectedTag.toLowerCase()));
+            : blogs.filter((blog) =>
+                  blog.tags.includes(selectedTag.toLowerCase())
+              );
 
     return (
         <div className="tm-page-wrap mx-auto">
