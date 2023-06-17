@@ -23,6 +23,7 @@ import Customer from "../page/ComponentCustomer/Customer";
 import SitterCustomer from "../page/ComponentCustomer/SitterCustomer/SitterCustomer";
 import ServiceCustomer from "../page/ComponentCustomer/ServiceCustomer/ServiceCustomer";
 import RequestCustomer from "../page/ComponentCustomer/RequestCustomer/RequestCustomer";
+import AssistanceCustomer from "../page/ComponentCustomer/AssistanceCustomer/AssistanceCustomer";
 
 //Sitter
 import StaffRoute from "./StaffRoute/StaffRoute";
@@ -30,6 +31,7 @@ import Sitter from "../page/ComponentStaff/Sitter";
 import ServiceSitter from "../page/ComponentStaff/ServiceSitter/ServiceSitter";
 import RequestSitter from "../page/ComponentStaff/RequestSitter/RequestSitter";
 import ScheduleSitter from "../page/ComponentStaff/ScheduleSitter/ScheduleSitter";
+import AssistanceSitter from "../page/ComponentStaff/AssistanceSitter/AssistanceSitter";
 
 //Blog
 import Blog from "../page/Blog/Blog";
@@ -109,6 +111,11 @@ const Routes = () => {
                         exact
                         path={ROUTES.CUSTOMER_PAGE.CUSTOMER_REQUEST}
                     />
+                    <CustomerRoute
+                        component={AssistanceCustomer}
+                        exact
+                        path={ROUTES.CUSTOMER_PAGE.CUSTOMER_ASSISTANT}
+                    />
 
                     {/* Sitter */}
 
@@ -134,6 +141,11 @@ const Routes = () => {
                         component={ScheduleSitter}
                         exact
                         path={ROUTES.SITTER_PAGE.SITTER_SCHEDULES}
+                    />
+                    <StaffRoute
+                        component={AssistanceSitter}
+                        exact
+                        path={ROUTES.SITTER_PAGE.SITTER_ASSISTANT}
                     />
 
                     {/* Blog  */}

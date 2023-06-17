@@ -24,13 +24,18 @@ const getAllRequestByUser = async (id) => {
     return await HandleApi.APIGetWithToken(`requests/${id}`);
 };
 
+const chatBot = async (params) => {
+    return await HandleApi.APIPostWithToken(`openai`, params);
+};
+
 const CustomerService = {
     becomeSitter,
     getSitterAround,
     getSitterById,
     getServiceBySitter,
     contactSitter,
-    getAllRequestByUser
+    getAllRequestByUser,
+    chatBot,
 };
 
 export default CustomerService;

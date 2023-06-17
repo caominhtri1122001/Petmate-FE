@@ -19,6 +19,7 @@ const ROUTES = {
         CUSTOMER_PROFILE_PAGE: "/customer/profile",
         CUSTOMER_BECOME_SITTER_PAGE: "/customer/sitter",
         CUSTOMER_REQUEST: "/customer/request",
+        CUSTOMER_ASSISTANT: "/customer/chatbot",
     },
 
     SITTER_PAGE: {
@@ -26,6 +27,7 @@ const ROUTES = {
         SITTER_PROFILE_PAGE: "/sitter/profile",
         SITTER_REQUEST: "/sitter/request",
         SITTER_SCHEDULES: "/sitter/schedules",
+        SITTER_ASSISTANT: "/sitter/chatbot",
     },
 
     BLOG_PAGE: {
@@ -35,7 +37,7 @@ const ROUTES = {
 
     NOT_FOUND_PAGE: {
         path: "*",
-        NOT_FOUND: '/not-found'
+        NOT_FOUND: "/not-found",
     },
 };
 

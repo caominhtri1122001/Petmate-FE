@@ -60,6 +60,11 @@ function UserHeader() {
             label: "Request",
             link: ROUTES.CUSTOMER_PAGE.CUSTOMER_REQUEST,
         },
+        {
+            key: 6,
+            label: "Assistant",
+            link: ROUTES.CUSTOMER_PAGE.CUSTOMER_ASSISTANT,
+        },
     ];
 
     const optionsStaffs = [
@@ -83,6 +88,11 @@ function UserHeader() {
             key: 5,
             label: "Schedules",
             link: ROUTES.SITTER_PAGE.SITTER_SCHEDULES,
+        },
+        {
+            key: 6,
+            label: "Assistant",
+            link: ROUTES.SITTER_PAGE.SITTER_ASSISTANT,
         },
     ];
 

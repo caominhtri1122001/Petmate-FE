@@ -109,7 +109,7 @@ const Blog = () => {
                                         List tags:
                                     </h3>
                                     <ul className="nav tm-category-list">
-                                        {/* <h2>List tags : </h2> */}
+                                        <h2>List tags : </h2>
                                         <div
                                             className="nav-item tm-category-item "
                                             key={0}

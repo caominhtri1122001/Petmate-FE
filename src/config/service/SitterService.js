@@ -52,6 +52,10 @@ const getSchedules = async (id) => {
     return await HandleApi.APIGetWithToken(`requests/schedules/${id}`);
 };
 
+const chatBot = async (params) => {
+    return await HandleApi.APIPostWithToken(`openai`, params);
+};
+
 const SitterService = {
     getServiceFromSitter,
     getAllServices,
@@ -66,6 +70,7 @@ const SitterService = {
     declineRequest,
     doneRequest,
     getSchedules,
+    chatBot,
 };
 
 export default SitterService;
