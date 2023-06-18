@@ -4,11 +4,17 @@ import CustomerService from "../../../config/service/CustomerService";
 import Logo from "../../../assets/images/Logo.png";
 import ReactPaginate from "react-paginate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faTrash } from "@fortawesome/free-solid-svg-icons";
+import SitterService from "../../../config/service/SitterService";
+import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
+import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 
 const RequestCustomer = () => {
     const [requests, setRequests] = useState([]);
     const [keyword, setKeyword] = useState("");
+    const [id, setId] = useState("");
+    const [isCancel, setIsCancel] = useState(false);
+    const [state, setState] = useState(false);
 
     useEffect(() => {
         CustomerService.getAllRequestByUser(
@@ -38,11 +44,11 @@ const RequestCustomer = () => {
             });
             setRequests(dataSources);
         });
-    }, []);
+    }, [state]);
 
     const TableRequests = ({ requests }) => {
         const requestItem = requests.map((item) => (
-            <tr data-key={item.id} key={item.key}>
+            <tr data-key={item.requestId} key={item.key}>
                 <td>
                     <img
                         className="sitter-avatar"
@@ -53,17 +59,32 @@ const RequestCustomer = () => {
                 <td>{item.sitterName}</td>
                 <td>{item.petName}</td>
                 <td>{item.serviceName}</td>
-                <td>{item.servicePrice}</td>
+                <td>{item.servicePrice + "$"}</td>
                 <td>{item.startDate}</td>
                 <td>{item.endDate}</td>
                 <td>{item.startTime}</td>
                 <td>{item.endTime}</td>
                 <td>{item.status}</td>
-                <td>
-                    <button>Cancel</button>
-                </td>
+                {item.status === "PENDING" ? (
+                    <td onClick={click}>
+                        <FontAwesomeIcon
+                            className="fa-solid fa-trash btn-cancel-request"
+                            style={{ color: "#ff0000", cursor: "pointer" }}
+                            icon={faTrash}
+                        />
+                    </td>
+                ) : null}
             </tr>
         ));
+
+        function click(e) {
+            const id =
+                e.target.parentElement.parentElement.parentElement.getAttribute(
+                    "data-key"
+                );
+            setId(id);
+            setIsCancel(true);
+        }
         let headerRequest;
 
         headerRequest = (
@@ -72,7 +93,7 @@ const RequestCustomer = () => {
                 <th>Name</th>
                 <th>Pet's name</th>
                 <th>Service's name</th>
-                <th>Price</th>
+                <th>Price($)</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Start Time</th>
@@ -156,9 +177,38 @@ const RequestCustomer = () => {
         );
     };
 
+    const handleCloseModalCustom = () => {
+        setIsCancel(false);
+    };
+
     const handleChangeSearch = (e) => {
         setKeyword(e.target.value);
     };
+
+    const handleCancel = () => {
+        CustomerService.cancelRequest(id).then((res) => {
+            if (res === true) {
+                setState(!state);
+            } else {
+                alert("You cannot cancel the request before 2 hours prior to the start time!!")
+            }
+        });
+        setIsCancel(false);
+    };
+
+    const ConfirmCancel = (
+        <ModalCustom
+            show={isCancel}
+            content={
+                <ConfirmAlert
+                    handleCloseModalCustom={handleCloseModalCustom}
+                    handleDelete={handleCancel}
+                    title={`Do you want to cancel this request?`}
+                />
+            }
+            handleCloseModalCustom={handleCloseModalCustom}
+        />
+    );
 
     return (
         <div>
@@ -193,6 +243,7 @@ const RequestCustomer = () => {
                     <footer></footer>
                 </div>
             </div>
+            {isCancel ? ConfirmCancel : null}
         </div>
     );
 };

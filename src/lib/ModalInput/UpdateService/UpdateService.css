@@ -1,11 +1,11 @@
 @import "../../../assets/css/variables.css";
 @import "../../../assets/css/custom.css";
 
-.update-servicer-provider-form {
+.add-servicer-admin-form {
   background: #fff;
   border-radius: 8px;
   padding: 30px;
-  height: 350px;
+  height: auto;
 }
 
 .choose-account label {

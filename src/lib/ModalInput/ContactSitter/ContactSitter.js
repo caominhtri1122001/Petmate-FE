@@ -17,6 +17,7 @@ const ContactSitter = (props) => {
         endTime: "",
         message: "",
         address: "",
+        price: "",
     });
     const [requestError, setRequestError] = useState({
         userId: "",
@@ -34,6 +35,9 @@ const ContactSitter = (props) => {
     const [pets, setPets] = useState([]);
     const [serviceDropValue, setServiceDropValue] = useState();
     const [petDropValue, setPetDropValue] = useState();
+    const [serviceType, setServiceType] = useState("PER DAY");
+    const [message, setMessage] = useState("");
+    const [servicePrice, setServicePrice] = useState("");
 
     useEffect(() => {
         CustomerService.getServiceBySitter(props.id).then((res) => {
@@ -42,6 +46,8 @@ const ContactSitter = (props) => {
                     key: index + 1,
                     value: item.id,
                     label: item.name + " - " + item.price,
+                    price: item.price,
+                    serviceType: item.serviceType,
                 };
             });
             setServices(dataSources);
@@ -61,10 +67,42 @@ const ContactSitter = (props) => {
     }, []);
 
     const changeHandlerRequest = (e) => {
-        setAllValuesRequest({
-            ...allValuesRequest,
-            [e.target.name]: e.target.value,
-        });
+        if (serviceType === "PER DAY") {
+            setAllValuesRequest({
+                ...allValuesRequest,
+                [e.target.name]: e.target.value,
+            });
+        } else {
+            if (e.target.value === "6-11") {
+                console.log(allValuesRequest.startDate);
+                setAllValuesRequest({
+                    ...allValuesRequest,
+                    endDate: allValuesRequest.startDate,
+                    startTime: "06:00",
+                    endTime: "11:00",
+                });
+            } else if (e.target.value === "11-3") {
+                setAllValuesRequest({
+                    ...allValuesRequest,
+                    endDate: allValuesRequest.startDate,
+                    startTime: "11:00",
+                    endTime: "15:00"
+                });
+            } else if (e.target.value === "3-10") {
+                setAllValuesRequest({
+                    ...allValuesRequest,
+                    endDate: allValuesRequest.startDate,
+                    startTime: "15:00",
+                    endTime: "22:00"
+                });
+            } else {
+                setAllValuesRequest({
+                    ...allValuesRequest,
+                    [e.target.name]: e.target.value,
+                    endDate: allValuesRequest.startDate,
+                });
+            }
+        }
     };
 
     const handleServiceChange = (event) => {
@@ -73,6 +111,8 @@ const ContactSitter = (props) => {
             ...allValuesRequest,
             serviceId: event.value,
         });
+        setServiceType(event.serviceType);
+        setServicePrice(event.price)
     };
 
     const handlePetChange = (event) => {
@@ -138,7 +178,7 @@ const ContactSitter = (props) => {
                         <label
                             className={
                                 "error" +
-                                (requestError.serviceId
+                                (requestError.petId
                                     ? " error-show"
                                     : " error-hidden")
                             }
@@ -167,89 +207,177 @@ const ContactSitter = (props) => {
                             Name must be greater than 2 chars
                         </label>
                     </div>
-                </div>
-                <div className="teacher-content-right">
                     <div className="type-input">
-                        <h4>Start Date</h4>
+                        <h4>Service Type</h4>
                         <input
                             className="input-content"
-                            type="date"
-                            name="startDate"
-                            value={allValuesRequest.startDate}
-                            onChange={changeHandlerRequest}
+                            type="text"
+                            readOnly
+                            name="serviceType"
+                            value={servicePrice + "$" + " - " + serviceType}
                         />
-                        <label
-                            className={
-                                "error" +
-                                (requestError.startDate
-                                    ? " error-show"
-                                    : " error-hidden")
-                            }
-                        >
-                            Invalid date
-                        </label>
-                    </div>
-                    <div className="type-input">
-                        <h4>End Date</h4>
-                        <input
-                            className="input-content"
-                            type="date"
-                            name="endDate"
-                            value={allValuesRequest.endDate}
-                            onChange={changeHandlerRequest}
-                        />
-                        <label
-                            className={
-                                "error" +
-                                (requestError.endDate
-                                    ? " error-show"
-                                    : " error-hidden")
-                            }
-                        >
-                            Invalid date
-                        </label>
-                    </div>
-                    <div className="type-input">
-                        <h4>Start Time</h4>
-                        <input
-                            className="input-content"
-                            type="time"
-                            name="startTime"
-                            value={allValuesRequest.startTime}
-                            onChange={changeHandlerRequest}
-                        />
-                        <label
-                            className={
-                                "error" +
-                                (requestError.startTime
-                                    ? " error-show"
-                                    : " error-hidden")
-                            }
-                        >
-                            Invalid time
-                        </label>
-                    </div>
-                    <div className="type-input">
-                        <h4>End Time</h4>
-                        <input
-                            className="input-content"
-                            type="time"
-                            name="endTime"
-                            value={allValuesRequest.endTime}
-                            onChange={changeHandlerRequest}
-                        />
-                        <label
-                            className={
-                                "error" +
-                                (requestError.endTime
-                                    ? " error-show"
-                                    : " error-hidden")
-                            }
-                        >
-                            Invalid time
-                        </label>
                     </div>
                 </div>
+                {serviceType === "PER DAY" ? (
+                    <div className="teacher-content-right">
+                        <div className="type-input">
+                            <h4>Start Date</h4>
+                            <input
+                                className="input-content"
+                                type="date"
+                                name="startDate"
+                                value={allValuesRequest.startDate}
+                                onChange={changeHandlerRequest}
+                            />
+                            <label
+                                className={
+                                    "error" +
+                                    (requestError.startDate
+                                        ? " error-show"
+                                        : " error-hidden")
+                                }
+                            >
+                                Invalid date
+                            </label>
+                        </div>
+
+                        <div className="type-input">
+                            <h4>End Date</h4>
+                            <input
+                                className="input-content"
+                                type="date"
+                                name="endDate"
+                                value={allValuesRequest.endDate}
+                                onChange={changeHandlerRequest}
+                            />
+                            <label
+                                className={
+                                    "error" +
+                                    (requestError.endDate
+                                        ? " error-show"
+                                        : " error-hidden")
+                                }
+                            >
+                                Invalid date
+                            </label>
+                        </div>
+                        <div className="type-input">
+                            <h4>Start Time</h4>
+                            <input
+                                className="input-content"
+                                type="time"
+                                name="startTime"
+                                value={allValuesRequest.startTime}
+                                onChange={changeHandlerRequest}
+                            />
+                            <label
+                                className={
+                                    "error" +
+                                    (requestError.startTime
+                                        ? " error-show"
+                                        : " error-hidden")
+                                }
+                            >
+                                Invalid time
+                            </label>
+                        </div>
+                        <div className="type-input">
+                            <h4>End Time</h4>
+                            <input
+                                className="input-content"
+                                type="time"
+                                name="endTime"
+                                value={allValuesRequest.endTime}
+                                onChange={changeHandlerRequest}
+                            />
+                            <label
+                                className={
+                                    "error" +
+                                    (requestError.endTime
+                                        ? " error-show"
+                                        : " error-hidden")
+                                }
+                            >
+                                Invalid time
+                            </label>
+                        </div>
+                    </div>
+                ) :
+                    (
+                        <div className="teacher-content-right">
+                            <div className="type-input">
+                                <h4>Date</h4>
+                                <input
+                                    className="input-content"
+                                    type="date"
+                                    name="startDate"
+                                    value={allValuesRequest.startDate}
+                                    onChange={changeHandlerRequest}
+                                />
+                                <label
+                                    className={
+                                        "error" +
+                                        (requestError.startDate
+                                            ? " error-show"
+                                            : " error-hidden")
+                                    }
+                                >
+                                    Invalid date
+                                </label>
+                            </div>
+
+                            <div className="type-input">
+                                <div className="radio-btn-species">
+                                    <div className="radio">
+                                        <input
+                                            id="6-11"
+                                            type="radio"
+                                            value="6-11"
+                                            name="period-time"
+                                            onChange={changeHandlerRequest}
+                                        />
+                                        <label htmlFor="6-11">
+                                            <span>6am-11am</span>
+                                        </label>
+                                        <input
+                                            id="11-3"
+                                            type="radio"
+                                            value="11-3"
+                                            name="period-time"
+                                            onChange={changeHandlerRequest}
+                                        />
+                                        <label htmlFor="11-3">
+                                            <span>11am-3pm</span>
+                                        </label>
+                                        <input
+                                            id="3-10"
+                                            type="radio"
+                                            value="3-10"
+                                            name="period-time"
+                                            onChange={changeHandlerRequest}
+                                        />
+                                        <label htmlFor="3-10">
+                                            <span>3pm-10pm</span>
+                                        </label>
+                                    </div>
+
+                                    {/* <label
+                                className={
+                                    "error" +
+                                    (petError.species
+                                        ? " error-show"
+                                        : " error-hidden")
+                                }
+                            >
+                                No species selected
+                            </label> */}
+                                </div>
+                            </div>
+
+                        </div>
+                    )
+                }
+
             </div>
             <h4>Message</h4>
             <div className="type-input-container">
@@ -295,8 +423,17 @@ const ContactSitter = (props) => {
         } else {
             serviceId = false;
         }
+        let dateNow = new Date().toLocaleDateString();
 
-        if (!allValuesRequest.startDate) {
+        let dateConvert = `${dateNow.split("/")[2]}-${dateNow.split("/")[1] < 10
+            ? "0" + dateNow.split("/")[1]
+            : dateNow.split("/")[1]
+            }-${dateNow.split("/")[0] < 10
+                ? "0" + dateNow.split("/")[0]
+                : dateNow.split("/")[0]
+            }`;
+
+        if (!allValuesRequest.startDate || dateConvert > allValuesRequest.startDate) {
             startDate = true;
             check = true;
         } else {
@@ -312,6 +449,7 @@ const ContactSitter = (props) => {
         } else {
             endDate = false;
         }
+        
 
         if (!allValuesRequest.startTime) {
             startTime = true;
@@ -320,15 +458,18 @@ const ContactSitter = (props) => {
             startTime = false;
         }
 
-        if (
-            !allValuesRequest.endTime ||
-            allValuesRequest.endTime <= allValuesRequest.startTime
-        ) {
-            endTime = true;
-            check = true;
-        } else {
-            endTime = false;
+        if (allValuesRequest.startDate === allValuesRequest.endDate) {
+            if (
+                !allValuesRequest.endTime ||
+                allValuesRequest.endTime <= allValuesRequest.startTime
+            ) {
+                endTime = true;
+                check = true;
+            } else {
+                endTime = false;
+            }
         }
+        
 
         if (!allValuesRequest.address) {
             address = true;
@@ -348,10 +489,23 @@ const ContactSitter = (props) => {
             address: address,
         });
 
+        var priceService = servicePrice;
+        if (serviceType === "PER DAY") {
+            var d1 = new Date(allValuesRequest.endDate);
+            var d2 = new Date(allValuesRequest.startDate);
+            var diffTime = Math.abs(d2 - d1);
+            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            priceService = diffDays * servicePrice
+        }
+
+        
+
         if (!check) {
-            props.handleConfirmContactSitter(allValuesRequest);
+            props.handleConfirmContactSitter(allValuesRequest, priceService);
         }
     };
+
+
 
     const clickSave = (e) => {
         e.preventDefault();
@@ -377,7 +531,7 @@ const ContactSitter = (props) => {
         </div>
     );
 
-    return <div className="add-account-form">{FormBecomeSitter}</div>;
+    return <div className="add-account-form" style={{ height: "auto" }}>{FormBecomeSitter}</div>;
 };
 
 export default ContactSitter;

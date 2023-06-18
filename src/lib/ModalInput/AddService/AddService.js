@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import "./AddService.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBriefcase, faCalendar, faCalendarDays, faCat, faClock, faDog } from "@fortawesome/free-solid-svg-icons";
 
 const AddService = (props) => {
     const [allValuesService, setAllValuesService] = useState({
         name: "",
+        typeService: "",
     });
     const [serviceError, setServiceError] = useState({
         name: false,
+        typeService: false,
     });
 
     const changeHandler = (e) => {
@@ -50,6 +54,58 @@ const AddService = (props) => {
                             Input name please
                         </label>
                     </div>
+                    <div className="type-input">
+                        <h4>Type Service</h4>
+                        <div className="radio-btn-species">
+                            <div className="radio">
+                                <input
+                                    id="per_day"
+                                    type="radio"
+                                    value="PER DAY"
+                                    name="typeService"
+                                    onChange={changeHandler}
+                                    checked={
+                                        allValuesService.typeService === "PER DAY"
+                                    }
+                                />
+                                <label htmlFor="per_day">
+                                    <FontAwesomeIcon
+                                        className="icon fa-regular"
+                                        icon={faCalendarDays}
+                                    />
+
+                                    <span>Per Day</span>
+                                </label>
+                                <input
+                                    id="per_service"
+                                    type="radio"
+                                    value="PER SERVING"
+                                    name="typeService"
+                                    onChange={changeHandler}
+                                    checked={
+                                        allValuesService.typeService === "PER SERVING"
+                                    }
+                                />
+                                <label htmlFor="per_service">
+                                    <FontAwesomeIcon
+                                        className="icon fa-regular"
+                                        icon={faClock}
+                                    />
+                                    <span>Per Service</span>
+                                </label>
+                            </div>
+                            <label
+                                className={
+                                    "error" +
+                                    (serviceError.typeService
+                                        ? " error-show"
+                                        : " error-hidden")
+                                }
+                            >
+                                No type service selected
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,6 +113,7 @@ const AddService = (props) => {
 
     const handleAddService = () => {
         let name = false;
+        let typeService = false;
         let check = false;
 
         if (!allValuesService.name) {
@@ -64,8 +121,14 @@ const AddService = (props) => {
             check = true;
         } else name = false;
 
+        if (!allValuesService.typeService) {
+            typeService = true;
+            check = true;
+        } else typeService = false;
+
         setServiceError({
             name: name,
+            typeService: typeService,
         });
 
         if (!check) {
@@ -97,7 +160,7 @@ const AddService = (props) => {
         </div>
     );
 
-    return <div className="update-servicer-provider-form">{FormAddService}</div>;
+    return <div className="add-servicer-admin-form">{FormAddService}</div>;
 };
 
 export default AddService;

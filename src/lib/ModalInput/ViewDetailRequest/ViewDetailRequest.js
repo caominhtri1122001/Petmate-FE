@@ -52,7 +52,7 @@ const ViewDetailRequest = (props) => {
                             type="text"
                             name="address"
                             readOnly
-                            value={allValuesRequest.price}
+                            value={allValuesRequest.price + "$"}
                         />
                     </div>
                     <div className="type-input">

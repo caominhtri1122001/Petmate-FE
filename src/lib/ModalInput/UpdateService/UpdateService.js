@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./UpdateService.css";
 import AdminService from "../../../config/service/AdminService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDays, faClock } from "@fortawesome/free-solid-svg-icons";
 
 const UpdateService = (props) => {
     const [allValuesService, setAllValuesService] = useState({
         name: "",
+        typeService: "",
     });
     const [serviceError, setServiceError] = useState({
         name: false,
+        typeService: false,
     });
 
     useEffect(() => {
         AdminService.getServiceById(props.id).then(
             (res) => {
                 setAllValuesService({
-                    name: res.name
+                    name: res.name,
+                    typeService: res.serviceType,
                 });
             }
         );
@@ -60,6 +65,58 @@ const UpdateService = (props) => {
                         >
                             Input name please
                         </label>
+                    </div>
+                    <div className="type-input">
+                        <h4>Type Service</h4>
+                        <div className="radio-btn-species">
+                            <div className="radio">
+                                <input
+                                    id="per_day"
+                                    type="radio"
+                                    value="PER DAY"
+                                    name="typeService"
+                                    onChange={changeHandler}
+                                    checked={
+                                        allValuesService.typeService === "PER DAY"
+                                    }
+                                />
+                                <label htmlFor="per_day">
+                                    <FontAwesomeIcon
+                                        className="icon fa-regular"
+                                        icon={faCalendarDays}
+                                    />
+
+                                    <span>Per Day</span>
+                                </label>
+                                <input
+                                    id="per_service"
+                                    type="radio"
+                                    value="PER SERVING"
+                                    name="typeService"
+                                    onChange={changeHandler}
+                                    checked={
+                                        allValuesService.typeService === "PER SERVING"
+                                    }
+                                />
+                                <label htmlFor="per_service">
+                                    <FontAwesomeIcon
+                                        className="icon fa-regular"
+                                        icon={faClock}
+                                    />
+                                    <span>Per Service</span>
+                                </label>
+                            </div>
+                            <label
+                                className={
+                                    "error" +
+                                    (serviceError.typeService
+                                        ? " error-show"
+                                        : " error-hidden")
+                                }
+                            >
+                                No type service selected
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,7 +165,7 @@ const UpdateService = (props) => {
         </div>
     );
 
-    return <div className="update-servicer-provider-form">{FormUpdateService}</div>;
+    return <div className="add-servicer-admin-form">{FormUpdateService}</div>;
 };
 
 export default UpdateService;

@@ -85,7 +85,7 @@ const RequestSitter = () => {
                 <td>{item.customerName}</td>
                 <td>{item.petName}</td>
                 <td>{item.serviceName}</td>
-                <td>{item.servicePrice}</td>
+                <td>{item.servicePrice + "$"}</td>
                 <td>{item.startDate}</td>
                 <td>{item.endDate}</td>
                 <td>{item.status}</td>
@@ -197,7 +197,7 @@ const RequestSitter = () => {
                 <th>Name</th>
                 <th>Pet's name</th>
                 <th>Service's name</th>
-                <th>Price ($)</th>
+                <th>Price($)</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Status</th>

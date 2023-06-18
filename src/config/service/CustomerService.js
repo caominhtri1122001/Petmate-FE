@@ -20,6 +20,10 @@ const contactSitter = async (params) => {
     return await HandleApi.APIPostWithToken(`requests`, params);
 };
 
+const cancelRequest = async (id) => {
+    return await HandleApi.APIGetWithToken(`requests/cancel/${id}`);
+};
+
 const getAllRequestByUser = async (id) => {
     return await HandleApi.APIGetWithToken(`requests/${id}`);
 };
@@ -34,6 +38,7 @@ const CustomerService = {
     getSitterById,
     getServiceBySitter,
     contactSitter,
+    cancelRequest,
     getAllRequestByUser,
     chatBot,
 };

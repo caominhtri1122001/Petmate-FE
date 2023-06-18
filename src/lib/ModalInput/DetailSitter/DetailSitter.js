@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./DetailSitter.css";
 import Logo from "../../../assets/images/Logo.png";
 import CustomerService from "../../../config/service/CustomerService";
+import ContactSitter from "../ContactSitter/ContactSitter";
+import ModalInput from "../ModalInput";
 
 const DetailSitter = (props) => {
     const [allValuesSitter, setAllValuesSitter] = useState({
@@ -16,10 +18,13 @@ const DetailSitter = (props) => {
         description: "",
     });
     const [avatar, setAvatar] = useState(Logo);
+    const [contact, setContact] = useState(false);
+    const [errorServer, setErrorServer] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         getSitterInfor();
-    });
+    }, []);
 
     const getSitterInfor = () => {
         CustomerService.getSitterById(props.sitterId).then((res) => {
@@ -124,7 +129,55 @@ const DetailSitter = (props) => {
 
     const clickSave = (e) => {
         e.preventDefault();
+        setContact(true);
     };
+
+    const handleInputCustom = () => {
+        setContact(false);
+    };
+
+    const handleConfirmContactSitter = (allValue, servicePrice) => {
+        CustomerService.contactSitter({
+            userId: allValue.userId,
+            sitterId: allValue.sitterId,
+            petId: allValue.petId,
+            price: servicePrice,
+            serviceId: allValue.serviceId,
+            startDate: allValue.startDate,
+            endDate: allValue.endDate,
+            startTime: allValue.startTime,
+            endTime: allValue.endTime,
+            message: allValue.message,
+            address: allValue.address,
+        }).then((res) => {
+            if (res) {
+                setErrorServer(false);
+                setErrorMessage("");
+                setContact(false);
+            } else {
+                setErrorServer(true);
+                setErrorMessage(res.message);
+                setContact(true);
+            }
+        });
+    };
+
+    const DivShowContact = (
+        <ModalInput
+            show={contact}
+            handleInputCustom={handleInputCustom}
+            content={
+                <ContactSitter
+                    id={allValuesSitter.sitterId}
+                    sitterName={allValuesSitter.name}
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmContactSitter={handleConfirmContactSitter}
+                    errorServer={errorServer}
+                    errorMessage={errorMessage}
+                />
+            }
+        />
+    );
 
     const FormBecomeSitter = (
         <div className="form-add-account">
@@ -145,7 +198,10 @@ const DetailSitter = (props) => {
         </div>
     );
 
-    return <div className="add-account-form">{FormBecomeSitter}</div>;
+    return <div className="add-account-form">
+        {FormBecomeSitter}
+        {contact ? DivShowContact : null}
+    </div>;
 };
 
 export default DetailSitter;

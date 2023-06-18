@@ -50,6 +50,7 @@ function ServiceAdmin() {
                             key: index + 1,
                             id: item.id,
                             name: item.name,
+                            serviceType: item.serviceType,
                         };
                     }
                 );
@@ -76,6 +77,7 @@ function ServiceAdmin() {
     const handleConfirmUpdateService = (allValue) => {
         var formData = new FormData();
         formData.append("name", allValue.name);
+        formData.append("serviceType", allValue.typeService);
 
         AdminService.updateServiceById(id, formData)
             .then((res) => {
@@ -161,6 +163,10 @@ function ServiceAdmin() {
                 service.name
                     .toLowerCase()
                     .includes(keyword.toLowerCase())
+                ||
+                service.serviceType
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase())
         );
     };
 
@@ -169,6 +175,7 @@ function ServiceAdmin() {
             <tr data-key={item.id} key={item.id} >
                 <td>{item.key}</td>
                 <td>{item.name}</td>
+                <td>{item.serviceType}</td>
                 <td onClick={click}>
                     <FontAwesomeIcon className="icon fa-regular fa-pen-to-square btn-edit" icon={faPen} />
                 </td>
@@ -189,6 +196,7 @@ function ServiceAdmin() {
             <tr>
                 <th>Index</th>
                 <th>Name</th>
+                <th>Service Type</th>
                 <th>Action</th>
             </tr>
         );
@@ -208,6 +216,7 @@ function ServiceAdmin() {
     const handleConfirmAddService = (allValue) => {
         var formData = {
             name: allValue.name,
+            serviceType: allValue.typeService,
         };
         AdminService.createService(formData)
             .then((res) => {
