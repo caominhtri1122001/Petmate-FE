@@ -116,11 +116,12 @@ const ServiceCustomer = () => {
         setContact(false);
     };
 
-    const handleConfirmContactSitter = (allValue) => {
+    const handleConfirmContactSitter = (allValue, servicePrice) => {
         CustomerService.contactSitter({
             userId: allValue.userId,
             sitterId: allValue.sitterId,
             petId: allValue.petId,
+            price: servicePrice,
             serviceId: allValue.serviceId,
             startDate: allValue.startDate,
             endDate: allValue.endDate,
@@ -129,11 +130,14 @@ const ServiceCustomer = () => {
             message: allValue.message,
             address: allValue.address,
         }).then((res) => {
-            if (res) {
+            if (res === true) {
                 setErrorServer(false);
                 setErrorMessage("");
                 setContact(false);
             } else {
+                if (res === false) {
+                    alert("You cannot create a request with a duplicate time slot!!");
+                }
                 setErrorServer(true);
                 setErrorMessage(res.message);
                 setContact(true);
