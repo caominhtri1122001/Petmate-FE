@@ -10,7 +10,7 @@ import "./Blog.css";
 import Loading from "../../lib/Loading/Loading";
 
 const Blog = () => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [tags, setTags] = useState([]);
     const [blogs, setBlogs] = useState([]);
     const [selectedTag, setSelectedTag] = useState("All");
@@ -58,12 +58,14 @@ const Blog = () => {
             e.target.parentElement.parentElement.getAttribute("data-key");
 
         history.push(`/detail/${id}`);
+        window.scrollTo(0, 0);
     };
 
     const handleClickTitle = (e) => {
         const id =
             e.target.parentElement.parentElement.getAttribute("data-key");
         history.push(`/detail/${id}`);
+        window.scrollTo(0, 0);
     };
 
     const handleClickTag = (e) => {

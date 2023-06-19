@@ -13,6 +13,7 @@ import BlogService from "../../../config/service/BlogService";
 import Logo from "../../../assets/images/Logo.png";
 import AuthenticationService from "../../../config/service/AuthenticationService";
 import Login from "../../../common/Login/Login";
+import Loading from "../../../lib/Loading/Loading";
 
 const DetailBlog = (props) => {
     const { id } = props.match.params;
@@ -40,9 +41,12 @@ const DetailBlog = (props) => {
     const [comments, setComments] = useState([]);
     const [isLogin, setIsLogin] = useState(AuthenticationService.isLogin);
     const [isShowLogin, setIsShowLogin] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
         BlogService.getBlogById(id).then((res) => {
+            setIsLoading(true);
             if (res.postId) {
                 setBlogInfo({
                     postId: res.postId,
@@ -62,9 +66,11 @@ const DetailBlog = (props) => {
                     phone: res.phone,
                 });
                 setTags(res.tags);
+                setIsLoading(false);
             }
         });
         BlogService.getAllComment(id).then((res) => {
+            setIsLoading(true);
             const dataSources = res.map((item, index) => {
                 return {
                     key: index + 1,
@@ -78,7 +84,6 @@ const DetailBlog = (props) => {
                     createdAt: item.createdAt.split("T")[0],
                 };
             });
-            console.log(dataSources);
             setComments(dataSources);
         });
     }, [state]);
@@ -264,6 +269,7 @@ const DetailBlog = (props) => {
             </div>
             <Footer />
             <div>{isShowLogin ? ViewLogin : null}</div>
+            <Loading isLoading={isLoading} />
         </div>
     );
 };

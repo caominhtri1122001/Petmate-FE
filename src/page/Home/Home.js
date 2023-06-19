@@ -21,6 +21,7 @@ const Home = () => {
 
     const handleClickBlog = () => {
         history.push("/blog");
+        window.scrollTo(0, 0);
     };
 
     return (
@@ -239,8 +240,9 @@ const Home = () => {
                                         marginTop: 20,
                                         borderRadius: 20,
                                         fontSize: 30,
-                                        backgroundColor: "lightblue",
+                                        backgroundColor: "var(--primary-color)",
                                         cursor: "pointer",
+                                        color: "white",
                                     }}
                                     onClick={handleClickBlog}
                                 >
