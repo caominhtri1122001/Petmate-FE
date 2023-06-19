@@ -3,6 +3,7 @@ import Header from "../../common/Header/Header";
 import Footer from "../../common/Footer/Footer";
 import logo from "../../assets/images/Logo.png";
 import homeImage from "../../assets/images/homeImage.jpg";
+import catBlog from "../../assets/images/catBlog.jpg";
 import {
     faBusinessTime,
     faHouseChimneyMedical,
@@ -12,21 +13,14 @@ import {
     faShower,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Home = () => {
-    const [comments, setComments] = useState([{
-        userId: '02b',
-        comId: '017',
-        fullName: 'Lily',
-        userProfile: 'https://www.linkedin.com/in/riya-negi-8879631a9/',
-        text: 'I think you have a point🤔',
-        avatarUrl: 'https://ui-avatars.com/api/name=Lily&background=random',
-        replies: []
-    }]);
+    let history = useHistory();
 
-    const HandleSubmitComment = () => {
-        console.log(comments);
+    const handleClickBlog = () => {
+        history.push("/blog");
     };
 
     return (
@@ -200,6 +194,68 @@ const Home = () => {
                                         and teeth cleaning, and addressing any
                                         skin allergies or issues.
                                     </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="blog">
+                    <div className="container">
+                        <div className="row align-items-center">
+                            <div className="col-md-6">
+                                <h3 className="section-title">
+                                    Pet Lovers Unite: Welcome to Our Blog
+                                </h3>
+                                <p className="mb-1 font-weight-bold">
+                                    Welcome to our pet blog! Our blog is
+                                    dedicated to providing you with helpful
+                                    tips, informative articles, and heartwarming
+                                    stories about our beloved companions.
+                                    Whether you're a proud owner of a dog, cat,
+                                    bird, or any other furry or feathered
+                                    friend, our blog has something for everyone.
+                                    Our team of pet experts and enthusiasts are
+                                    passionate about sharing their knowledge and
+                                    experience to help you provide the best care
+                                    and love for your pets. From training and
+                                    nutrition to health and wellness, we cover a
+                                    wide range of topics to ensure your pets
+                                    live happy and healthy lives. We also love
+                                    to share heartwarming stories and cute
+                                    photos of our furry and feathered friends.
+                                    Follow us on our blog to stay up-to-date on
+                                    the latest pet trends, news, and
+                                    heartwarming stories. Don't forget to
+                                    subscribe to our newsletter for exclusive
+                                    content and special offers! Thank you for
+                                    joining us on our pet-loving journey. We
+                                    hope our blog brings joy, laughter, and
+                                    valuable insights into your life and your
+                                    pet's life.
+                                </p>
+                                <button
+                                    style={{
+                                        marginTop: 20,
+                                        borderRadius: 20,
+                                        fontSize: 30,
+                                        backgroundColor: "lightblue",
+                                        cursor: "pointer",
+                                    }}
+                                    onClick={handleClickBlog}
+                                >
+                                    Discover Our Blog
+                                </button>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="row">
+                                    <div className="col">
+                                        <img
+                                            src={catBlog}
+                                            className="w-100 rounded shadow"
+                                            alt="headmaster"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>

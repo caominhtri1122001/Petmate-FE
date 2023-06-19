@@ -7,14 +7,17 @@ import video from "../../assets/videos/petvideo.mp4";
 import BlogService from "../../config/service/BlogService";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import "./Blog.css";
+import Loading from "../../lib/Loading/Loading";
 
 const Blog = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const [tags, setTags] = useState([]);
     const [blogs, setBlogs] = useState([]);
     const [selectedTag, setSelectedTag] = useState("All");
     const history = useHistory();
 
     useEffect(() => {
+        setIsLoading(true);
         BlogService.getAllTags().then((res) => {
             const dataSources = res.map((item, index) => {
                 return {
@@ -46,13 +49,11 @@ const Blog = () => {
                 };
             });
             setBlogs(dataSources);
+            setIsLoading(false);
         });
     }, []);
 
     const handleClickImage = (e) => {
-        console.log(
-            e.target.parentElement.parentElement.getAttribute("data-key")
-        );
         const id =
             e.target.parentElement.parentElement.getAttribute("data-key");
 
@@ -60,9 +61,6 @@ const Blog = () => {
     };
 
     const handleClickTitle = (e) => {
-        console.log(
-            e.target.parentElement.parentElement.getAttribute("data-key")
-        );
         const id =
             e.target.parentElement.parentElement.getAttribute("data-key");
         history.push(`/detail/${id}`);
@@ -186,14 +184,15 @@ const Blog = () => {
                                             />
                                         </div>
                                         <div className="p-4 tm-bg-gray tm-catalog-item-description">
-                                            <h3 className="tm-text-primary mb-3 tm-catalog-item-title"
+                                            <h3
+                                                className="tm-text-primary mb-3 tm-catalog-item-title"
                                                 onClick={handleClickTitle}
                                                 style={{
                                                     cursor: "pointer",
                                                     color: "var(--primary-color)",
-                                                }}>
+                                                }}
+                                            >
                                                 {item.title}
-
                                             </h3>
                                             {/* <h3
                                                 className="tm-text-primary mb-3 tm-catalog-item-title blog-title"
@@ -373,6 +372,7 @@ const Blog = () => {
             </div>
 
             <Footer />
+            <Loading isLoading={isLoading} />
         </div>
     );
 };
