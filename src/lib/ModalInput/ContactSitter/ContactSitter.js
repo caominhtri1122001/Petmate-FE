@@ -497,9 +497,6 @@ const ContactSitter = (props) => {
             priceService = diffDays * servicePrice;
         }
 
-        console.log(allValuesRequest);
-        console.log(priceService);
-
         if (!check) {
             props.handleConfirmContactSitter(allValuesRequest, priceService);
         }
