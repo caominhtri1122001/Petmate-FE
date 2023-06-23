@@ -86,14 +86,14 @@ const ContactSitter = (props) => {
                     ...allValuesRequest,
                     endDate: allValuesRequest.startDate,
                     startTime: "11:00",
-                    endTime: "15:00"
+                    endTime: "15:00",
                 });
             } else if (e.target.value === "3-10") {
                 setAllValuesRequest({
                     ...allValuesRequest,
                     endDate: allValuesRequest.startDate,
                     startTime: "15:00",
-                    endTime: "22:00"
+                    endTime: "22:00",
                 });
             } else {
                 setAllValuesRequest({
@@ -112,7 +112,7 @@ const ContactSitter = (props) => {
             serviceId: event.value,
         });
         setServiceType(event.serviceType);
-        setServicePrice(event.price)
+        setServicePrice(event.price);
     };
 
     const handlePetChange = (event) => {
@@ -302,66 +302,65 @@ const ContactSitter = (props) => {
                             </label>
                         </div>
                     </div>
-                ) :
-                    (
-                        <div className="teacher-content-right">
-                            <div className="type-input">
-                                <h4>Date</h4>
-                                <input
-                                    className="input-content"
-                                    type="date"
-                                    name="startDate"
-                                    value={allValuesRequest.startDate}
-                                    onChange={changeHandlerRequest}
-                                />
-                                <label
-                                    className={
-                                        "error" +
-                                        (requestError.startDate
-                                            ? " error-show"
-                                            : " error-hidden")
-                                    }
-                                >
-                                    Invalid date
-                                </label>
-                            </div>
+                ) : (
+                    <div className="teacher-content-right">
+                        <div className="type-input">
+                            <h4>Date</h4>
+                            <input
+                                className="input-content"
+                                type="date"
+                                name="startDate"
+                                value={allValuesRequest.startDate}
+                                onChange={changeHandlerRequest}
+                            />
+                            <label
+                                className={
+                                    "error" +
+                                    (requestError.startDate
+                                        ? " error-show"
+                                        : " error-hidden")
+                                }
+                            >
+                                Invalid date
+                            </label>
+                        </div>
 
-                            <div className="type-input">
-                                <div className="radio-btn-species">
-                                    <div className="radio">
-                                        <input
-                                            id="6-11"
-                                            type="radio"
-                                            value="6-11"
-                                            name="period-time"
-                                            onChange={changeHandlerRequest}
-                                        />
-                                        <label htmlFor="6-11">
-                                            <span>6am-11am</span>
-                                        </label>
-                                        <input
-                                            id="11-3"
-                                            type="radio"
-                                            value="11-3"
-                                            name="period-time"
-                                            onChange={changeHandlerRequest}
-                                        />
-                                        <label htmlFor="11-3">
-                                            <span>11am-3pm</span>
-                                        </label>
-                                        <input
-                                            id="3-10"
-                                            type="radio"
-                                            value="3-10"
-                                            name="period-time"
-                                            onChange={changeHandlerRequest}
-                                        />
-                                        <label htmlFor="3-10">
-                                            <span>3pm-10pm</span>
-                                        </label>
-                                    </div>
+                        <div className="type-input">
+                            <div className="radio-btn-species">
+                                <div className="radio">
+                                    <input
+                                        id="6-11"
+                                        type="radio"
+                                        value="6-11"
+                                        name="period-time"
+                                        onChange={changeHandlerRequest}
+                                    />
+                                    <label htmlFor="6-11">
+                                        <span>6am-11am</span>
+                                    </label>
+                                    <input
+                                        id="11-3"
+                                        type="radio"
+                                        value="11-3"
+                                        name="period-time"
+                                        onChange={changeHandlerRequest}
+                                    />
+                                    <label htmlFor="11-3">
+                                        <span>11am-3pm</span>
+                                    </label>
+                                    <input
+                                        id="3-10"
+                                        type="radio"
+                                        value="3-10"
+                                        name="period-time"
+                                        onChange={changeHandlerRequest}
+                                    />
+                                    <label htmlFor="3-10">
+                                        <span>3pm-10pm</span>
+                                    </label>
+                                </div>
 
-                                    {/* <label
+                                {/* <label
                                 className={
                                     "error" +
                                     (petError.species
@@ -371,13 +370,10 @@ const ContactSitter = (props) => {
                             >
                                 No species selected
                             </label> */}
-                                </div>
                             </div>
-
                         </div>
-                    )
-                }
-
+                    </div>
+                )}
             </div>
             <h4>Message</h4>
             <div className="type-input-container">
@@ -425,15 +421,20 @@ const ContactSitter = (props) => {
         }
         let dateNow = new Date().toLocaleDateString();
 
-        let dateConvert = `${dateNow.split("/")[2]}-${dateNow.split("/")[1] < 10
-            ? "0" + dateNow.split("/")[1]
-            : dateNow.split("/")[1]
-            }-${dateNow.split("/")[0] < 10
+        let dateConvert = `${dateNow.split("/")[2]}-${
+            dateNow.split("/")[1] < 10
+                ? "0" + dateNow.split("/")[1]
+                : dateNow.split("/")[1]
+        }-${
+            dateNow.split("/")[0] < 10
                 ? "0" + dateNow.split("/")[0]
                 : dateNow.split("/")[0]
-            }`;
+        }`;
 
-        if (!allValuesRequest.startDate || dateConvert > allValuesRequest.startDate) {
+        if (
+            !allValuesRequest.startDate ||
+            dateConvert < allValuesRequest.startDate
+        ) {
             startDate = true;
             check = true;
         } else {
@@ -449,7 +450,6 @@ const ContactSitter = (props) => {
         } else {
             endDate = false;
         }
-        
 
         if (!allValuesRequest.startTime) {
             startTime = true;
@@ -469,7 +469,6 @@ const ContactSitter = (props) => {
                 endTime = false;
             }
         }
-        
 
         if (!allValuesRequest.address) {
             address = true;
@@ -495,17 +494,16 @@ const ContactSitter = (props) => {
             var d2 = new Date(allValuesRequest.startDate);
             var diffTime = Math.abs(d2 - d1);
             var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            priceService = diffDays * servicePrice
+            priceService = diffDays * servicePrice;
         }
 
-        
+        console.log(allValuesRequest);
+        console.log(priceService);
 
         if (!check) {
             props.handleConfirmContactSitter(allValuesRequest, priceService);
         }
     };
-
-
 
     const clickSave = (e) => {
         e.preventDefault();
@@ -531,7 +529,11 @@ const ContactSitter = (props) => {
         </div>
     );
 
-    return <div className="add-account-form" style={{ height: "auto" }}>{FormBecomeSitter}</div>;
+    return (
+        <div className="add-account-form" style={{ height: "auto" }}>
+            {FormBecomeSitter}
+        </div>
+    );
 };
 
 export default ContactSitter;

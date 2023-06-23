@@ -121,7 +121,7 @@ const ServiceCustomer = () => {
             userId: allValue.userId,
             sitterId: allValue.sitterId,
             petId: allValue.petId,
-            price: servicePrice,
+            price: parseFloat(servicePrice),
             serviceId: allValue.serviceId,
             startDate: allValue.startDate,
             endDate: allValue.endDate,
@@ -136,7 +136,9 @@ const ServiceCustomer = () => {
                 setContact(false);
             } else {
                 if (res === false) {
-                    alert("You cannot create a request with a duplicate time slot!!");
+                    alert(
+                        "You cannot create a request with a duplicate time slot!!"
+                    );
                 }
                 setErrorServer(true);
                 setErrorMessage(res.message);
