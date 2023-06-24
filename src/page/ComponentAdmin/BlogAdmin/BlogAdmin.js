@@ -102,7 +102,6 @@ const BlogAdmin = (props) => {
             fileImage: fileImageError,
             content: contentError,
         })
-        console.log(blogError);
 
         if (!check) {
             var formData = new FormData();

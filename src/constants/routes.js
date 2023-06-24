@@ -20,6 +20,7 @@ const ROUTES = {
         CUSTOMER_BECOME_SITTER_PAGE: "/customer/sitter",
         CUSTOMER_REQUEST: "/customer/request",
         CUSTOMER_ASSISTANT: "/customer/chatbot",
+        CUSTOMER_PAYMENT: "/payment",
     },
 
     SITTER_PAGE: {

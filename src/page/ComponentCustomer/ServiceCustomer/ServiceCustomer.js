@@ -130,16 +130,14 @@ const ServiceCustomer = () => {
             message: allValue.message,
             address: allValue.address,
         }).then((res) => {
-            if (res === true) {
+            if (res.id) {
                 setErrorServer(false);
                 setErrorMessage("");
                 setContact(false);
+                CustomerService.doPayment(servicePrice, res.id).then((res) => {
+                    window.location.href = res.url;
+                });
             } else {
-                if (res === false) {
-                    alert(
-                        "You cannot create a request with a duplicate time slot!!"
-                    );
-                }
                 setErrorServer(true);
                 setErrorMessage(res.message);
                 setContact(true);
@@ -238,7 +236,6 @@ const ServiceCustomer = () => {
                                 key={item.key}
                                 eventHandlers={{
                                     click: (e) => {
-                                        console.log(item.sitterId);
                                         setId(item.sitterId);
                                         setIsShowDetail(true);
                                     },

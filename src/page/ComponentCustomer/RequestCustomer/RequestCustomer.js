@@ -114,23 +114,23 @@ const RequestCustomer = () => {
     const searchRequest = (requests) => {
         return requests.filter(
             (request) =>
-                request.petName
+                request.petName.toLowerCase().includes(keyword.toLowerCase()) ||
+                request.serviceName
                     .toLowerCase()
                     .includes(keyword.toLowerCase()) ||
-                request.serviceName.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.servicePrice.toString().toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.status.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.startDate.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.endDate.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.startTime.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.endTime.toLowerCase().includes(keyword.toLowerCase())
-                ||
+                request.servicePrice
+                    .toString()
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                request.status.toLowerCase().includes(keyword.toLowerCase()) ||
+                request.startDate
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                request.endDate.toLowerCase().includes(keyword.toLowerCase()) ||
+                request.startTime
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                request.endTime.toLowerCase().includes(keyword.toLowerCase()) ||
                 request.sitterName.toLowerCase().includes(keyword.toLowerCase())
         );
     };
@@ -175,7 +175,7 @@ const RequestCustomer = () => {
                 </footer>
             </>
         );
-    };
+    }
 
     const handleCloseModalCustom = () => {
         setIsCancel(false);
@@ -190,7 +190,9 @@ const RequestCustomer = () => {
             if (res === true) {
                 setState(!state);
             } else {
-                alert("You cannot cancel the request before 2 hours prior to the start time!!")
+                alert(
+                    "You cannot cancel the request before 2 hours prior to the start time!!"
+                );
             }
         });
         setIsCancel(false);

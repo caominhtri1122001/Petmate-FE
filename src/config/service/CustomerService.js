@@ -32,6 +32,16 @@ const chatBot = async (params) => {
     return await HandleApi.APIPostWithToken(`openai`, params);
 };
 
+const doPayment = async (price, info) => {
+    return await HandleApi.APIGetWithToken(
+        `payment?price=${price}&info=${info}`
+    );
+};
+
+const validRequest = async (id) => {
+    return await HandleApi.APIGetWithToken(`requests/payment/${id}`);
+};
+
 const CustomerService = {
     becomeSitter,
     getSitterAround,
@@ -41,6 +51,8 @@ const CustomerService = {
     cancelRequest,
     getAllRequestByUser,
     chatBot,
+    doPayment,
+    validRequest,
 };
 
 export default CustomerService;

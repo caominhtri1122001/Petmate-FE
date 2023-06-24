@@ -35,7 +35,6 @@ const ScheduleSitter = () => {
     };
 
     const handleClickEvent = (e) => {
-        console.log(e);
         setInfo(e.event._def);
         setIsShowInfo(true);
     };

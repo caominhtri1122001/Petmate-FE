@@ -1,0 +1,37 @@
+.payment-container {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.success {
+    color: green;
+}
+
+.failure {
+    color: red;
+}
+
+.success svg {
+    width: 300px;
+    height: 300px;
+}
+
+.success p {
+    font-size: 50px;
+    color: black;
+}
+
+.failure svg {
+    width: 300px;
+    height: 300px;
+}
+
+.failure p {
+    font-size: 50px;
+    color: black;
+}

@@ -189,7 +189,6 @@ const UpdateAccount = (props) => {
     };
 
     const clickUpdate = (e) => {
-        console.log(33333);
         e.preventDefault();
         handleUpdateAccount();
     };

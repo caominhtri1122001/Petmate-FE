@@ -381,12 +381,10 @@ const UpdatePet = (props) => {
 
 
         
-        console.log(petError);
         if (!check) {
             props.handleConfirmUpdatePet(allValuesPet, isChangeImage);
             
         }
-        console.log(1111123213);
     };
 
     const clickSave = (e) => {

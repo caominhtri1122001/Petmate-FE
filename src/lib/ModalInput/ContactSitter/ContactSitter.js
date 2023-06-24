@@ -74,7 +74,6 @@ const ContactSitter = (props) => {
             });
         } else {
             if (e.target.value === "6-11") {
-                console.log(allValuesRequest.startDate);
                 setAllValuesRequest({
                     ...allValuesRequest,
                     endDate: allValuesRequest.startDate,

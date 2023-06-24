@@ -350,7 +350,6 @@ function AccountAdmin() {
         //     );
         AccountService.addAdminAccount(formData)
             .then((res) => {
-                console.log(res);
                 if (res) {
                     setState(!state);
                     setErrorServer(false);

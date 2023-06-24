@@ -110,19 +110,12 @@ const DetailBlog = (props) => {
             setIsShowLogin(true);
         } else {
             setIsShowLogin(false);
-            console.log(
-                JSON.parse(localStorage.getItem("@Login")).userId +
-                    id +
-                    text +
-                    parentCommentId
-            );
             BlogService.createComment({
                 userId: JSON.parse(localStorage.getItem("@Login")).userId,
                 postId: id,
                 content: text,
                 commentId: parentCommentId,
             }).then((res) => {
-                console.log(res);
                 if (res) {
                     setState(!state);
                 }

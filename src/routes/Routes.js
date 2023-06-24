@@ -5,6 +5,7 @@ import MainLayout from "../layout/MainLayout";
 import PublicRoute from "./PublicRoute";
 import Home from "../page/Home/Home";
 import NotFound from "../page/NotFound/NotFound";
+import Payment from "../page/Payment/Payment";
 
 //Admin
 import AdminRoute from "./AdminRoute/AdminRoute";
@@ -157,6 +158,12 @@ const Routes = () => {
                     <PublicRoute
                         component={DetailBlog}
                         path={ROUTES.BLOG_PAGE.DETAIL_BLOG}
+                    />
+
+                    {/* Payment */}
+                    <PublicRoute
+                        component={Payment}
+                        path={ROUTES.CUSTOMER_PAGE.CUSTOMER_PAYMENT}
                     />
 
                     {/* Others - Must be the last */}

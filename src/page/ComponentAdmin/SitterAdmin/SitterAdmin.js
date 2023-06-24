@@ -188,7 +188,6 @@ function SitterAdmin() {
             if (e.target.tagName === 'path') {
                 const id = e.target.parentElement.parentElement.parentElement.getAttribute("data-key");
                 if (e.target.parentElement.className.baseVal.includes("btn-accept")) {
-                    console.log(id);
                     setAcceptState(true);
                     setId(id);
                 } else if (e.target.parentElement.className.baseVal.includes("btn-delete")) {
