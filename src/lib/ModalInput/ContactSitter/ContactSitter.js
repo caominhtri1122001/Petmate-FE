@@ -94,7 +94,15 @@ const ContactSitter = (props) => {
                     startTime: "15:00",
                     endTime: "22:00",
                 });
-            } else {
+            } 
+            else if (e.target.name === "startDate" && serviceType === "PER SERVING") {
+                setAllValuesRequest({
+                    ...allValuesRequest,
+                    [e.target.name]: e.target.value,
+                    endDate: e.target.value,
+                });
+            }
+            else {
                 setAllValuesRequest({
                     ...allValuesRequest,
                     [e.target.name]: e.target.value,
@@ -432,7 +440,7 @@ const ContactSitter = (props) => {
 
         if (
             !allValuesRequest.startDate ||
-            dateConvert < allValuesRequest.startDate
+            dateConvert > allValuesRequest.startDate
         ) {
             startDate = true;
             check = true;
