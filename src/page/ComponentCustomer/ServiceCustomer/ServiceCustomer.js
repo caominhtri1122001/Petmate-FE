@@ -10,6 +10,8 @@ import Logo from "../../../assets/images/Logo.png";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import DetailSitter from "../../../lib/ModalInput/DetailSitter/DetailSitter";
 import ContactSitter from "../../../lib/ModalInput/ContactSitter/ContactSitter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
@@ -33,6 +35,7 @@ const ServiceCustomer = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [id, setId] = useState("");
     const [sitterName, setSitterName] = useState("");
+    const [keyword, setKeyword] = useState("");
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -51,6 +54,10 @@ const ServiceCustomer = () => {
         }
         getInfoSitter();
     }, []);
+
+    const handleChangeSearch = (e) => {
+        setKeyword(e.target.value);
+    };
 
     const getInfoSitter = () => {
         setIsLoading(true);
@@ -177,49 +184,87 @@ const ServiceCustomer = () => {
         />
     );
 
+    const handleSearchSitters = (sitters) => {
+        return sitters.filter(
+            (sitter) =>
+                sitter.firstname
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                sitter.address.toLowerCase().includes(keyword.toLowerCase())
+                ||
+                sitter.lastName.toLowerCase().includes(keyword.toLowerCase())
+                ||
+                sitter.phone.toLowerCase().includes(keyword.toLowerCase())
+                ||
+                sitter.yearOfExperience.toString().toLowerCase().includes(keyword.toLowerCase())
+        );
+    };
+
     return (
         <div className="outer-container">
             <div className="header-title">
                 <h3>Services</h3>
             </div>
             <div className="container">
+
                 <div className="left-section">
-                    {sitters.map((sitter) => {
-                        return (
-                            <div
-                                className="user-card"
-                                key={sitter.key}
-                                data-key={sitter.sitterId}
-                            >
-                                <div className="avatar-customer">
-                                    <img
-                                        src={sitter.userImage}
-                                        alt="sitter.userImage"
-                                    />
+                    <div className="search-box">
+                        <button className="btn-search">
+                            <FontAwesomeIcon
+                                className="icon-search"
+                                icon={faMagnifyingGlass}
+                            />
+                        </button>
+                        <input
+                            onChange={handleChangeSearch}
+                            className="input-search"
+                            type="text"
+                            placeholder="Search..."
+                            value={keyword}
+                            style={{ marginBottom: "10px" }}
+                        ></input>
+                    </div>
+
+                    <div className="left-section-sitters">
+                        {handleSearchSitters(sitters).map((sitter) => {
+                            return (
+                                <div
+                                    className="user-card"
+                                    key={sitter.key}
+                                    data-key={sitter.sitterId}
+                                >
+                                    <div className="avatar-customer">
+                                        <img
+                                            src={sitter.userImage}
+                                            alt="sitter.userImage"
+                                        />
+                                    </div>
+                                    <div className="user-info">
+                                        <h3>
+                                            {sitter.key +
+                                                ". " +
+                                                sitter.firstname +
+                                                " " +
+                                                sitter.lastName}
+                                        </h3>
+                                        <p>
+                                            Số năm kinh nghiệm :{" "}
+                                            {sitter.yearOfExperience}
+                                        </p>
+                                        <p>{sitter.address}</p>
+                                        <p>Phone: {sitter.phone}</p>
+                                        <button
+                                            onClick={handleContact}
+                                            className="contact-button"
+                                        >
+                                            Contact
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="user-info">
-                                    <h3>
-                                        {sitter.key +
-                                            ". " +
-                                            sitter.firstname +
-                                            " " +
-                                            sitter.lastName}
-                                    </h3>
-                                    <p>
-                                        Số năm kinh nghiệm :{" "}
-                                        {sitter.yearOfExperience}
-                                    </p>
-                                    <p>{sitter.address}</p>
-                                    <button
-                                        onClick={handleContact}
-                                        className="contact-button"
-                                    >
-                                        Contact
-                                    </button>
-                                </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
+
                 </div>
                 <div className="right-section">
                     <MapContainer center={[latitude, longitude]} zoom={10}>
