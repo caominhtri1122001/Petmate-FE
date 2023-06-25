@@ -108,7 +108,7 @@ function SitterAdmin() {
 
     const handleDelete = () => {
         AdminService.deleteSitterRequest(id).then((res) => {
-            if (res) {
+            if (res === true) {
                 setState(!state);
             }
         });
@@ -117,7 +117,7 @@ function SitterAdmin() {
 
     const handleAccept = () => {
         AdminService.acceptSitterRequest(id).then((res) => {
-            if (res) {
+            if (res === true) {
                 setState(!state);
             }
         });

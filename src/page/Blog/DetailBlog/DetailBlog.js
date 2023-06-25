@@ -117,6 +117,7 @@ const DetailBlog = (props) => {
                 commentId: parentCommentId,
             }).then((res) => {
                 if (res) {
+                    setText("");
                     setState(!state);
                 }
             });
@@ -244,7 +245,7 @@ const DetailBlog = (props) => {
                                         <div className="comment-author">
                                             {item.name}
                                         </div>
-                                        <span>{item.createdAt}</span>
+                                        <span style={{ fontSize:"20px" }}>{item.createdAt}</span>
                                     </div>
                                     <div className="comment-text">
                                         {item.content}
