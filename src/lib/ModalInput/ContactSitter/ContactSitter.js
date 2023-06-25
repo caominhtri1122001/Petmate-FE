@@ -439,9 +439,6 @@ const ContactSitter = (props) => {
                 : dateNow.split("/")[1]
         }`;
 
-        console.log(dateConvert);
-        console.log(allValuesRequest.startDate);
-
         if (
             !allValuesRequest.startDate ||
             dateValidate(dateConvert, allValuesRequest.startDate)
