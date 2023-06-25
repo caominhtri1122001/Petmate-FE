@@ -94,15 +94,16 @@ const ContactSitter = (props) => {
                     startTime: "15:00",
                     endTime: "22:00",
                 });
-            } 
-            else if (e.target.name === "startDate" && serviceType === "PER SERVING") {
+            } else if (
+                e.target.name === "startDate" &&
+                serviceType === "PER SERVING"
+            ) {
                 setAllValuesRequest({
                     ...allValuesRequest,
                     [e.target.name]: e.target.value,
                     endDate: e.target.value,
                 });
-            }
-            else {
+            } else {
                 setAllValuesRequest({
                     ...allValuesRequest,
                     [e.target.name]: e.target.value,
@@ -429,13 +430,13 @@ const ContactSitter = (props) => {
         let dateNow = new Date().toLocaleDateString();
 
         let dateConvert = `${dateNow.split("/")[2]}-${
-            dateNow.split("/")[1] < 10
-                ? "0" + dateNow.split("/")[1]
-                : dateNow.split("/")[1]
-        }-${
             dateNow.split("/")[0] < 10
                 ? "0" + dateNow.split("/")[0]
                 : dateNow.split("/")[0]
+        }-${
+            dateNow.split("/")[1] < 10
+                ? "0" + dateNow.split("/")[1]
+                : dateNow.split("/")[1]
         }`;
 
         if (
