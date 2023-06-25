@@ -441,7 +441,7 @@ const ContactSitter = (props) => {
 
         if (
             !allValuesRequest.startDate ||
-            dateConvert > allValuesRequest.startDate
+            dateValidate(dateConvert, allValuesRequest.startDate)
         ) {
             startDate = true;
             check = true;
@@ -507,6 +507,18 @@ const ContactSitter = (props) => {
 
         if (!check) {
             props.handleConfirmContactSitter(allValuesRequest, priceService);
+        }
+    };
+
+    const dateValidate = (a, b) => {
+        const date1 = new Date(a);
+        const date2 = new Date(b);
+        if (date1 < date2) {
+            return false;
+        } else if (date1 > date2) {
+            return true;
+        } else {
+            return false;
         }
     };
 
