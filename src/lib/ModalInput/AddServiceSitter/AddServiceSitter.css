@@ -5,7 +5,7 @@
   background: #fff;
   border-radius: 8px;
   padding: 30px;
-  height: 1000px;
+  height: auto;
 }
 
 .choose-account label {
@@ -119,17 +119,18 @@
   margin-right: 35px;
 }
 
-.type-input .radio-btn-gender input[type="radio"]:checked + label {
-  background-color:var(--link-hover-color);
+.type-input .radio-btn-gender input[type="radio"]:checked+label {
+  background-color: var(--link-hover-color);
 }
 
-.type-input .radio-btn-gender input[type="radio"]:focus + label {
+.type-input .radio-btn-gender input[type="radio"]:focus+label {
   border: 2px dashed #444;
 }
 
 .type-input .radio-btn-gender .icon {
   width: 20px;
-  height: 20px;;
+  height: 20px;
+  ;
 }
 
 .type-input .radio-btn-species input[type="radio"] {
@@ -138,7 +139,7 @@
   width: 0;
 }
 
-.type-input .radio-btn-species label{
+.type-input .radio-btn-species label {
   display: inline-block;
   background-color: #ddd;
   padding: 10px 20px;
@@ -149,12 +150,12 @@
   margin-right: 42px;
 }
 
-.type-input .radio-btn-species input[type="radio"]:checked + label {
-  background-color:var(--link-hover-color);
+.type-input .radio-btn-species input[type="radio"]:checked+label {
+  background-color: var(--link-hover-color);
   border-color: var(--primary-color);
 }
 
-.type-input .radio-btn-species input[type="radio"]:focus + label {
+.type-input .radio-btn-species input[type="radio"]:focus+label {
   border: 2px dashed #444;
 }
 
@@ -201,12 +202,12 @@
 }
 
 .type-input-container .input-content-description {
-    height: 100px;
-    width: 84%;
+  height: 100px;
+  width: 84%;
 }
 
-.type-input-container  {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 20px;
+.type-input-container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
 }

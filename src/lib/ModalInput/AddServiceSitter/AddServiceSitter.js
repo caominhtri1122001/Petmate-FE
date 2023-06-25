@@ -131,7 +131,10 @@ const AddServiceSitter = (props) => {
             check = true;
         } else name = false;
 
-        if (!allValuesService.price) {
+        if (
+            !allValuesService.price ||
+            !Number.isInteger(parseFloat(allValuesService.price))
+        ) {
             price = true;
             check = true;
         } else price = false;

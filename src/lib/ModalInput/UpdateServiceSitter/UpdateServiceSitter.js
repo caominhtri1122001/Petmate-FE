@@ -61,7 +61,10 @@ const UpdateServiceSitter = (props) => {
         let price = false;
         let check = false;
 
-        if (!allValuesService.price) {
+        if (
+            !allValuesService.price ||
+            !Number.isInteger(parseFloat(allValuesService.price))
+        ) {
             price = true;
             check = true;
         } else price = false;
@@ -99,7 +102,9 @@ const UpdateServiceSitter = (props) => {
         </div>
     );
 
-    return <div className="update-servicer-provider-form">{FormUpdateService}</div>;
+    return (
+        <div className="update-servicer-provider-form">{FormUpdateService}</div>
+    );
 };
 
 export default UpdateServiceSitter;
