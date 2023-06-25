@@ -427,7 +427,7 @@ const ContactSitter = (props) => {
         } else {
             serviceId = false;
         }
-        let dateNow = new Date().toLocaleDateString();
+        let dateNow = new Date().toLocaleDateString("en");
 
         let dateConvert = `${dateNow.split("/")[2]}-${
             dateNow.split("/")[0] < 10
@@ -438,6 +438,9 @@ const ContactSitter = (props) => {
                 ? "0" + dateNow.split("/")[1]
                 : dateNow.split("/")[1]
         }`;
+
+        console.log(dateConvert);
+        console.log(allValuesRequest.startDate);
 
         if (
             !allValuesRequest.startDate ||
