@@ -38,6 +38,7 @@ import AssistanceSitter from "../page/ComponentStaff/AssistanceSitter/Assistance
 import Blog from "../page/Blog/Blog";
 import BlogRoute from "./BlogRoute/BlogRoute";
 import DetailBlog from "../page/Blog/DetailBlog/DetailBlog";
+import RequestAdmin from "../page/ComponentAdmin/RequestAdmin/RequestAdmin";
 
 const Routes = () => {
     return (
@@ -75,6 +76,11 @@ const Routes = () => {
                         component={ServiceAdmin}
                         exact
                         path={ROUTES.ADMIN_PAGE.SERVICE_ADMIN}
+                    />
+                    <AdminRoute
+                        component={RequestAdmin}
+                        exact
+                        path={ROUTES.ADMIN_PAGE.REQUEST_ADMIN}
                     />
                     <AdminRoute
                         component={ManageBlogAdmin}

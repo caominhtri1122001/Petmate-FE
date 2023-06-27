@@ -56,6 +56,10 @@ const uploadImg = async (params) => {
     return await HandleApi.APIPostWithTokenIMG(`firebase`, params);
 };
 
+const getAllRequest = async () => {
+    return await HandleApi.APIGetWithToken(`requests`);
+};
+
 const AdminService = {
     getSitterRequests,
     acceptSitterRequest,
@@ -71,6 +75,7 @@ const AdminService = {
     getAllTagsOfBlog,
     deleteBlog,
     uploadImg,
+    getAllRequest,
 };
 
 export default AdminService;
