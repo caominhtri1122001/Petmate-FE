@@ -12,6 +12,7 @@ const ROUTES = {
         SITTER_ADMIN: "/admin/sitter",
         PET_ADMIN: "/admin/pet",
         SERVICE_ADMIN: "/admin/service",
+        REQUEST_ADMIN: "/admin/request",
     },
 
     CUSTOMER_PAGE: {
