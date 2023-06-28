@@ -19,6 +19,7 @@ import {
     faPaw,
     faHandHoldingHeart,
     faBook,
+    faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useHistory } from "react-router-dom";
 import AuthenticationService from "../../config/service/AuthenticationService";
@@ -213,6 +214,34 @@ function SideBar() {
                                     className={
                                         window.location.pathname ===
                                         "/admin/service"
+                                            ? " show"
+                                            : " arrow"
+                                    }
+                                    icon={faAngleRight}
+                                />
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                key={1}
+                                className={
+                                    "item" +
+                                    (window.location.pathname ===
+                                    "/admin/request"
+                                        ? " active"
+                                        : "")
+                                }
+                                to={"/admin/request"}
+                            >
+                                <FontAwesomeIcon
+                                    className="icon"
+                                    icon={faPaperPlane}
+                                />
+                                <p>Request</p>
+                                <FontAwesomeIcon
+                                    className={
+                                        window.location.pathname ===
+                                        "/admin/request"
                                             ? " show"
                                             : " arrow"
                                     }

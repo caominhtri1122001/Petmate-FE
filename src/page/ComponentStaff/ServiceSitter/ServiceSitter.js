@@ -15,6 +15,7 @@ import AddServiceSitter from "../../../lib/ModalInput/AddServiceSitter/AddServic
 import UpdateServiceSitter from "../../../lib/ModalInput/UpdateServiceSitter/UpdateServiceSitter";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
+import ReactPaginate from "react-paginate";
 
 const ServiceSitter = () => {
     const [services, setServices] = useState([]);
@@ -284,6 +285,70 @@ const ServiceSitter = () => {
         />
     );
 
+    function PaginatedItems({ itemsPerPage, searchService }) {
+        const [itemOffset, setItemOffset] = useState(0);
+        const endOffset = itemOffset + itemsPerPage;
+        const currentItems = searchService.slice(itemOffset, endOffset);
+        const pageCount = Math.ceil(searchService.length / itemsPerPage);
+        const handlePageClick = (event) => {
+            const newOffset =
+                (event.selected * itemsPerPage) % searchService.length;
+            setItemOffset(newOffset);
+        };
+        return (
+            <>
+                <div className="table-content">
+                    <TableServices services={currentItems} />
+                </div>
+                <footer>
+                    <hr></hr>
+                    <ReactPaginate
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        breakLabel="..."
+                        breakClassName="page-item"
+                        breakLinkClassName="page-link"
+                        pageCount={pageCount}
+                        pageRangeDisplayed={4}
+                        marginPagesDisplayed={2}
+                        onPageChange={handlePageClick}
+                        containerClassName="pagination justify-content-center"
+                        pageClassName="page-item mr-2 ml-2"
+                        pageLinkClassName="page-link"
+                        previousClassName="previous-btn page-item"
+                        previousLinkClassName="page-link"
+                        nextClassName="next-btn page-item"
+                        nextLinkClassName="page-link"
+                        activeClassName="active"
+                        hrefAllControls
+                    />
+                </footer>
+            </>
+        );
+    };
+
+    const searchService = (services) => {
+        return services.filter(
+            (service) =>
+                service.name
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase())
+                ||
+                service.type
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase())
+                ||
+                service.price
+                    .toString()
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase())
+        );
+    };
+
+    const handleChangeSearch = (e) => {
+        setKeyword(e.target.value);
+    };
+
     return (
         <div>
             <div className="div-container">
@@ -308,16 +373,22 @@ const ServiceSitter = () => {
                                         />
                                     </button>
                                     <input
+                                        onChange={handleChangeSearch}
                                         className="input-search"
                                         type="text"
                                         placeholder="Search..."
+                                        value={keyword}
                                     ></input>
                                 </div>
                             </div>
                         </header>
-                        <div className="table-content">
+                        {/* <div className="table-content">
                             <TableServices services={services} />
-                        </div>
+                        </div> */}
+                        <PaginatedItems
+                            itemsPerPage={6}
+                            searchService={searchService(services)}
+                        />
                     </div>
                     <footer></footer>
                 </div>
