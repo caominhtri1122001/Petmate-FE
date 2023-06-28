@@ -4,8 +4,10 @@ const becomeSitter = async (params) => {
     return await HandleApi.APIPostWithToken(`sitter/register`, params);
 };
 
-const getSitterAround = async () => {
-    return await HandleApi.APIGetWithToken(`sitter/getSitter`);
+const getSitterAround = async (lat, lng) => {
+    return await HandleApi.APIGetWithToken(
+        `sitter/getSitter?lat=${lat}&lng=${lng}`
+    );
 };
 
 const getSitterById = async (id) => {
@@ -42,6 +44,12 @@ const validRequest = async (id) => {
     return await HandleApi.APIGetWithToken(`requests/payment/${id}`);
 };
 
+const getLocationByAddressInput = async (params) => {
+    return await HandleApi.APIGetWithToken(
+        `sitter/getLocation?address=${params}`
+    );
+};
+
 const CustomerService = {
     becomeSitter,
     getSitterAround,
@@ -53,6 +61,7 @@ const CustomerService = {
     chatBot,
     doPayment,
     validRequest,
+    getLocationByAddressInput,
 };
 
 export default CustomerService;

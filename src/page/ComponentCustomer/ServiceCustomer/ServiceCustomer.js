@@ -11,7 +11,10 @@ import ModalInput from "../../../lib/ModalInput/ModalInput";
 import DetailSitter from "../../../lib/ModalInput/DetailSitter/DetailSitter";
 import ContactSitter from "../../../lib/ModalInput/ContactSitter/ContactSitter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+    faLocationDot,
+    faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 
 const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
@@ -36,32 +39,51 @@ const ServiceCustomer = () => {
     const [id, setId] = useState("");
     const [sitterName, setSitterName] = useState("");
     const [keyword, setKeyword] = useState("");
+    const [location, setLocation] = useState("");
+    const [state, setState] = useState(false);
 
     useEffect(() => {
-        if (navigator.geolocation) {
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 5000,
-                maximumAge: 0,
-            };
-            navigator.geolocation.getCurrentPosition(
-                handleSuccess,
-                handleError,
-                options
-            );
+        if (location === "") {
+            if (navigator.geolocation) {
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0,
+                };
+                navigator.geolocation.getCurrentPosition(
+                    handleSuccess,
+                    handleError,
+                    options
+                );
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
         } else {
-            console.log("Geolocation is not supported by this browser.");
+            CustomerService.getLocationByAddressInput(location).then((res) => {
+                if (res.address) {
+                    setLatitude(res.latitude);
+                    setLongitude(res.longitude);
+                    getInfoSitter(res.latitude, res.longitude);
+                }
+            });
         }
-        getInfoSitter();
-    }, []);
+    }, [state]);
 
     const handleChangeSearch = (e) => {
         setKeyword(e.target.value);
     };
 
-    const getInfoSitter = () => {
+    const handleChangeLocation = (e) => {
+        setLocation(e.target.value);
+    };
+
+    const handleConfirmLocation = (e) => {
+        setState(!state);
+    };
+
+    const getInfoSitter = (lat, lng) => {
         setIsLoading(true);
-        CustomerService.getSitterAround().then((res) => {
+        CustomerService.getSitterAround(lat, lng).then((res) => {
             const dataSources = res.map((item, index) => {
                 return {
                     key: index + 1,
@@ -71,11 +93,15 @@ const ServiceCustomer = () => {
                     lastName: item.lastName,
                     userImage: item.userImage === null ? Logo : item.userImage,
                     phone: item.phone,
-                    address: item.address,
+                    address:
+                        item.address.split(",")[0] +
+                        ", " +
+                        item.address.split(",")[3],
                     latitude: item.latitude,
                     longitude: item.longitude,
                     yearOfExperience: item.yearOfExperience,
                     description: item.description,
+                    distance: item.distance,
                 };
             });
             setSitters(dataSources);
@@ -95,6 +121,7 @@ const ServiceCustomer = () => {
     const handleSuccess = (position) => {
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
+        getInfoSitter(position.coords.latitude, position.coords.longitude);
     };
 
     const handleError = (error) => {
@@ -190,13 +217,13 @@ const ServiceCustomer = () => {
                 sitter.firstname
                     .toLowerCase()
                     .includes(keyword.toLowerCase()) ||
-                sitter.address.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                sitter.lastName.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                sitter.phone.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                sitter.yearOfExperience.toString().toLowerCase().includes(keyword.toLowerCase())
+                sitter.address.toLowerCase().includes(keyword.toLowerCase()) ||
+                sitter.lastName.toLowerCase().includes(keyword.toLowerCase()) ||
+                sitter.phone.toLowerCase().includes(keyword.toLowerCase()) ||
+                sitter.yearOfExperience
+                    .toString()
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase())
         );
     };
 
@@ -205,9 +232,8 @@ const ServiceCustomer = () => {
             <div className="header-title">
                 <h3>Services</h3>
             </div>
-            <div className="container">
-
-                <div className="left-section">
+            <div className="test-container">
+                <div className="left-side">
                     <div className="search-box">
                         <button className="btn-search">
                             <FontAwesomeIcon
@@ -247,11 +273,12 @@ const ServiceCustomer = () => {
                                                 " " +
                                                 sitter.lastName}
                                         </h3>
+                                        <p>Distance: {sitter.distance} km</p>
                                         <p>
-                                            Số năm kinh nghiệm :{" "}
+                                            Year Of Experience :{" "}
                                             {sitter.yearOfExperience}
                                         </p>
-                                        <p>{sitter.address}</p>
+                                        <p>Address: {sitter.address}</p>
                                         <p>Phone: {sitter.phone}</p>
                                         <button
                                             onClick={handleContact}
@@ -264,9 +291,34 @@ const ServiceCustomer = () => {
                             );
                         })}
                     </div>
-
                 </div>
-                <div className="right-section">
+                <div className="right-side">
+                    <div className="search-box">
+                        <button className="btn-search">
+                            <FontAwesomeIcon
+                                className="icon-search"
+                                icon={faLocationDot}
+                            />
+                        </button>
+                        <input
+                            onChange={handleChangeLocation}
+                            className="input-search"
+                            type="text"
+                            placeholder="Enter your location..."
+                            value={location}
+                            style={{ marginBottom: "10px" }}
+                        ></input>
+                        <button
+                            style={{
+                                backgroundColor: "var(--success-color)",
+                                marginLeft: 10,
+                                borderRadius: 10,
+                            }}
+                            onClick={handleConfirmLocation}
+                        >
+                            Submit
+                        </button>
+                    </div>
                     <MapContainer center={[latitude, longitude]} zoom={10}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
