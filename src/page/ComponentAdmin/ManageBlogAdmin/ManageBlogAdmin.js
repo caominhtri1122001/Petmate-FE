@@ -48,7 +48,7 @@ function ManageBlogAdmin(props) {
                             title: item.title,
                             authorId: item.userId,
                             authorFullName: item.name,
-                            authorEmail: item.email,
+                            authorEmail: item.mail,
                             authorPhone: item.phone,
                         };
                     }
