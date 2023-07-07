@@ -16,6 +16,7 @@ import UpdateServiceSitter from "../../../lib/ModalInput/UpdateServiceSitter/Upd
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ReactPaginate from "react-paginate";
+import Loading from "../../../lib/Loading/Loading";
 
 const ServiceSitter = () => {
     const [services, setServices] = useState([]);
@@ -29,29 +30,32 @@ const ServiceSitter = () => {
     const [addState, setAddState] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
         SitterService.getSitterIdByUserId(
             JSON.parse(localStorage.getItem("@Login")).userId
         ).then((res) => {
             if (res.sitterId) {
                 setSitterId(res.sitterId);
+                SitterService.getServiceFromSitter(
+                    JSON.parse(localStorage.getItem("@Login")).userId
+                ).then((res) => {
+                    const dataSources = res.map((item, index) => {
+                        return {
+                            key: index + 1,
+                            id: item.id,
+                            name: item.name,
+                            type: item.serviceType,
+                            price: item.price,
+                            disable: item.disable,
+                        };
+                    });
+                    setServices(dataSources);
+                    setIsLoading(false);
+                });
             }
-        });
-        SitterService.getServiceFromSitter(
-            JSON.parse(localStorage.getItem("@Login")).userId
-        ).then((res) => {
-            const dataSources = res.map((item, index) => {
-                return {
-                    key: index + 1,
-                    id: item.id,
-                    name: item.name,
-                    type: item.serviceType,
-                    price: item.price,
-                    disable: item.disable,
-                };
-            });
-            setServices(dataSources);
         });
     }, [state]);
 
@@ -167,7 +171,7 @@ const ServiceSitter = () => {
             name: allValue.name,
             price: allValue.price,
             serviceType: allValue.type,
-            sitterId: allValue.sitterId,
+            sitterId: sitterId,
         }).then((res) => {
             if (res === true) {
                 setState(!state);
@@ -325,19 +329,13 @@ const ServiceSitter = () => {
                 </footer>
             </>
         );
-    };
+    }
 
     const searchService = (services) => {
         return services.filter(
             (service) =>
-                service.name
-                    .toLowerCase()
-                    .includes(keyword.toLowerCase())
-                ||
-                service.type
-                    .toLowerCase()
-                    .includes(keyword.toLowerCase())
-                ||
+                service.name.toLowerCase().includes(keyword.toLowerCase()) ||
+                service.type.toLowerCase().includes(keyword.toLowerCase()) ||
                 service.price
                     .toString()
                     .toLowerCase()
@@ -397,6 +395,7 @@ const ServiceSitter = () => {
             {isEnable ? ConfirmEnable : null}
             {updateState ? DivUpdateServiceSitter : null}
             {addState ? DivAddServiceSitter : null}
+            <Loading isLoading={isLoading} />
         </div>
     );
 };
