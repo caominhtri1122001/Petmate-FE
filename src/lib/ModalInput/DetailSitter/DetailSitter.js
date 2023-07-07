@@ -150,10 +150,13 @@ const DetailSitter = (props) => {
             message: allValue.message,
             address: allValue.address,
         }).then((res) => {
-            if (res) {
+            if (res.id) {
                 setErrorServer(false);
                 setErrorMessage("");
                 setContact(false);
+                CustomerService.doPayment(servicePrice, res.id).then((res) => {
+                    window.location.href = res.url;
+                });
             } else {
                 setErrorServer(true);
                 setErrorMessage(res.message);
@@ -198,10 +201,12 @@ const DetailSitter = (props) => {
         </div>
     );
 
-    return <div className="add-account-form">
-        {FormBecomeSitter}
-        {contact ? DivShowContact : null}
-    </div>;
+    return (
+        <div className="add-account-form">
+            {FormBecomeSitter}
+            {contact ? DivShowContact : null}
+        </div>
+    );
 };
 
 export default DetailSitter;
