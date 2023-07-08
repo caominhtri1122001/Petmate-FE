@@ -184,12 +184,12 @@ const DetailBlog = (props) => {
                             <h4>My name is {blogInfo.name}</h4>
                             <h4>Mail : {blogInfo.mail}</h4>
                         </div>
-                        <div className="card">
+                        {/* <div className="card">
                             <h3>Related Post</h3>
                             <div className="fakeimg">Image</div>
                             <div className="fakeimg">Image</div>
                             <div className="fakeimg">Image</div>
-                        </div>
+                        </div> */}
                         <div className="card-contact">
                             <h3>Follow Me</h3>
                             <FontAwesomeIcon

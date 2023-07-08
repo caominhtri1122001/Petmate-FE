@@ -89,9 +89,9 @@ const Sitter = () => {
         <div className="student-item">
             <div className="left-student-content">
                 <img src={customerInfo.image} alt="customerImage" />
-                <div className="main-contact">
+                {/* <div className="main-contact">
                     <button className="contact-button">Contact</button>
-                </div>
+                </div> */}
             </div>
 
             <div className="between-student-content">
@@ -117,17 +117,6 @@ const Sitter = () => {
                             <p>{customerInfo.phone}</p>
                         </div>
                     </div>
-                    <div className="item-content">
-                        <i className="fa fa-solid fa-cake-candles"></i>
-                        <div className="text">
-                            <h4>Date Of birth</h4>
-                            <p>
-                                {new Date(
-                                    customerInfo.dateOfBirth
-                                ).toLocaleDateString()}
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div className="right-student-content">
@@ -139,11 +128,22 @@ const Sitter = () => {
                             <p>{customerInfo.lastName}</p>
                         </div>
                     </div>
-                    <div className="item-content">
+                    {/* <div className="item-content">
                         <i className="fa fa-solid fa-location-dot"></i>
                         <div className="text">
                             <h4>Address</h4>
                             <p>{customerInfo.parent_address}</p>
+                        </div>
+                    </div> */}
+                    <div className="item-content">
+                        <i className="fa fa-solid fa-cake-candles"></i>
+                        <div className="text">
+                            <h4>Date Of birth</h4>
+                            <p>
+                                {new Date(
+                                    customerInfo.dateOfBirth
+                                ).toLocaleDateString()}
+                            </p>
                         </div>
                     </div>
                     <div className="item-content">
@@ -153,13 +153,13 @@ const Sitter = () => {
                             <p>{customerInfo.gender ? "Male" : "Female"}</p>
                         </div>
                     </div>
-                    <div className="item-content">
+                    {/* <div className="item-content">
                         <i className="fa fa-solid fa-location-dot"></i>
                         <div className="text">
                             <h4>Joined</h4>
                             <p>{customerInfo.parent_address}</p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
