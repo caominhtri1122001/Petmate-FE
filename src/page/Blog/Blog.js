@@ -215,7 +215,7 @@ const Blog = () => {
                                     </div>
                                 );
                             })}
-                            <div className="col-lg-4 col-md-6 col-sm-12 tm-catalog-item">
+                            {/* <div className="col-lg-4 col-md-6 col-sm-12 tm-catalog-item">
                                 <div className="position-relative tm-thumbnail-container">
                                     <img
                                         src={homeImage}
@@ -322,7 +322,7 @@ const Blog = () => {
                                         ipsum
                                     </p>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* <div>
