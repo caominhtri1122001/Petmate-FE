@@ -196,6 +196,7 @@
 
 .pet-card {
   width: 33%;
+  height: 460px;
   padding: 10px;
   border: 2px solid #ccc;
   text-align: center;
@@ -204,7 +205,7 @@
 
 .pet-card img {
   width: 100%;
-  max-height: 300px;
+  height: 300px;
   clip-path: circle();
   object-fit: cover;
 }

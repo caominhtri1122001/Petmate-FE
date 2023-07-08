@@ -269,7 +269,6 @@ const UpdateProfile = (props) => {
                             placeholder="Enter last name"
                             value={allValues.lastName}
                             onChange={changeHandlerProfile}
-                            readOnly
                         />
                         <label
                             className={

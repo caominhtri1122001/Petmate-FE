@@ -86,7 +86,7 @@ const Register = (props) => {
             check = true;
         } else phone = false;
 
-        let dateNow = new Date().toLocaleDateString();
+        let dateNow = new Date().toLocaleDateString('en');
 
         let dateConvert = `${dateNow.split("/")[2]}-${
             dateNow.split("/")[0] < 10
@@ -105,6 +105,13 @@ const Register = (props) => {
             dateOfBirth = false;
             allValueRegister.dateOfBirth =
                 allValueRegister.dateOfBirth + "T00:00:00.000Z";
+        }
+
+        if (allValueRegister.dateOfBirth == "T00:00:00.000Z") {
+            dateOfBirth = true;
+            check = true;
+        } else {
+            dateOfBirth = false;
         }
 
         if (!allValueRegister.gender) {

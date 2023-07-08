@@ -307,6 +307,11 @@ const AddPet = (props) => {
             age = false;
         }
 
+        if (!allValuesPet.image) {
+            image = true;
+            check = true;
+        } else image = false;
+
         if (!!allValuesPet.image) {
             let imageList = allValuesPet.image.name.split(".");
             if (
@@ -317,11 +322,6 @@ const AddPet = (props) => {
                 check = true;
             } else image = false;
         }
-
-        if (!allValuesPet.image) {
-            image = true;
-            check = true;
-        } else image = false;
 
         if (allValuesPet.weight === 0) {
             weight = true;
