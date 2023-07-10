@@ -20,8 +20,8 @@ const RequestAdmin = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
         AdminService.getAllRequest().then((res) => {
-            console.log(res);
             const dataSources = res.map((item, index) => {
                 return {
                     key: index + 1,
@@ -118,8 +118,12 @@ const RequestAdmin = () => {
                     .toLowerCase()
                     .includes(keyword.toLowerCase()) ||
                 request.endTime.toLowerCase().includes(keyword.toLowerCase()) ||
-                request.sitterName.toLowerCase().includes(keyword.toLowerCase()) ||
-                request.customerName.toLowerCase().includes(keyword.toLowerCase())
+                request.sitterName
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                request.customerName
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase())
         );
     };
 
