@@ -143,9 +143,7 @@ const ServiceCustomer = () => {
     const handleContact = (e) => {
         e.preventDefault();
         setId(e.target.parentElement.parentElement.getAttribute("data-key"));
-        setSitterName(
-            e.target.parentElement.querySelector("h3").textContent.slice(3)
-        );
+        setSitterName(e.target.parentElement.querySelector("h3").textContent);
         setContact(true);
     };
 
