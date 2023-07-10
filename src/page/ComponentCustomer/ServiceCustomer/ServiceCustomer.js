@@ -104,7 +104,11 @@ const ServiceCustomer = () => {
                     distance: item.distance,
                 };
             });
-            setSitters(dataSources);
+            const dataSourcesSorted = [...dataSources].sort((a, b) =>
+                a.distance > b.distance ? 1 : -1
+            );
+
+            setSitters(dataSourcesSorted);
             const sitterMarkers = res.map((item, index) => {
                 return {
                     key: index + 1,
@@ -267,9 +271,7 @@ const ServiceCustomer = () => {
                                     </div>
                                     <div className="user-info">
                                         <h3>
-                                            {sitter.key +
-                                                ". " +
-                                                sitter.firstname +
+                                            {sitter.firstname +
                                                 " " +
                                                 sitter.lastName}
                                         </h3>

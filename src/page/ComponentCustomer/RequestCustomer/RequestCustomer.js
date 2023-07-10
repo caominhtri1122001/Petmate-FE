@@ -8,6 +8,7 @@ import { faMagnifyingGlass, faTrash } from "@fortawesome/free-solid-svg-icons";
 import SitterService from "../../../config/service/SitterService";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
+import Loading from "../../../lib/Loading/Loading";
 
 const RequestCustomer = () => {
     const [requests, setRequests] = useState([]);
@@ -15,8 +16,10 @@ const RequestCustomer = () => {
     const [id, setId] = useState("");
     const [isCancel, setIsCancel] = useState(false);
     const [state, setState] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
         CustomerService.getAllRequestByUser(
             JSON.parse(localStorage.getItem("@Login")).userId
         ).then((res) => {
@@ -43,6 +46,7 @@ const RequestCustomer = () => {
                 };
             });
             setRequests(dataSources);
+            setIsLoading(false);
         });
     }, [state]);
 
@@ -246,6 +250,7 @@ const RequestCustomer = () => {
                 </div>
             </div>
             {isCancel ? ConfirmCancel : null}
+            <Loading isLoading={isLoading} />
         </div>
     );
 };

@@ -19,6 +19,7 @@ import ViewDetailRequest from "../../../lib/ModalInput/ViewDetailRequest/ViewDet
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ReactPaginate from "react-paginate";
+import Loading from "../../../lib/Loading/Loading";
 
 const RequestSitter = () => {
     const [keyword, setKeyword] = useState("");
@@ -32,8 +33,10 @@ const RequestSitter = () => {
     const [isCancel, setIsCancel] = useState(false);
     const [isAccept, setIsAccept] = useState(false);
     const [isDone, setIsDone] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
         SitterService.getSitterIdByUserId(
             JSON.parse(localStorage.getItem("@Login")).userId
         ).then((res) => {
@@ -65,6 +68,7 @@ const RequestSitter = () => {
                             };
                         });
                         setRequests(dataSources);
+                        setIsLoading(false);
                     }
                 );
                 setSitterId(res.sitterId);
@@ -250,6 +254,7 @@ const RequestSitter = () => {
     );
 
     const handleAccept = () => {
+        setIsLoading(true);
         SitterService.acceptRequest(id).then((res) => {
             if (res) {
                 setState(!state);
@@ -260,24 +265,29 @@ const RequestSitter = () => {
             }
         });
         setIsAccept(false);
+        setIsLoading(false);
     };
 
     const handleDecline = () => {
+        setIsLoading(true);
         SitterService.declineRequest(id).then((res) => {
             if (res) {
                 setState(!state);
             }
         });
         setIsCancel(false);
+        setIsLoading(false);
     };
 
     const handleDone = () => {
+        setIsLoading(true);
         SitterService.doneRequest(id).then((res) => {
             if (res) {
                 setState(!state);
             }
         });
         setIsDone(false);
+        setIsLoading(false);
     };
 
     const ConfirmAccept = (
@@ -362,29 +372,31 @@ const RequestSitter = () => {
                 </footer>
             </>
         );
-    };
+    }
 
     const searchRequest = (requests) => {
         return requests.filter(
             (request) =>
-                request.petName
+                request.petName.toLowerCase().includes(keyword.toLowerCase()) ||
+                request.serviceName
                     .toLowerCase()
                     .includes(keyword.toLowerCase()) ||
-                request.serviceName.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.servicePrice.toString().toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.status.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.startDate.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.endDate.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.startTime.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.endTime.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.customerName.toLowerCase().includes(keyword.toLowerCase())
+                request.servicePrice
+                    .toString()
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                request.status.toLowerCase().includes(keyword.toLowerCase()) ||
+                request.startDate
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                request.endDate.toLowerCase().includes(keyword.toLowerCase()) ||
+                request.startTime
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                request.endTime.toLowerCase().includes(keyword.toLowerCase()) ||
+                request.customerName
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase())
         );
     };
 
@@ -433,6 +445,7 @@ const RequestSitter = () => {
             {isAccept ? ConfirmAccept : null}
             {isCancel ? ConfirmDecline : null}
             {isDone ? ConfirmDone : null}
+            <Loading isLoading={isLoading} />
         </div>
     );
 };

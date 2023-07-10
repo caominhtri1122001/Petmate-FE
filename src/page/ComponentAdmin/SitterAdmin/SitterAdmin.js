@@ -2,14 +2,15 @@ import "./SitterAdmin.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import {
-    faMagnifyingGlass, faThumbsDown, faThumbsUp,
+    faMagnifyingGlass,
+    faThumbsDown,
+    faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import AdminService from "../../../config/service/AdminService";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ReactPaginate from "react-paginate";
 import Loading from "../../../lib/Loading/Loading";
-
 
 function SitterAdmin() {
     const [keyword, setKeyword] = useState("");
@@ -30,21 +31,22 @@ function SitterAdmin() {
         setIsLoading(true);
         AdminService.getSitterRequests()
             .then((response) => {
-                const dataSources = response.map(
-                    (item, index) => {
-                        return {
-                            key: index + 1,
-                            userId: item.userId,
-                            firstName: item.firstname,
-                            lastName: item.lastName,
-                            phone: item.phone,
-                            emailAddress: item.emailAddress,
-                            address: item.address.split(",")[0] + ", " + item.address.split(",")[3],
-                            yearOfExperience: item.yearOfExperience,
-                            description: item.description,
-                        };
-                    }
-                );
+                const dataSources = response.map((item, index) => {
+                    return {
+                        key: index + 1,
+                        userId: item.userId,
+                        firstName: item.firstname,
+                        lastName: item.lastName,
+                        phone: item.phone,
+                        emailAddress: item.emailAddress,
+                        address:
+                            item.address.split(",")[0] +
+                            ", " +
+                            item.address.split(",")[3],
+                        yearOfExperience: item.yearOfExperience,
+                        description: item.description,
+                    };
+                });
 
                 const dataSourcesSorted = [...dataSources].sort((a, b) =>
                     a.firstname > b.firstname ? 1 : -1
@@ -99,7 +101,7 @@ function SitterAdmin() {
                 </footer>
             </>
         );
-    };
+    }
 
     const handleCloseModalCustom = () => {
         setIsDelete(false);
@@ -107,21 +109,25 @@ function SitterAdmin() {
     };
 
     const handleDelete = () => {
+        setIsLoading(true);
         AdminService.deleteSitterRequest(id).then((res) => {
             if (res === true) {
                 setState(!state);
             }
         });
         setIsDelete(false);
+        setIsLoading(false);
     };
 
     const handleAccept = () => {
+        setIsLoading(true);
         AdminService.acceptSitterRequest(id).then((res) => {
             if (res === true) {
                 setState(!state);
             }
         });
         setAcceptState(false);
+        setIsLoading(false);
     };
 
     const ConfirmDelete = (
@@ -159,13 +165,14 @@ function SitterAdmin() {
                 request.firstName
                     .toLowerCase()
                     .includes(keyword.toLowerCase()) ||
-                request.address.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.lastName.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.phone.toLowerCase().includes(keyword.toLowerCase())
-                ||
-                request.emailAddress.toLowerCase().includes(keyword.toLowerCase())
+                request.address.toLowerCase().includes(keyword.toLowerCase()) ||
+                request.lastName
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase()) ||
+                request.phone.toLowerCase().includes(keyword.toLowerCase()) ||
+                request.emailAddress
+                    .toLowerCase()
+                    .includes(keyword.toLowerCase())
         );
     };
 
@@ -178,19 +185,36 @@ function SitterAdmin() {
                 <td>{item.address}</td>
                 <td>{item.description}</td>
                 <td onClick={click}>
-                    <FontAwesomeIcon className="icon fa-regular btn-accept" icon={faThumbsUp} />
-                    <FontAwesomeIcon className="icon fa-regular btn-delete" icon={faThumbsDown} />
+                    <FontAwesomeIcon
+                        className="icon fa-regular btn-accept"
+                        icon={faThumbsUp}
+                    />
+                    <FontAwesomeIcon
+                        className="icon fa-regular btn-delete"
+                        icon={faThumbsDown}
+                    />
                 </td>
             </tr>
         ));
 
         function click(e) {
-            if (e.target.tagName === 'path') {
-                const id = e.target.parentElement.parentElement.parentElement.getAttribute("data-key");
-                if (e.target.parentElement.className.baseVal.includes("btn-accept")) {
+            if (e.target.tagName === "path") {
+                const id =
+                    e.target.parentElement.parentElement.parentElement.getAttribute(
+                        "data-key"
+                    );
+                if (
+                    e.target.parentElement.className.baseVal.includes(
+                        "btn-accept"
+                    )
+                ) {
                     setAcceptState(true);
                     setId(id);
-                } else if (e.target.parentElement.className.baseVal.includes("btn-delete")) {
+                } else if (
+                    e.target.parentElement.className.baseVal.includes(
+                        "btn-delete"
+                    )
+                ) {
                     setIsDelete(true);
                     setId(id);
                 }
@@ -221,7 +245,6 @@ function SitterAdmin() {
     const handleChangeSearch = (e) => {
         setKeyword(e.target.value);
     };
-
 
     return (
         <div className="main-container">
